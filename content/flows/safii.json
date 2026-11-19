@@ -1,0 +1,250 @@
+{
+  "madhab": "safii",
+  "status": "taslak",
+  "reviewedBy": null,
+  "reviewedAt": null,
+  "note": "TASLAK: Bu akış yalnızca uygulama yapısını göstermek içindir. Sıralama, süreler, okunacaklar ve titreşim eşlemesi yetkin bir dinî danışman/kurul tarafından onaylanmadan yayımlanmamalıdır. Onay sonrası status alanı 'onaylandi' yapılır ve reviewedBy doldurulur. Şafi akışındaki farklar (iftitah duası, sabah farzında kunut vb.) özellikle uzman kontrolü gerektirir.",
+  "kunutInSabahFarz": true,
+  "surahs": {
+    "Fatiha": {
+      "number": 1,
+      "seconds": 45,
+      "audio": null,
+      "verified": false
+    },
+    "Asr": {
+      "number": 103,
+      "seconds": 10,
+      "audio": null,
+      "verified": false
+    },
+    "Fil": {
+      "number": 105,
+      "seconds": 18,
+      "audio": null,
+      "verified": false
+    },
+    "Kureyş": {
+      "number": 106,
+      "seconds": 14,
+      "audio": null,
+      "verified": false
+    },
+    "Maun": {
+      "number": 107,
+      "seconds": 18,
+      "audio": null,
+      "verified": false
+    },
+    "Kevser": {
+      "number": 108,
+      "seconds": 10,
+      "audio": null,
+      "verified": false
+    },
+    "Kâfirun": {
+      "number": 109,
+      "seconds": 18,
+      "audio": null,
+      "verified": false
+    },
+    "Nasr": {
+      "number": 110,
+      "seconds": 12,
+      "audio": null,
+      "verified": false
+    },
+    "Tebbet": {
+      "number": 111,
+      "seconds": 18,
+      "audio": null,
+      "verified": false
+    },
+    "İhlas": {
+      "number": 112,
+      "seconds": 12,
+      "audio": null,
+      "verified": false
+    },
+    "Felak": {
+      "number": 113,
+      "seconds": 14,
+      "audio": null,
+      "verified": false
+    },
+    "Nas": {
+      "number": 114,
+      "seconds": 15,
+      "audio": null,
+      "verified": false
+    }
+  },
+  "blocks": {
+    "rise": [
+      {
+        "id": "tekbir_kalkis",
+        "title": "Allahu Ekber",
+        "seconds": 5,
+        "audio": null,
+        "signal": "transition"
+      }
+    ],
+    "fatiha": [
+      {
+        "id": "fatiha",
+        "title": "Fatiha...",
+        "seconds": 45,
+        "audio": null
+      }
+    ],
+    "zamm": [
+      {
+        "id": "zamm",
+        "title": "{surah}...",
+        "seconds": 15,
+        "audio": null,
+        "secondsFrom": "surah"
+      }
+    ],
+    "ruku": [
+      {
+        "id": "tekbir_ruku",
+        "title": "Allahu Ekber",
+        "seconds": 3,
+        "audio": null,
+        "signal": "ruku"
+      },
+      {
+        "id": "ruku_tesbih",
+        "title": "Sübhane Rabbiyel Azim...",
+        "seconds": 12,
+        "audio": null
+      }
+    ],
+    "rise_from_ruku": [
+      {
+        "id": "kavme",
+        "title": "Semiallahu limen hamideh",
+        "seconds": 6,
+        "audio": null,
+        "signal": "transition"
+      }
+    ],
+    "sujud": [
+      {
+        "id": "tekbir_secde1",
+        "title": "Allahu Ekber",
+        "seconds": 4,
+        "audio": null,
+        "signal": "secde"
+      },
+      {
+        "id": "secde1_tesbih",
+        "title": "Sübhane Rabbiyel A'lâ...",
+        "seconds": 12,
+        "audio": null
+      },
+      {
+        "id": "tekbir_celse",
+        "title": "Allahu Ekber",
+        "seconds": 6,
+        "audio": null,
+        "signal": "transition"
+      },
+      {
+        "id": "tekbir_secde2",
+        "title": "Allahu Ekber",
+        "seconds": 4,
+        "audio": null,
+        "signal": "secde"
+      },
+      {
+        "id": "secde2_tesbih",
+        "title": "Sübhane Rabbiyel A'lâ...",
+        "seconds": 12,
+        "audio": null
+      }
+    ],
+    "salam": [
+      {
+        "id": "selam_sag",
+        "title": "Esselâmü aleyküm ve rahmetullah",
+        "seconds": 4,
+        "audio": null
+      },
+      {
+        "id": "selam_sol",
+        "title": "Esselâmü aleyküm ve rahmetullah",
+        "seconds": 4,
+        "audio": null
+      }
+    ],
+    "end": [
+      {
+        "id": "bitti",
+        "title": "Namaz bitti",
+        "seconds": 3,
+        "audio": null,
+        "signal": "done"
+      }
+    ],
+    "opening": [
+      {
+        "id": "tekbir_iftitah",
+        "title": "Allahu Ekber",
+        "seconds": 5,
+        "audio": null
+      },
+      {
+        "id": "iftitah",
+        "title": "İftitah duası...",
+        "seconds": 20,
+        "audio": null
+      }
+    ],
+    "kunut": [
+      {
+        "id": "kunut",
+        "title": "Kunut duası...",
+        "seconds": 25,
+        "audio": null
+      }
+    ],
+    "first_sitting": [
+      {
+        "id": "tekbir_oturus",
+        "title": "Allahu Ekber",
+        "seconds": 4,
+        "audio": null,
+        "signal": "transition"
+      },
+      {
+        "id": "tahiyyat",
+        "title": "Ettehiyyatü...",
+        "seconds": 25,
+        "audio": null
+      }
+    ],
+    "final_sitting": [
+      {
+        "id": "tekbir_oturus",
+        "title": "Allahu Ekber",
+        "seconds": 4,
+        "audio": null,
+        "signal": "transition"
+      },
+      {
+        "id": "tahiyyat",
+        "title": "Ettehiyyatü...",
+        "seconds": 25,
+        "audio": null
+      },
+      {
+        "id": "salavat",
+        "title": "Salavat...",
+        "seconds": 25,
+        "audio": null
+      }
+    ]
+  }
+}

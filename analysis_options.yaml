@@ -1,0 +1,9 @@
+include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  exclude:
+    - build/**
+    - android/**
+  errors:
+    # Flutter 3.47+ material'ı ayrı pakete taşıyor; geçiş tamamlanana dek bilgi notlarını gizle.
+    deprecated_member_use: ignore

@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "note": "Metinler, okunuşlar, anlamlar ve ses kayıtları güvenilir kaynaktan alınıp uzman onayıyla eklenecek. verified=true olmayan içerik uygulamada 'doğrulama bekliyor' olarak gösterilir.",
+  "duas": [
+    {
+      "id": "nazar",
+      "title": "Nazar Duası",
+      "arabic": null,
+      "transliteration": null,
+      "meaning": null,
+      "audio": null,
+      "source": null,
+      "verified": false
+    },
+    {
+      "id": "yemek",
+      "title": "Yemek Duası",
+      "arabic": null,
+      "transliteration": null,
+      "meaning": null,
+      "audio": null,
+      "source": null,
+      "verified": false
+    },
+    {
+      "id": "sinav",
+      "title": "Sınava Girerken Okunacak Dua",
+      "arabic": null,
+      "transliteration": null,
+      "meaning": null,
+      "audio": null,
+      "source": null,
+      "verified": false
+    },
+    {
+      "id": "hastalik",
+      "title": "Hastalık Duası",
+      "arabic": null,
+      "transliteration": null,
+      "meaning": null,
+      "audio": null,
+      "source": null,
+      "verified": false
+    },
+    {
+      "id": "yolculuk",
+      "title": "Yolculuk Duası",
+      "arabic": null,
+      "transliteration": null,
+      "meaning": null,
+      "audio": null,
+      "source": null,
+      "verified": false
+    }
+  ]
+}
