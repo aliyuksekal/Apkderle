@@ -104,10 +104,8 @@ City? cityByName(String? name) {
 }
 
 /// Türkçe büyük/küçük harf duyarsız arama.
-String trLower(String s) => s
-    .replaceAll('I', 'ı')
-    .replaceAll('İ', 'i')
-    .toLowerCase();
+String trLower(String s) =>
+    s.replaceAll('I', 'ı').replaceAll('İ', 'i').toLowerCase();
 
 List<City> searchCities(String q) {
   final n = trLower(q.trim());

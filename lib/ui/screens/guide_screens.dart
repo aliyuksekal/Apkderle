@@ -22,16 +22,19 @@ class GuideSelectScreen extends StatelessWidget {
         child: ListView(
           padding: const EdgeInsets.all(16),
           children: [
-            Text('Hangi namazı kılacaksınız?',
-                style: Theme.of(context).textTheme.headlineSmall),
+            Text(
+              'Hangi namazı kılacaksınız?',
+              style: Theme.of(context).textTheme.headlineSmall,
+            ),
             const SizedBox(height: 14),
             for (final p in kPrayerOptions) ...[
               BigActionButton(
                 icon: Icons.mosque_rounded,
                 label: p.title,
                 subtitle: '${p.rakats} rekât',
-                onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                    builder: (_) => GuidePrepScreen(prayer: p))),
+                onPressed: () => Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => GuidePrepScreen(prayer: p)),
+                ),
               ),
               const SizedBox(height: 12),
             ],
@@ -67,7 +70,9 @@ class _GuidePrepScreenState extends State<GuidePrepScreen> {
       if (mounted) setState(() => template = t);
     } catch (e) {
       if (mounted) {
-        setState(() => loadError = 'Namaz akışı yüklenemedi. Uygulamayı yeniden açın.');
+        setState(
+          () => loadError = 'Namaz akışı yüklenemedi. Uygulamayı yeniden açın.',
+        );
       }
     }
   }
@@ -86,7 +91,9 @@ class _GuidePrepScreenState extends State<GuidePrepScreen> {
             speed: s.readingSpeed,
           );
     final hasAudio = steps.any((x) => x.audio != null);
-    final zamm = tpl == null ? const <String>[] : zammCandidates(tpl, s.knownSurahs);
+    final zamm = tpl == null
+        ? const <String>[]
+        : zammCandidates(tpl, s.knownSurahs);
     final minutes = (totalDuration(steps).inSeconds / 60).ceil();
 
     return Scaffold(
@@ -95,20 +102,22 @@ class _GuidePrepScreenState extends State<GuidePrepScreen> {
         child: ListView(
           padding: const EdgeInsets.all(16),
           children: [
-            Text('${widget.prayer.title} — ${widget.prayer.rakats} rekât',
-                style: t.headlineMedium),
+            Text(
+              '${widget.prayer.title} — ${widget.prayer.rakats} rekât',
+              style: t.headlineMedium,
+            ),
             const SizedBox(height: 6),
             Text(
-                '${s.madhab.label} • ${s.readingSpeed.label}${steps.isEmpty ? '' : ' • yaklaşık $minutes dk'}',
-                style: t.titleMedium),
+              '${s.madhab.label} • ${s.readingSpeed.label}${steps.isEmpty ? '' : ' • yaklaşık $minutes dk'}',
+              style: t.titleMedium,
+            ),
             const SizedBox(height: 16),
             Text(
               'Telefonu seccadenizin yanına, güvenli bir yere koyun. Ses ve titreşimi kontrol edin.',
               style: t.bodyLarge,
             ),
             const SizedBox(height: 16),
-            if (loadError != null)
-              NoticeBox(text: loadError!, warning: true),
+            if (loadError != null) NoticeBox(text: loadError!, warning: true),
             if (tpl != null && !tpl.verified) ...[
               const NoticeBox(
                 warning: true,
@@ -146,8 +155,10 @@ class _GuidePrepScreenState extends State<GuidePrepScreen> {
                 const SizedBox(width: 12),
                 Expanded(
                   child: OutlinedButton.icon(
-                    onPressed: () => NativeBridge.instance
-                        .vibrate(Signal.secde, strong: true),
+                    onPressed: () => NativeBridge.instance.vibrate(
+                      Signal.secde,
+                      strong: true,
+                    ),
                     icon: const Icon(Icons.vibration_rounded, size: 28),
                     label: const Text('Titreşimi Dene'),
                   ),
@@ -165,11 +176,11 @@ class _GuidePrepScreenState extends State<GuidePrepScreen> {
               onPressed: steps.isEmpty
                   ? null
                   : () => Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(
-                          builder: (_) => GuideRunScreen(
-                              prayer: widget.prayer, steps: steps),
-                        ),
+                      MaterialPageRoute(
+                        builder: (_) =>
+                            GuideRunScreen(prayer: widget.prayer, steps: steps),
                       ),
+                    ),
               icon: const Icon(Icons.play_arrow_rounded, size: 40),
               label: const Text('Başlat'),
             ),
@@ -182,12 +193,14 @@ class _GuidePrepScreenState extends State<GuidePrepScreen> {
   Widget _signalLegend(BuildContext context) {
     final t = Theme.of(context).textTheme;
     Widget row(String a, String b) => Padding(
-          padding: const EdgeInsets.symmetric(vertical: 4),
-          child: Row(children: [
-            SizedBox(width: 130, child: Text(a, style: t.titleSmall)),
-            Expanded(child: Text(b, style: t.bodyLarge)),
-          ]),
-        );
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: Row(
+        children: [
+          SizedBox(width: 130, child: Text(a, style: t.titleSmall)),
+          Expanded(child: Text(b, style: t.bodyLarge)),
+        ],
+      ),
+    );
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -232,8 +245,9 @@ class _GuideRunScreenState extends State<GuideRunScreen> {
       onSignal: (sig) {
         if (s.vibrationOn) NativeBridge.instance.vibrate(sig, strong: true);
       },
-      onStep: (st) => NativeBridge.instance
-          .updateGuideService('${st.rakat}. rekât • ${st.title}'),
+      onStep: (st) => NativeBridge.instance.updateGuideService(
+        '${st.rakat}. rekât • ${st.title}',
+      ),
     )..addListener(_onChange);
     _stopSub = NativeBridge.instance.guideStopRequests.listen((_) => _stop());
     _begin();
@@ -242,8 +256,9 @@ class _GuideRunScreenState extends State<GuideRunScreen> {
   Future<void> _begin() async {
     if (s.keepAudioScreenOff) {
       await NativeBridge.instance.requestNotificationPermission();
-      await NativeBridge.instance
-          .startGuideService('${widget.prayer.title} — rehber çalışıyor');
+      await NativeBridge.instance.startGuideService(
+        '${widget.prayer.title} — rehber çalışıyor',
+      );
     } else {
       await NativeBridge.instance.keepScreenOn(true);
     }
@@ -257,7 +272,8 @@ class _GuideRunScreenState extends State<GuideRunScreen> {
       _closed = true;
       _cleanup();
       Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => const GuideDoneScreen()));
+        MaterialPageRoute(builder: (_) => const GuideDoneScreen()),
+      );
     } else {
       setState(() {});
     }
@@ -296,10 +312,12 @@ class _GuideRunScreenState extends State<GuideRunScreen> {
       canPop: false,
       onPopInvokedWithResult: (didPop, _) async {
         if (didPop) return;
-        if (await confirmDialog(context,
-            title: 'Rehber durdurulsun mu?',
-            message: 'Namaz rehberi duracak.',
-            yes: 'Durdur')) {
+        if (await confirmDialog(
+          context,
+          title: 'Rehber durdurulsun mu?',
+          message: 'Namaz rehberi duracak.',
+          yes: 'Durdur',
+        )) {
           _stop();
         }
       },
@@ -310,14 +328,17 @@ class _GuideRunScreenState extends State<GuideRunScreen> {
             padding: const EdgeInsets.all(20),
             child: Column(
               children: [
-                Text(widget.prayer.title,
-                    style: t.titleLarge!.copyWith(color: cs.onPrimary)),
+                Text(
+                  widget.prayer.title,
+                  style: t.titleLarge!.copyWith(color: cs.onPrimary),
+                ),
                 const SizedBox(height: 4),
                 Text(
-                    st == null
-                        ? 'Hazırlanın…'
-                        : '${st.rakat}. rekât / ${widget.prayer.rakats}',
-                    style: t.headlineSmall!.copyWith(color: cs.secondary)),
+                  st == null
+                      ? 'Hazırlanın…'
+                      : '${st.rakat}. rekât / ${widget.prayer.rakats}',
+                  style: t.headlineSmall!.copyWith(color: cs.secondary),
+                ),
                 const SizedBox(height: 12),
                 ClipRRect(
                   borderRadius: BorderRadius.circular(8),
@@ -335,8 +356,10 @@ class _GuideRunScreenState extends State<GuideRunScreen> {
                       child: Text(
                         st?.title ?? 'Allahu Ekber ile başlayacak',
                         textAlign: TextAlign.center,
-                        style: t.displaySmall!
-                            .copyWith(color: cs.onPrimary, fontSize: 46),
+                        style: t.displaySmall!.copyWith(
+                          color: cs.onPrimary,
+                          fontSize: 46,
+                        ),
                       ),
                     ),
                   ),
@@ -344,11 +367,15 @@ class _GuideRunScreenState extends State<GuideRunScreen> {
                 if (st?.signal != null)
                   Padding(
                     padding: const EdgeInsets.only(bottom: 16),
-                    child: Text(st!.signal!.label,
-                        style: t.titleLarge!.copyWith(color: cs.secondary)),
+                    child: Text(
+                      st!.signal!.label,
+                      style: t.titleLarge!.copyWith(color: cs.secondary),
+                    ),
                   ),
-                Text('Ekrana dokunmanız gerekmez.',
-                    style: t.bodyLarge!.copyWith(color: cs.onPrimary)),
+                Text(
+                  'Ekrana dokunmanız gerekmez.',
+                  style: t.bodyLarge!.copyWith(color: cs.onPrimary),
+                ),
                 const SizedBox(height: 16),
                 FilledButton.icon(
                   style: FilledButton.styleFrom(
@@ -357,10 +384,12 @@ class _GuideRunScreenState extends State<GuideRunScreen> {
                     foregroundColor: cs.onSurface,
                   ),
                   onPressed: () async {
-                    if (await confirmDialog(context,
-                        title: 'Rehber durdurulsun mu?',
-                        message: 'Namaz rehberi duracak.',
-                        yes: 'Durdur')) {
+                    if (await confirmDialog(
+                      context,
+                      title: 'Rehber durdurulsun mu?',
+                      message: 'Namaz rehberi duracak.',
+                      yes: 'Durdur',
+                    )) {
                       _stop();
                     }
                   },
@@ -395,16 +424,23 @@ class GuideDoneScreen extends StatelessWidget {
               const SizedBox(height: 16),
               Semantics(
                 liveRegion: true,
-                child: Text('Namaz Bitti',
-                    textAlign: TextAlign.center, style: t.headlineLarge),
+                child: Text(
+                  'Namaz Bitti',
+                  textAlign: TextAlign.center,
+                  style: t.headlineLarge,
+                ),
               ),
               const SizedBox(height: 8),
-              Text('Allah kabul etsin.',
-                  textAlign: TextAlign.center, style: t.headlineSmall),
+              Text(
+                'Allah kabul etsin.',
+                textAlign: TextAlign.center,
+                style: t.headlineSmall,
+              ),
               const SizedBox(height: 40),
               FilledButton.icon(
                 style: FilledButton.styleFrom(
-                    minimumSize: const Size.fromHeight(72)),
+                  minimumSize: const Size.fromHeight(72),
+                ),
                 onPressed: () =>
                     Navigator.of(context).popUntil((r) => r.isFirst),
                 icon: const Icon(Icons.home_rounded, size: 32),

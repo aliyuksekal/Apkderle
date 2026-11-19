@@ -13,17 +13,17 @@ extension MadhabLabel on Madhab {
 
 extension ReadingSpeedX on ReadingSpeed {
   String get label => switch (this) {
-        ReadingSpeed.slow => 'Yavaş',
-        ReadingSpeed.normal => 'Normal',
-        ReadingSpeed.fast => 'Hızlı',
-      };
+    ReadingSpeed.slow => 'Yavaş',
+    ReadingSpeed.normal => 'Normal',
+    ReadingSpeed.fast => 'Hızlı',
+  };
 
   /// Süre çarpanı: yalnızca duraklama/tempo değişir, tilavet telaffuzu değişmez.
   double get factor => switch (this) {
-        ReadingSpeed.slow => 1.0,
-        ReadingSpeed.normal => 0.8,
-        ReadingSpeed.fast => 0.65,
-      };
+    ReadingSpeed.slow => 1.0,
+    ReadingSpeed.normal => 0.8,
+    ReadingSpeed.fast => 0.65,
+  };
 }
 
 /// Kullanıcının seçebileceği sureler (yalnızca adlar; metin/ses içerik

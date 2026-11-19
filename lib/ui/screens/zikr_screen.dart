@@ -50,9 +50,12 @@ class ZikrScreen extends StatelessWidget {
               ListTile(
                 contentPadding: EdgeInsets.zero,
                 title: Text(
-                    '${names[DateTime.parse(d.key).weekday - 1]}  ${d.key.substring(8)}.${d.key.substring(5, 7)}'),
-                trailing: Text('${trThousands(d.value)} zikir',
-                    style: Theme.of(c).textTheme.titleMedium),
+                  '${names[DateTime.parse(d.key).weekday - 1]}  ${d.key.substring(8)}.${d.key.substring(5, 7)}',
+                ),
+                trailing: Text(
+                  '${trThousands(d.value)} zikir',
+                  style: Theme.of(c).textTheme.titleMedium,
+                ),
               ),
           ],
         ),
@@ -73,7 +76,10 @@ class _Body extends StatelessWidget {
       if (s.vibrationOn) NativeBridge.instance.vibrate(Signal.zikrGoal);
       if (s.soundFeedback) NativeBridge.instance.tone('goal');
       SemanticsService.sendAnnouncement(
-          view, 'Maşallah! Hedef tamamlandı. ${z.count}', TextDirection.ltr);
+        view,
+        'Maşallah! Hedef tamamlandı. ${z.count}',
+        TextDirection.ltr,
+      );
       return;
     }
     if (s.vibrationOn) NativeBridge.instance.vibrate(Signal.tap);
@@ -92,170 +98,189 @@ class _Body extends StatelessWidget {
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
     final t = Theme.of(context).textTheme;
-    return LayoutBuilder(builder: (context, c) {
-      final size = (c.maxWidth * 0.66).clamp(180.0, 300.0);
-      return ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
-        children: [
-          // Zikir seçimi
-          _ZikrPicker(z: z),
-          const SizedBox(height: 8),
-          Center(
-            child: Semantics(
-              label: '${z.name}, ${z.count} / ${z.target}',
-              excludeSemantics: true,
-              child: Text.rich(
-                TextSpan(children: [
+    return LayoutBuilder(
+      builder: (context, c) {
+        final size = (c.maxWidth * 0.66).clamp(180.0, 300.0);
+        return ListView(
+          padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+          children: [
+            // Zikir seçimi
+            _ZikrPicker(z: z),
+            const SizedBox(height: 8),
+            Center(
+              child: Semantics(
+                label: '${z.name}, ${z.count} / ${z.target}',
+                excludeSemantics: true,
+                child: Text.rich(
                   TextSpan(
-                      text: '${z.count}',
-                      style: t.displaySmall!.copyWith(
+                    children: [
+                      TextSpan(
+                        text: '${z.count}',
+                        style: t.displaySmall!.copyWith(
                           color: cs.brightness == Brightness.dark
                               ? cs.secondary
                               : cs.tertiary,
-                          fontSize: 52)),
-                  TextSpan(text: ' / ${z.target}', style: t.headlineLarge),
-                ]),
+                          fontSize: 52,
+                        ),
+                      ),
+                      TextSpan(text: ' / ${z.target}', style: t.headlineLarge),
+                    ],
+                  ),
+                ),
               ),
             ),
-          ),
-          const SizedBox(height: 8),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(8),
-            child: LinearProgressIndicator(
-              value: z.progress,
-              minHeight: 14,
-              color: cs.secondary,
-              backgroundColor: cs.surfaceContainerHighest,
+            const SizedBox(height: 8),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: LinearProgressIndicator(
+                value: z.progress,
+                minHeight: 14,
+                color: cs.secondary,
+                backgroundColor: cs.surfaceContainerHighest,
+              ),
             ),
-          ),
-          const SizedBox(height: 20),
-          Center(
-            child: Semantics(
-              button: true,
-              label: 'Artı bir. Şu an ${z.count}',
-              excludeSemantics: true,
-              child: SizedBox(
-                width: size,
-                height: size,
-                child: Material(
-                  shape: CircleBorder(
-                      side: BorderSide(color: cs.tertiary, width: 6)),
-                  color: cs.secondary,
-                  elevation: 6,
-                  child: InkWell(
-                    customBorder: const CircleBorder(),
-                    onTap: () => _tap(context),
-                    child: Center(
-                      child: Text('+1',
+            const SizedBox(height: 20),
+            Center(
+              child: Semantics(
+                button: true,
+                label: 'Artı bir. Şu an ${z.count}',
+                excludeSemantics: true,
+                child: SizedBox(
+                  width: size,
+                  height: size,
+                  child: Material(
+                    shape: CircleBorder(
+                      side: BorderSide(color: cs.tertiary, width: 6),
+                    ),
+                    color: cs.secondary,
+                    elevation: 6,
+                    child: InkWell(
+                      customBorder: const CircleBorder(),
+                      onTap: () => _tap(context),
+                      child: Center(
+                        child: Text(
+                          '+1',
                           style: t.displaySmall!.copyWith(
-                              fontSize: size * 0.32, color: cs.onSecondary)),
+                            fontSize: size * 0.32,
+                            color: cs.onSecondary,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
-          const SizedBox(height: 20),
-          if (z.goalReached)
+            const SizedBox(height: 20),
+            if (z.goalReached)
+              Container(
+                padding: const EdgeInsets.all(14),
+                margin: const EdgeInsets.only(bottom: 12),
+                decoration: BoxDecoration(
+                  color: cs.primary,
+                  borderRadius: BorderRadius.circular(18),
+                  border: Border.all(color: cs.secondary, width: 2),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.check_circle_rounded,
+                      color: cs.secondary,
+                      size: 36,
+                    ),
+                    const SizedBox(width: 10),
+                    Flexible(
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          'Maşallah!',
+                          style: t.headlineMedium!.copyWith(
+                            color: cs.secondary,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             Container(
-              padding: const EdgeInsets.all(14),
-              margin: const EdgeInsets.only(bottom: 12),
+              padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: cs.primary,
+                color: cs.surfaceContainerHigh,
                 borderRadius: BorderRadius.circular(18),
-                border: Border.all(color: cs.secondary, width: 2),
               ),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.check_circle_rounded,
-                      color: cs.secondary, size: 36),
+                  Icon(Icons.star_rounded, color: cs.secondary, size: 32),
                   const SizedBox(width: 10),
-                  Flexible(
-                    child: FittedBox(
-                      fit: BoxFit.scaleDown,
-                      child: Text('Maşallah!',
-                          style:
-                              t.headlineMedium!.copyWith(color: cs.secondary)),
+                  Expanded(
+                    child: Text(
+                      'Bugün toplam ${trThousands(z.todayTotal)} zikir çektin',
+                      style: t.titleMedium,
                     ),
                   ),
                 ],
               ),
             ),
-          Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: cs.surfaceContainerHigh,
-              borderRadius: BorderRadius.circular(18),
-            ),
-            child: Row(
+            const SizedBox(height: 16),
+            Row(
               children: [
-                Icon(Icons.star_rounded, color: cs.secondary, size: 32),
-                const SizedBox(width: 10),
                 Expanded(
-                  child: Text(
-                    'Bugün toplam ${trThousands(z.todayTotal)} zikir çektin',
-                    style: t.titleMedium,
+                  child: OutlinedButton.icon(
+                    onPressed: z.count == 0 ? null : z.undo,
+                    icon: const Icon(Icons.undo_rounded, size: 28),
+                    label: const Text('Geri Al'),
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: OutlinedButton.icon(
+                    onPressed: z.count == 0
+                        ? null
+                        : () async {
+                            if (await confirmDialog(
+                              context,
+                              title: 'Sayaç sıfırlansın mı?',
+                              message:
+                                  'Şu anki sayı (${z.count}) sıfırlanacak. Bugünkü toplam korunur.',
+                              yes: 'Sıfırla',
+                            )) {
+                              await z.reset();
+                            }
+                          },
+                    icon: const Icon(Icons.restart_alt_rounded, size: 28),
+                    label: const Text('Sıfırla'),
                   ),
                 ),
               ],
             ),
-          ),
-          const SizedBox(height: 16),
-          Row(
-            children: [
-              Expanded(
-                child: OutlinedButton.icon(
-                  onPressed: z.count == 0 ? null : z.undo,
-                  icon: const Icon(Icons.undo_rounded, size: 28),
-                  label: const Text('Geri Al'),
-                ),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: OutlinedButton.icon(
-                  onPressed: z.count == 0
-                      ? null
-                      : () async {
-                          if (await confirmDialog(context,
-                              title: 'Sayaç sıfırlansın mı?',
-                              message:
-                                  'Şu anki sayı (${z.count}) sıfırlanacak. Bugünkü toplam korunur.',
-                              yes: 'Sıfırla')) {
-                            await z.reset();
-                          }
-                        },
-                  icon: const Icon(Icons.restart_alt_rounded, size: 28),
-                  label: const Text('Sıfırla'),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 20),
-          Text('Hedef', style: t.titleMedium),
-          const SizedBox(height: 8),
-          Wrap(
-            spacing: 10,
-            runSpacing: 10,
-            children: [
-              for (final n in kZikrTargets)
+            const SizedBox(height: 20),
+            Text('Hedef', style: t.titleMedium),
+            const SizedBox(height: 8),
+            Wrap(
+              spacing: 10,
+              runSpacing: 10,
+              children: [
+                for (final n in kZikrTargets)
+                  _TargetChip(
+                    label: '$n',
+                    selected: z.target == n,
+                    onTap: () => z.setTarget(n),
+                  ),
                 _TargetChip(
-                  label: '$n',
-                  selected: z.target == n,
-                  onTap: () => z.setTarget(n),
+                  label: kZikrTargets.contains(z.target)
+                      ? 'Özel'
+                      : 'Özel (${z.target})',
+                  selected: !kZikrTargets.contains(z.target),
+                  onTap: () => _customTarget(context),
                 ),
-              _TargetChip(
-                label: kZikrTargets.contains(z.target)
-                    ? 'Özel'
-                    : 'Özel (${z.target})',
-                selected: !kZikrTargets.contains(z.target),
-                onTap: () => _customTarget(context),
-              ),
-            ],
-          ),
-        ],
-      );
-    });
+              ],
+            ),
+          ],
+        );
+      },
+    );
   }
 
   Future<void> _customTarget(BuildContext context) async {
@@ -273,10 +298,13 @@ class _Body extends StatelessWidget {
         ),
         actions: [
           OutlinedButton(
-              onPressed: () => Navigator.pop(c), child: const Text('Vazgeç')),
+            onPressed: () => Navigator.pop(c),
+            child: const Text('Vazgeç'),
+          ),
           FilledButton(
-              onPressed: () => Navigator.pop(c, int.tryParse(ctrl.text.trim())),
-              child: const Text('Kaydet')),
+            onPressed: () => Navigator.pop(c, int.tryParse(ctrl.text.trim())),
+            child: const Text('Kaydet'),
+          ),
         ],
       ),
     );
@@ -285,8 +313,11 @@ class _Body extends StatelessWidget {
 }
 
 class _TargetChip extends StatelessWidget {
-  const _TargetChip(
-      {required this.label, required this.selected, required this.onTap});
+  const _TargetChip({
+    required this.label,
+    required this.selected,
+    required this.onTap,
+  });
   final String label;
   final bool selected;
   final VoidCallback onTap;
@@ -307,9 +338,12 @@ class _TargetChip extends StatelessWidget {
             constraints: const BoxConstraints(minWidth: 72, minHeight: 60),
             alignment: Alignment.center,
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Text(label,
-                style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                    color: selected ? cs.onPrimary : cs.onSurface)),
+            child: Text(
+              label,
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                color: selected ? cs.onPrimary : cs.onSurface,
+              ),
+            ),
           ),
         ),
       ),
@@ -353,10 +387,12 @@ class _ZikrPicker extends StatelessWidget {
           );
           if (picked != null && picked != z.name && context.mounted) {
             if (z.count == 0 ||
-                await confirmDialog(context,
-                    title: 'Zikir değişsin mi?',
-                    message: 'Şu anki sayaç (${z.count}) sıfırlanacak.',
-                    yes: 'Değiştir')) {
+                await confirmDialog(
+                  context,
+                  title: 'Zikir değişsin mi?',
+                  message: 'Şu anki sayaç (${z.count}) sıfırlanacak.',
+                  yes: 'Değiştir',
+                )) {
               await z.setZikr(picked);
             }
           }
@@ -367,8 +403,12 @@ class _ZikrPicker extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Flexible(
-                  child: Text(z.name,
-                      style: t.headlineMedium, textAlign: TextAlign.center)),
+                child: Text(
+                  z.name,
+                  style: t.headlineMedium,
+                  textAlign: TextAlign.center,
+                ),
+              ),
               const Icon(Icons.keyboard_arrow_down_rounded, size: 36),
             ],
           ),

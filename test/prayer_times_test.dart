@@ -22,8 +22,11 @@ void main() {
         for (var i = 0; i < 6; i++) {
           final p = PrayerName.values[i];
           final expected = r.$3[2 * i] * 60 + r.$3[2 * i + 1];
-          expect((_min(pt[p]) - expected).abs(), lessThanOrEqualTo(2),
-              reason: '${p.label}: ${hhmm(pt[p])}');
+          expect(
+            (_min(pt[p]) - expected).abs(),
+            lessThanOrEqualTo(2),
+            reason: '${p.label}: ${hhmm(pt[p])}',
+          );
         }
       });
     });
@@ -31,13 +34,22 @@ void main() {
     test('81 ilin tamamında vakitler doğru sırada', () {
       expect(kCities.length, 81);
       for (final c in kCities) {
-        for (final d in [DateTime.utc(2026, 1, 15), DateTime.utc(2026, 6, 21)]) {
+        for (final d in [
+          DateTime.utc(2026, 1, 15),
+          DateTime.utc(2026, 6, 21),
+        ]) {
           final pt = PrayerTimes.calculate(
-              latitude: c.lat, longitude: c.lng, date: d, utcOffset: kTurkeyOffset);
+            latitude: c.lat,
+            longitude: c.lng,
+            date: d,
+            utcOffset: kTurkeyOffset,
+          );
           for (var i = 1; i < 6; i++) {
-            expect(pt[PrayerName.values[i]].isAfter(pt[PrayerName.values[i - 1]]),
-                isTrue,
-                reason: '${c.name} $d');
+            expect(
+              pt[PrayerName.values[i]].isAfter(pt[PrayerName.values[i - 1]]),
+              isTrue,
+              reason: '${c.name} $d',
+            );
           }
         }
       }
@@ -46,25 +58,45 @@ void main() {
     test('Güneş namaz vakti sayılmaz, sıradaki vakit atlanır', () {
       final c = cityByName('İzmir')!;
       final today = PrayerTimes.calculate(
-          latitude: c.lat, longitude: c.lng,
-          date: DateTime.utc(2026, 11, 19), utcOffset: kTurkeyOffset);
+        latitude: c.lat,
+        longitude: c.lng,
+        date: DateTime.utc(2026, 11, 19),
+        utcOffset: kTurkeyOffset,
+      );
       final tomorrow = PrayerTimes.calculate(
-          latitude: c.lat, longitude: c.lng,
-          date: DateTime.utc(2026, 11, 20), utcOffset: kTurkeyOffset);
+        latitude: c.lat,
+        longitude: c.lng,
+        date: DateTime.utc(2026, 11, 20),
+        utcOffset: kTurkeyOffset,
+      );
       // İmsak ile güneş arası: sıradaki öğle olmalı.
       final now = today[PrayerName.imsak].add(const Duration(minutes: 5));
-      final next = findNextPrayer(today: today, tomorrow: tomorrow, nowLocal: now);
+      final next = findNextPrayer(
+        today: today,
+        tomorrow: tomorrow,
+        nowLocal: now,
+      );
       expect(next.name, PrayerName.ogle);
       // Yatsıdan sonra: yarının imsakı.
       final late = today[PrayerName.yatsi].add(const Duration(minutes: 1));
-      final n2 = findNextPrayer(today: today, tomorrow: tomorrow, nowLocal: late);
+      final n2 = findNextPrayer(
+        today: today,
+        tomorrow: tomorrow,
+        nowLocal: late,
+      );
       expect(n2.name, PrayerName.imsak);
       expect(n2.time.day, 20);
     });
 
     test('Kalan süre biçimi', () {
-      expect(formatRemaining(const Duration(hours: 1, minutes: 12)), '1 sa 12 dk');
-      expect(formatRemaining(const Duration(minutes: 12, seconds: 10)), '13 dk');
+      expect(
+        formatRemaining(const Duration(hours: 1, minutes: 12)),
+        '1 sa 12 dk',
+      );
+      expect(
+        formatRemaining(const Duration(minutes: 12, seconds: 10)),
+        '13 dk',
+      );
       expect(formatRemaining(const Duration(hours: 2)), '2 sa');
       expect(formatRemaining(Duration.zero), "1 dk'dan az");
     });

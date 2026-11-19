@@ -25,141 +25,186 @@ class ProfileScreen extends StatelessWidget {
             return ListView(
               padding: const EdgeInsets.fromLTRB(12, 12, 12, 24),
               children: [
-                _Card(children: [
-                  ListTile(
-                    leading: const Icon(Icons.location_on_rounded, size: 34),
-                    title: const Text('Şehir Seçimi'),
-                    subtitle: Text(place?.name ?? 'Seçilmedi'),
-                    trailing: const Icon(Icons.chevron_right_rounded, size: 32),
-                    onTap: () => _push(context, const CityPickerScreen()),
-                  ),
-                ]),
+                _Card(
+                  children: [
+                    ListTile(
+                      leading: const Icon(Icons.location_on_rounded, size: 34),
+                      title: const Text('Şehir Seçimi'),
+                      subtitle: Text(place?.name ?? 'Seçilmedi'),
+                      trailing: const Icon(
+                        Icons.chevron_right_rounded,
+                        size: 32,
+                      ),
+                      onTap: () => _push(context, const CityPickerScreen()),
+                    ),
+                  ],
+                ),
                 const SizedBox(height: 12),
-                _PremiumTile(onTap: () => _push(context, const PremiumScreen())),
+                _PremiumTile(
+                  onTap: () => _push(context, const PremiumScreen()),
+                ),
                 const SizedBox(height: 12),
-                _Card(children: [
-                  _sectionTitle(context, 'Kolay Kullanım'),
-                  SwitchListTile(
-                    secondary: const Icon(Icons.text_increase_rounded, size: 32),
-                    title: const Text('Büyük Yazı ve Kolay Kullanım'),
-                    value: s.largeText,
-                    onChanged: s.setLargeText,
-                  ),
-                  ListTile(
-                    leading: const Icon(Icons.dark_mode_rounded, size: 32),
-                    title: const Text('Görünüm'),
-                    subtitle: Text(switch (s.themeMode) {
-                      ThemeMode.system => 'Telefona göre',
-                      ThemeMode.light => 'Açık',
-                      ThemeMode.dark => 'Koyu',
-                    }),
-                    trailing: const Icon(Icons.chevron_right_rounded, size: 32),
-                    onTap: () => _choose<ThemeMode>(
-                      context,
-                      title: 'Görünüm',
-                      values: ThemeMode.values,
-                      current: s.themeMode,
-                      label: (m) => switch (m) {
+                _Card(
+                  children: [
+                    _sectionTitle(context, 'Kolay Kullanım'),
+                    SwitchListTile(
+                      secondary: const Icon(
+                        Icons.text_increase_rounded,
+                        size: 32,
+                      ),
+                      title: const Text('Büyük Yazı ve Kolay Kullanım'),
+                      value: s.largeText,
+                      onChanged: s.setLargeText,
+                    ),
+                    ListTile(
+                      leading: const Icon(Icons.dark_mode_rounded, size: 32),
+                      title: const Text('Görünüm'),
+                      subtitle: Text(switch (s.themeMode) {
                         ThemeMode.system => 'Telefona göre',
                         ThemeMode.light => 'Açık',
                         ThemeMode.dark => 'Koyu',
-                      },
-                      onPick: s.setThemeMode,
+                      }),
+                      trailing: const Icon(
+                        Icons.chevron_right_rounded,
+                        size: 32,
+                      ),
+                      onTap: () => _choose<ThemeMode>(
+                        context,
+                        title: 'Görünüm',
+                        values: ThemeMode.values,
+                        current: s.themeMode,
+                        label: (m) => switch (m) {
+                          ThemeMode.system => 'Telefona göre',
+                          ThemeMode.light => 'Açık',
+                          ThemeMode.dark => 'Koyu',
+                        },
+                        onPick: s.setThemeMode,
+                      ),
                     ),
-                  ),
-                ]),
+                  ],
+                ),
                 const SizedBox(height: 12),
-                _Card(children: [
-                  _sectionTitle(context, 'Ses ve Titreşim'),
-                  ListTile(
-                    leading: const Icon(Icons.speed_rounded, size: 32),
-                    title: const Text('Okuma Hızı'),
-                    subtitle: Text(s.readingSpeed.label),
-                    trailing: const Icon(Icons.chevron_right_rounded, size: 32),
-                    onTap: () => _choose<ReadingSpeed>(
-                      context,
-                      title: 'Okuma Hızı',
-                      values: ReadingSpeed.values,
-                      current: s.readingSpeed,
-                      label: (v) => v.label,
-                      onPick: s.setReadingSpeed,
+                _Card(
+                  children: [
+                    _sectionTitle(context, 'Ses ve Titreşim'),
+                    ListTile(
+                      leading: const Icon(Icons.speed_rounded, size: 32),
+                      title: const Text('Okuma Hızı'),
+                      subtitle: Text(s.readingSpeed.label),
+                      trailing: const Icon(
+                        Icons.chevron_right_rounded,
+                        size: 32,
+                      ),
+                      onTap: () => _choose<ReadingSpeed>(
+                        context,
+                        title: 'Okuma Hızı',
+                        values: ReadingSpeed.values,
+                        current: s.readingSpeed,
+                        label: (v) => v.label,
+                        onPick: s.setReadingSpeed,
+                      ),
                     ),
-                  ),
-                  SwitchListTile(
-                    secondary: const Icon(Icons.vibration_rounded, size: 32),
-                    title: const Text('Titreşim'),
-                    value: s.vibrationOn,
-                    onChanged: s.setVibration,
-                  ),
-                  ListTile(
-                    leading: const Icon(Icons.touch_app_rounded, size: 32),
-                    title: const Text('Titreşim Dilini Dene'),
-                    subtitle: const Text('Rükû, secde, oturma, bitiş'),
-                    trailing: const Icon(Icons.chevron_right_rounded, size: 32),
-                    onTap: () => _push(context, const VibrationTestScreen()),
-                  ),
-                  SwitchListTile(
-                    secondary: const Icon(Icons.volume_up_rounded, size: 32),
-                    title: const Text('Sesli Geri Bildirim'),
-                    subtitle: const Text('Zikirmatik dokunuş sesi'),
-                    value: s.soundFeedback,
-                    onChanged: s.setSoundFeedback,
-                  ),
-                  SwitchListTile(
-                    secondary: const Icon(Icons.screen_lock_portrait_rounded,
-                        size: 32),
-                    title: const Text('Ekran kararsa ses devam etsin'),
-                    subtitle: const Text(
-                        'Rehber sırasında kalıcı bir bildirim görünür. Bazı telefonlarda pil tasarrufu ayarından bu uygulamaya izin vermeniz gerekebilir.'),
-                    isThreeLine: true,
-                    value: s.keepAudioScreenOff,
-                    onChanged: s.setKeepAudioScreenOff,
-                  ),
-                  ListTile(
-                    leading: const Icon(Icons.record_voice_over_rounded, size: 32),
-                    title: const Text('Ekran okuyucu zikir sayısını söylesin'),
-                    subtitle: Text(switch (s.zikrAnnounce) {
-                      ZikrAnnounce.everyTap => 'Her dokunuşta',
-                      ZikrAnnounce.everyTen => 'Her 10 zikirde',
-                      ZikrAnnounce.off => 'Kapalı',
-                    }),
-                    trailing: const Icon(Icons.chevron_right_rounded, size: 32),
-                    onTap: () => _choose<ZikrAnnounce>(
-                      context,
-                      title: 'Zikir sayısını söyleme',
-                      values: ZikrAnnounce.values,
-                      current: s.zikrAnnounce,
-                      label: (v) => switch (v) {
+                    SwitchListTile(
+                      secondary: const Icon(Icons.vibration_rounded, size: 32),
+                      title: const Text('Titreşim'),
+                      value: s.vibrationOn,
+                      onChanged: s.setVibration,
+                    ),
+                    ListTile(
+                      leading: const Icon(Icons.touch_app_rounded, size: 32),
+                      title: const Text('Titreşim Dilini Dene'),
+                      subtitle: const Text('Rükû, secde, oturma, bitiş'),
+                      trailing: const Icon(
+                        Icons.chevron_right_rounded,
+                        size: 32,
+                      ),
+                      onTap: () => _push(context, const VibrationTestScreen()),
+                    ),
+                    SwitchListTile(
+                      secondary: const Icon(Icons.volume_up_rounded, size: 32),
+                      title: const Text('Sesli Geri Bildirim'),
+                      subtitle: const Text('Zikirmatik dokunuş sesi'),
+                      value: s.soundFeedback,
+                      onChanged: s.setSoundFeedback,
+                    ),
+                    SwitchListTile(
+                      secondary: const Icon(
+                        Icons.screen_lock_portrait_rounded,
+                        size: 32,
+                      ),
+                      title: const Text('Ekran kararsa ses devam etsin'),
+                      subtitle: const Text(
+                        'Rehber sırasında kalıcı bir bildirim görünür. Bazı telefonlarda pil tasarrufu ayarından bu uygulamaya izin vermeniz gerekebilir.',
+                      ),
+                      isThreeLine: true,
+                      value: s.keepAudioScreenOff,
+                      onChanged: s.setKeepAudioScreenOff,
+                    ),
+                    ListTile(
+                      leading: const Icon(
+                        Icons.record_voice_over_rounded,
+                        size: 32,
+                      ),
+                      title: const Text(
+                        'Ekran okuyucu zikir sayısını söylesin',
+                      ),
+                      subtitle: Text(switch (s.zikrAnnounce) {
                         ZikrAnnounce.everyTap => 'Her dokunuşta',
                         ZikrAnnounce.everyTen => 'Her 10 zikirde',
                         ZikrAnnounce.off => 'Kapalı',
-                      },
-                      onPick: s.setZikrAnnounce,
+                      }),
+                      trailing: const Icon(
+                        Icons.chevron_right_rounded,
+                        size: 32,
+                      ),
+                      onTap: () => _choose<ZikrAnnounce>(
+                        context,
+                        title: 'Zikir sayısını söyleme',
+                        values: ZikrAnnounce.values,
+                        current: s.zikrAnnounce,
+                        label: (v) => switch (v) {
+                          ZikrAnnounce.everyTap => 'Her dokunuşta',
+                          ZikrAnnounce.everyTen => 'Her 10 zikirde',
+                          ZikrAnnounce.off => 'Kapalı',
+                        },
+                        onPick: s.setZikrAnnounce,
+                      ),
                     ),
-                  ),
-                ]),
+                  ],
+                ),
                 const SizedBox(height: 12),
-                _Card(children: [
-                  _sectionTitle(context, 'Namaz Rehberi'),
-                  ListTile(
-                    leading: const Icon(Icons.menu_book_rounded, size: 32),
-                    title: const Text('Mezhep ve Sure Tercihleri'),
-                    subtitle: Text(
-                        '${s.madhab.label} • ${s.knownSurahs.length} sure'),
-                    trailing: const Icon(Icons.chevron_right_rounded, size: 32),
-                    onTap: () => _push(context, const MadhabSurahScreen()),
-                  ),
-                ]),
+                _Card(
+                  children: [
+                    _sectionTitle(context, 'Namaz Rehberi'),
+                    ListTile(
+                      leading: const Icon(Icons.menu_book_rounded, size: 32),
+                      title: const Text('Mezhep ve Sure Tercihleri'),
+                      subtitle: Text(
+                        '${s.madhab.label} • ${s.knownSurahs.length} sure',
+                      ),
+                      trailing: const Icon(
+                        Icons.chevron_right_rounded,
+                        size: 32,
+                      ),
+                      onTap: () => _push(context, const MadhabSurahScreen()),
+                    ),
+                  ],
+                ),
                 const SizedBox(height: 12),
-                _Card(children: [
-                  ListTile(
-                    leading: const Icon(Icons.info_rounded, size: 32),
-                    title: const Text('Uygulama Hakkında'),
-                    subtitle: const Text('Gizlilik, izinler, kaynaklar'),
-                    trailing: const Icon(Icons.chevron_right_rounded, size: 32),
-                    onTap: () => _push(context, const AboutScreen()),
-                  ),
-                ]),
+                _Card(
+                  children: [
+                    ListTile(
+                      leading: const Icon(Icons.info_rounded, size: 32),
+                      title: const Text('Uygulama Hakkında'),
+                      subtitle: const Text('Gizlilik, izinler, kaynaklar'),
+                      trailing: const Icon(
+                        Icons.chevron_right_rounded,
+                        size: 32,
+                      ),
+                      onTap: () => _push(context, const AboutScreen()),
+                    ),
+                  ],
+                ),
               ],
             );
           },
@@ -171,13 +216,14 @@ class ProfileScreen extends StatelessWidget {
   static void _push(BuildContext context, Widget w) =>
       Navigator.of(context).push(MaterialPageRoute(builder: (_) => w));
 
-  static Widget _sectionTitle(BuildContext context, String t) => Padding(
-        padding: const EdgeInsets.fromLTRB(16, 14, 16, 4),
-        child: Semantics(
-          header: true,
-          child: Text(t, style: Theme.of(context).textTheme.titleLarge),
-        ),
-      );
+  static Widget _sectionTitle(BuildContext context, String t) => Container(
+    alignment: Alignment.centerLeft,
+    padding: const EdgeInsets.fromLTRB(16, 14, 16, 4),
+    child: Semantics(
+      header: true,
+      child: Text(t, style: Theme.of(context).textTheme.titleLarge),
+    ),
+  );
 
   static Future<void> _choose<T>(
     BuildContext context, {
@@ -219,11 +265,11 @@ class _Card extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Card(
-        color: Theme.of(context).colorScheme.surfaceContainerHigh,
-        margin: EdgeInsets.zero,
-        clipBehavior: Clip.antiAlias,
-        child: Column(children: children),
-      );
+    color: Theme.of(context).colorScheme.surfaceContainerHigh,
+    margin: EdgeInsets.zero,
+    clipBehavior: Clip.antiAlias,
+    child: Column(children: children),
+  );
 }
 
 class _PremiumTile extends StatelessWidget {
@@ -243,27 +289,35 @@ class _PremiumTile extends StatelessWidget {
           padding: const EdgeInsets.all(18),
           child: Row(
             children: [
-              Icon(Icons.workspace_premium_rounded,
-                  size: 40, color: cs.onSecondary),
+              Icon(
+                Icons.workspace_premium_rounded,
+                size: 40,
+                color: cs.onSecondary,
+              ),
               const SizedBox(width: 14),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Premium'a Geç",
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineSmall!
-                            .copyWith(color: cs.onSecondary)),
-                    Text('Ek temalar, gelişmiş istatistik',
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium!
-                            .copyWith(color: cs.onSecondary)),
+                    Text(
+                      "Premium'a Geç",
+                      style: Theme.of(context).textTheme.headlineSmall!
+                          .copyWith(color: cs.onSecondary),
+                    ),
+                    Text(
+                      'Ek temalar, gelişmiş istatistik',
+                      style: Theme.of(
+                        context,
+                      ).textTheme.bodyMedium!.copyWith(color: cs.onSecondary),
+                    ),
                   ],
                 ),
               ),
-              Icon(Icons.chevron_right_rounded, size: 32, color: cs.onSecondary),
+              Icon(
+                Icons.chevron_right_rounded,
+                size: 32,
+                color: cs.onSecondary,
+              ),
             ],
           ),
         ),
@@ -301,15 +355,16 @@ class VibrationTestScreen extends StatelessWidget {
                 const Padding(
                   padding: EdgeInsets.only(bottom: 12),
                   child: NoticeBox(
-                      warning: true,
-                      text:
-                          'Titreşim ayarlardan kapalı. Deneme yine de çalışır.'),
+                    warning: true,
+                    text: 'Titreşim ayarlardan kapalı. Deneme yine de çalışır.',
+                  ),
                 ),
               for (final s in signals) ...[
                 FilledButton.icon(
                   style: FilledButton.styleFrom(
-                      minimumSize: const Size.fromHeight(76),
-                      alignment: Alignment.centerLeft),
+                    minimumSize: const Size.fromHeight(76),
+                    alignment: Alignment.centerLeft,
+                  ),
                   onPressed: () =>
                       NativeBridge.instance.vibrate(s, strong: true),
                   icon: const Icon(Icons.vibration_rounded, size: 32),
@@ -350,10 +405,14 @@ class MadhabSurahScreen extends StatelessWidget {
                 const SizedBox(height: 10),
               ],
               const SizedBox(height: 14),
-              Text('Bildiğiniz sureler',
-                  style: Theme.of(context).textTheme.titleLarge),
-              Text('Rehber yalnızca seçtiğiniz sureleri kullanır.',
-                  style: Theme.of(context).textTheme.bodyMedium),
+              Text(
+                'Bildiğiniz sureler',
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+              Text(
+                'Rehber yalnızca seçtiğiniz sureleri kullanır.',
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
               for (final x in kSelectableSurahs)
                 CheckboxListTile(
                   value: s.knownSurahs.contains(x),
@@ -365,8 +424,9 @@ class MadhabSurahScreen extends StatelessWidget {
                           s.setKnownSurahs(l);
                         },
                   title: Text(x),
-                  subtitle:
-                      x == 'Fatiha' ? const Text('Her namazda okunur') : null,
+                  subtitle: x == 'Fatiha'
+                      ? const Text('Her namazda okunur')
+                      : null,
                   controlAffinity: ListTileControlAffinity.leading,
                 ),
             ],
@@ -396,14 +456,24 @@ class PremiumScreen extends StatelessWidget {
         child: ListView(
           padding: const EdgeInsets.all(20),
           children: [
-            Icon(Icons.workspace_premium_rounded, size: 80, color: cs.secondary),
-            Text('Premium Avantajları',
-                textAlign: TextAlign.center, style: t.headlineMedium),
+            Icon(
+              Icons.workspace_premium_rounded,
+              size: 80,
+              color: cs.secondary,
+            ),
+            Text(
+              'Premium Avantajları',
+              textAlign: TextAlign.center,
+              style: t.headlineMedium,
+            ),
             const SizedBox(height: 16),
             for (final p in perks)
               ListTile(
-                leading: Icon(Icons.check_circle_rounded,
-                    color: cs.secondary, size: 32),
+                leading: Icon(
+                  Icons.check_circle_rounded,
+                  color: cs.secondary,
+                  size: 32,
+                ),
                 title: Text(p),
               ),
             const SizedBox(height: 12),
@@ -412,10 +482,7 @@ class PremiumScreen extends StatelessWidget {
                   'Namaz vakitleri, zikirmatik, kıble ve namaz rehberi her zaman ücretsiz ve reklamsızdır. Premium yalnızca ek özellikler içerir.',
             ),
             const SizedBox(height: 16),
-            const FilledButton(
-              onPressed: null,
-              child: Text('Yakında'),
-            ),
+            const FilledButton(onPressed: null, child: Text('Yakında')),
           ],
         ),
       ),
@@ -430,9 +497,9 @@ class AboutScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = Theme.of(context).textTheme;
     Widget h(String s) => Padding(
-          padding: const EdgeInsets.only(top: 18, bottom: 6),
-          child: Semantics(header: true, child: Text(s, style: t.titleLarge)),
-        );
+      padding: const EdgeInsets.only(top: 18, bottom: 6),
+      child: Semantics(header: true, child: Text(s, style: t.titleLarge)),
+    );
     Widget p(String s) => Text(s, style: t.bodyLarge);
     return Scaffold(
       appBar: AppBar(title: const Text('Hakkında')),
@@ -445,15 +512,21 @@ class AboutScreen extends StatelessWidget {
             h('Namaz vakitleri'),
             p(kMethodDescription),
             h('Namaz rehberi'),
-            p('Rehber bir öğrenme ve eşlik aracıdır; cemaat imamının veya dinî hükmün yerine geçmez. '
-                'Akışlar, okunuşlar ve ses kayıtları yetkin bir dinî danışman tarafından onaylanmadan "Taslak" olarak işaretlenir.'),
+            p(
+              'Rehber bir öğrenme ve eşlik aracıdır; cemaat imamının veya dinî hükmün yerine geçmez. '
+              'Akışlar, okunuşlar ve ses kayıtları yetkin bir dinî danışman tarafından onaylanmadan "Taslak" olarak işaretlenir.',
+            ),
             h('Gizlilik'),
-            p('Hesap açmanız gerekmez. Ayarlarınız, zikir sayılarınız ve konumunuz yalnızca telefonunuzda saklanır; hiçbir sunucuya gönderilmez. Uygulamada reklam yoktur.'),
+            p(
+              'Hesap açmanız gerekmez. Ayarlarınız, zikir sayılarınız ve konumunuz yalnızca telefonunuzda saklanır; hiçbir sunucuya gönderilmez. Uygulamada reklam yoktur.',
+            ),
             h('İzinler'),
-            p('• Konum: yalnızca "Konumumu Kullan" derseniz, vakit ve kıble hesabı için.\n'
-                '• Bildirim: namaz rehberi sırasında "Durdur" düğmeli kalıcı bildirim için.\n'
-                '• Titreşim: zikir ve rehber işaretleri için.\n'
-                '• Ön plan hizmeti: ekran kararınca rehberin devam etmesi için.'),
+            p(
+              '• Konum: yalnızca "Konumumu Kullan" derseniz, vakit ve kıble hesabı için.\n'
+              '• Bildirim: namaz rehberi sırasında "Durdur" düğmeli kalıcı bildirim için.\n'
+              '• Titreşim: zikir ve rehber işaretleri için.\n'
+              '• Ön plan hizmeti: ekran kararınca rehberin devam etmesi için.',
+            ),
             const SizedBox(height: 16),
             OutlinedButton.icon(
               onPressed: NativeBridge.instance.openAppSettings,

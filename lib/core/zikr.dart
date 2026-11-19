@@ -18,7 +18,7 @@ const List<int> kZikrTargets = [33, 99, 100];
 /// Günlük toplamlar tarih anahtarıyla (yyyy-MM-dd) tutulur, son 60 gün saklanır.
 class ZikrCounter extends ChangeNotifier {
   ZikrCounter(this._p, {DateTime Function()? clock})
-      : _clock = clock ?? DateTime.now {
+    : _clock = clock ?? DateTime.now {
     _load();
   }
 
@@ -50,8 +50,9 @@ class ZikrCounter extends ChangeNotifier {
       name = m['name'] as String? ?? name;
       count = m['count'] as int? ?? 0;
       target = m['target'] as int? ?? 33;
-      history = (m['history'] as Map<String, dynamic>? ?? {})
-          .map((k, v) => MapEntry(k, v as int));
+      history = (m['history'] as Map<String, dynamic>? ?? {}).map(
+        (k, v) => MapEntry(k, v as int),
+      );
     } catch (_) {
       // Bozuk kayıt: sıfırdan başla.
     }

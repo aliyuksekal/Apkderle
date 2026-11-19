@@ -55,8 +55,9 @@ class FlowTemplate {
   final Map<String, dynamic> json;
 
   static Future<FlowTemplate> load(Madhab m, {AssetBundle? bundle}) async {
-    final raw = await (bundle ?? rootBundle)
-        .loadString('content/flows/${m.name}.json');
+    final raw = await (bundle ?? rootBundle).loadString(
+      'content/flows/${m.name}.json',
+    );
     return FlowTemplate(jsonDecode(raw) as Map<String, dynamic>);
   }
 
@@ -76,7 +77,9 @@ class FlowTemplate {
 
 /// Zamm-ı sure adayları: Fatiha hariç, bilinen sureler mushaf sırasıyla.
 List<String> zammCandidates(FlowTemplate t, List<String> known) {
-  final list = known.where((s) => s != 'Fatiha' && t.surahs.containsKey(s)).toList();
+  final list = known
+      .where((s) => s != 'Fatiha' && t.surahs.containsKey(s))
+      .toList();
   int order(String s) => (t.surahs[s] as Map<String, dynamic>)['number'] as int;
   list.sort((a, b) => order(a).compareTo(order(b)));
   return list;
@@ -102,14 +105,18 @@ List<GuideStep> buildGuide({
         if (info != null) seconds = (info['seconds'] as num).toDouble();
       }
       final sig = s['signal'] as String?;
-      steps.add(GuideStep(
-        id: s['id'] as String,
-        title: title,
-        duration: Duration(milliseconds: (seconds * 1000 * speed.factor).round()),
-        rakat: rakat,
-        signal: sig == null ? null : Signal.values.byName(sig),
-        audio: s['audio'] as String?,
-      ));
+      steps.add(
+        GuideStep(
+          id: s['id'] as String,
+          title: title,
+          duration: Duration(
+            milliseconds: (seconds * 1000 * speed.factor).round(),
+          ),
+          rakat: rakat,
+          signal: sig == null ? null : Signal.values.byName(sig),
+          audio: s['audio'] as String?,
+        ),
+      );
     }
   }
 

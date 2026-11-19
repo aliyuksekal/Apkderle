@@ -46,9 +46,11 @@ class _CityPickerScreenState extends State<CityPickerScreen> {
       await context.settings.setGps(pos.latitude, pos.longitude);
       if (mounted) Navigator.pop(context);
     } catch (e) {
-      setState(() => error = e is String
-          ? e
-          : 'Konum alınamadı. Açık alanda tekrar deneyin ya da listeden şehrinizi seçin.');
+      setState(
+        () => error = e is String
+            ? e
+            : 'Konum alınamadı. Açık alanda tekrar deneyin ya da listeden şehrinizi seçin.',
+      );
     } finally {
       if (mounted) setState(() => locating = false);
     }
@@ -69,15 +71,19 @@ class _CityPickerScreenState extends State<CityPickerScreen> {
                 children: [
                   FilledButton.icon(
                     style: FilledButton.styleFrom(
-                        minimumSize: const Size.fromHeight(68)),
+                      minimumSize: const Size.fromHeight(68),
+                    ),
                     onPressed: locating ? null : _useLocation,
                     icon: locating
                         ? const SizedBox(
                             width: 28,
                             height: 28,
-                            child: CircularProgressIndicator(strokeWidth: 3))
+                            child: CircularProgressIndicator(strokeWidth: 3),
+                          )
                         : const Icon(Icons.my_location_rounded, size: 30),
-                    label: Text(locating ? 'Konum bulunuyor…' : 'Konumumu Kullan'),
+                    label: Text(
+                      locating ? 'Konum bulunuyor…' : 'Konumumu Kullan',
+                    ),
                   ),
                   if (error != null) ...[
                     const SizedBox(height: 10),
@@ -90,9 +96,12 @@ class _CityPickerScreenState extends State<CityPickerScreen> {
                       prefixIcon: const Icon(Icons.search_rounded, size: 30),
                       hintText: 'Şehir ara (ör. İzmir)',
                       border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(16)),
+                        borderRadius: BorderRadius.circular(16),
+                      ),
                       contentPadding: const EdgeInsets.symmetric(
-                          vertical: 18, horizontal: 16),
+                        vertical: 18,
+                        horizontal: 16,
+                      ),
                     ),
                     onChanged: (v) => setState(() => query = v),
                   ),
@@ -102,8 +111,11 @@ class _CityPickerScreenState extends State<CityPickerScreen> {
             Expanded(
               child: list.isEmpty
                   ? Center(
-                      child: Text('Şehir bulunamadı',
-                          style: Theme.of(context).textTheme.titleLarge))
+                      child: Text(
+                        'Şehir bulunamadı',
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                    )
                   : ListView.separated(
                       itemCount: list.length,
                       separatorBuilder: (_, _) => const Divider(height: 1),

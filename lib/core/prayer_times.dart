@@ -11,23 +11,23 @@ enum PrayerName { imsak, gunes, ogle, ikindi, aksam, yatsi }
 
 extension PrayerNameX on PrayerName {
   String get label => switch (this) {
-        PrayerName.imsak => 'İmsak',
-        PrayerName.gunes => 'Güneş',
-        PrayerName.ogle => 'Öğle',
-        PrayerName.ikindi => 'İkindi',
-        PrayerName.aksam => 'Akşam',
-        PrayerName.yatsi => 'Yatsı',
-      };
+    PrayerName.imsak => 'İmsak',
+    PrayerName.gunes => 'Güneş',
+    PrayerName.ogle => 'Öğle',
+    PrayerName.ikindi => 'İkindi',
+    PrayerName.aksam => 'Akşam',
+    PrayerName.yatsi => 'Yatsı',
+  };
 
   /// "İkindi'ye", "Öğle'ye" gibi yönelme hâli.
   String get dative => switch (this) {
-        PrayerName.imsak => "İmsak'a",
-        PrayerName.gunes => "Güneş'e",
-        PrayerName.ogle => "Öğle'ye",
-        PrayerName.ikindi => "İkindi'ye",
-        PrayerName.aksam => "Akşam'a",
-        PrayerName.yatsi => "Yatsı'ya",
-      };
+    PrayerName.imsak => "İmsak'a",
+    PrayerName.gunes => "Güneş'e",
+    PrayerName.ogle => "Öğle'ye",
+    PrayerName.ikindi => "İkindi'ye",
+    PrayerName.aksam => "Akşam'a",
+    PrayerName.yatsi => "Yatsı'ya",
+  };
 
   /// Güneş doğuşu namaz vakti değildir.
   bool get isPrayer => this != PrayerName.gunes;
@@ -125,7 +125,7 @@ String hhmm(DateTime t) =>
 
 class _Calc {
   _Calc(this.lat, this.lng, DateTime d)
-      : jDate = _julian(d.year, d.month, d.day) - lng / (15 * 24);
+    : jDate = _julian(d.year, d.month, d.day) - lng / (15 * 24);
 
   final double lat;
   final double lng;
@@ -178,8 +178,8 @@ class _Calc {
   double _sunAngleTime(double angle, double t, {bool ccw = false}) {
     final decl = _sun(jDate + t).decl;
     final noon = _midDay(t);
-    final cosVal = (-_dsin(angle) - _dsin(decl) * _dsin(lat)) /
-        (_dcos(decl) * _dcos(lat));
+    final cosVal =
+        (-_dsin(angle) - _dsin(decl) * _dsin(lat)) / (_dcos(decl) * _dcos(lat));
     final tt = _darccos(cosVal.clamp(-1.0, 1.0)) / 15;
     return noon + (ccw ? -tt : tt);
   }

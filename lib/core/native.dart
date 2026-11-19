@@ -65,17 +65,17 @@ class NativeBridge {
   Future<void> openAppSettings() => _call('openAppSettings');
 
   /// Coğrafi kuzeye göre yön (derece) ve doğruluk (0=güvenilmez … 3=yüksek).
-  Stream<CompassReading> compass() => _compass
-      .receiveBroadcastStream()
-      .map((e) => CompassReading.fromMap(Map<Object?, Object?>.from(e as Map)));
+  Stream<CompassReading> compass() => _compass.receiveBroadcastStream().map(
+    (e) => CompassReading.fromMap(Map<Object?, Object?>.from(e as Map)),
+  );
 }
 
 class CompassReading {
   CompassReading(this.heading, this.accuracy);
   factory CompassReading.fromMap(Map<Object?, Object?> m) => CompassReading(
-        (m['heading'] as num).toDouble(),
-        (m['accuracy'] as num).toInt(),
-      );
+    (m['heading'] as num).toDouble(),
+    (m['accuracy'] as num).toInt(),
+  );
 
   final double heading;
   final int accuracy;

@@ -19,20 +19,84 @@ class Palette {
 }
 
 TextTheme _text(Color c) => TextTheme(
-      displaySmall: TextStyle(fontSize: 40, fontWeight: FontWeight.w800, color: c, height: 1.1),
-      headlineLarge: TextStyle(fontSize: 34, fontWeight: FontWeight.w800, color: c, height: 1.15),
-      headlineMedium: TextStyle(fontSize: 30, fontWeight: FontWeight.w800, color: c),
-      headlineSmall: TextStyle(fontSize: 26, fontWeight: FontWeight.w700, color: c),
-      titleLarge: TextStyle(fontSize: 24, fontWeight: FontWeight.w700, color: c),
-      titleMedium: TextStyle(fontSize: 21, fontWeight: FontWeight.w700, color: c),
-      titleSmall: TextStyle(fontSize: 19, fontWeight: FontWeight.w600, color: c),
-      bodyLarge: TextStyle(fontSize: 20, fontWeight: FontWeight.w500, color: c, height: 1.35),
-      bodyMedium: TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: c, height: 1.35),
-      bodySmall: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: c),
-      labelLarge: TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: c),
-      labelMedium: TextStyle(fontSize: 17, fontWeight: FontWeight.w700, color: c),
-      labelSmall: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: c),
-    );
+  displaySmall: TextStyle(
+    fontSize: 40,
+    fontWeight: FontWeight.w800,
+    color: c,
+    height: 1.1,
+  ),
+  headlineLarge: TextStyle(
+    fontSize: 34,
+    fontWeight: FontWeight.w800,
+    color: c,
+    height: 1.15,
+  ),
+  headlineMedium: TextStyle(
+    fontSize: 30,
+    fontWeight: FontWeight.w800,
+    color: c,
+  ),
+  headlineSmall: TextStyle(
+    fontFamily: 'Roboto',
+    fontSize: 26,
+    fontWeight: FontWeight.w700,
+    color: c,
+  ),
+  titleLarge: TextStyle(
+    fontFamily: 'Roboto',
+    fontSize: 24,
+    fontWeight: FontWeight.w700,
+    color: c,
+  ),
+  titleMedium: TextStyle(
+    fontFamily: 'Roboto',
+    fontSize: 21,
+    fontWeight: FontWeight.w700,
+    color: c,
+  ),
+  titleSmall: TextStyle(
+    fontFamily: 'Roboto',
+    fontSize: 19,
+    fontWeight: FontWeight.w600,
+    color: c,
+  ),
+  bodyLarge: TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.w500,
+    color: c,
+    height: 1.35,
+  ),
+  bodyMedium: TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w500,
+    color: c,
+    height: 1.35,
+  ),
+  bodySmall: TextStyle(
+    fontFamily: 'Roboto',
+    fontSize: 17,
+    fontWeight: FontWeight.w500,
+    color: c,
+  ),
+  labelLarge: TextStyle(
+    fontFamily: 'Roboto',
+    fontSize: 20,
+    fontWeight: FontWeight.w700,
+    color: c,
+  ),
+  labelMedium: TextStyle(
+    fontFamily: 'Roboto',
+    fontSize: 17,
+    fontWeight: FontWeight.w700,
+    color: c,
+  ),
+  labelSmall: TextStyle(
+    fontFamily: 'Roboto',
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
+    color: c,
+  ),
+);
 
 ThemeData _base(ColorScheme cs, Color text, Color scaffold) {
   final t = _text(text);
@@ -40,6 +104,7 @@ ThemeData _base(ColorScheme cs, Color text, Color scaffold) {
   final accent = cs.brightness == Brightness.dark ? cs.secondary : cs.primary;
   return ThemeData(
     useMaterial3: true,
+    fontFamily: 'Roboto',
     colorScheme: cs,
     scaffoldBackgroundColor: scaffold,
     textTheme: t,
@@ -72,7 +137,9 @@ ThemeData _base(ColorScheme cs, Color text, Color scaffold) {
     listTileTheme: ListTileThemeData(
       minVerticalPadding: 14,
       titleTextStyle: t.titleSmall,
-      subtitleTextStyle: t.bodySmall!.copyWith(color: text.withValues(alpha: .78)),
+      subtitleTextStyle: t.bodySmall!.copyWith(
+        color: text.withValues(alpha: .78),
+      ),
       iconColor: accent,
     ),
     switchTheme: const SwitchThemeData(
@@ -94,7 +161,10 @@ ThemeData _base(ColorScheme cs, Color text, Color scaffold) {
       elevation: 0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(22)),
     ),
-    dividerTheme: DividerThemeData(color: text.withValues(alpha: .15), thickness: 1),
+    dividerTheme: DividerThemeData(
+      color: text.withValues(alpha: .15),
+      thickness: 1,
+    ),
   );
 }
 

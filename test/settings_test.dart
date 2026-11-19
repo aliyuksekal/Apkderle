@@ -20,7 +20,10 @@ void main() {
     SharedPreferences.setMockInitialValues({});
     final s = await AppSettings.load();
     await s.completeOnboarding(
-        madhab: Madhab.safii, surahs: ['Nas', 'İhlas'], speed: ReadingSpeed.fast);
+      madhab: Madhab.safii,
+      surahs: ['Nas', 'İhlas'],
+      speed: ReadingSpeed.fast,
+    );
     await s.setCity('İzmir');
     await s.setThemeMode(ThemeMode.dark);
     await s.setLargeText(false);
@@ -28,8 +31,11 @@ void main() {
     final s2 = await AppSettings.load();
     expect(s2.onboardingDone, isTrue);
     expect(s2.madhab, Madhab.safii);
-    expect(s2.knownSurahs, ['Fatiha', 'İhlas', 'Nas'],
-        reason: 'Fatiha her zaman eklenir, sıra sabit');
+    expect(s2.knownSurahs, [
+      'Fatiha',
+      'İhlas',
+      'Nas',
+    ], reason: 'Fatiha her zaman eklenir, sıra sabit');
     expect(s2.readingSpeed, ReadingSpeed.fast);
     expect(s2.cityName, 'İzmir');
     expect(s2.themeMode, ThemeMode.dark);

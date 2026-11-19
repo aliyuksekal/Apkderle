@@ -37,8 +37,9 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
-  Future<void> _pickCity() => Navigator.of(context).push(
-      MaterialPageRoute(builder: (_) => const CityPickerScreen()));
+  Future<void> _pickCity() => Navigator.of(
+    context,
+  ).push(MaterialPageRoute(builder: (_) => const CityPickerScreen()));
 
   @override
   Widget build(BuildContext context) {
@@ -61,14 +62,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 _NoCityCard(onPick: _pickCity)
               else
                 _TimesSection(place: place),
-              const SizedBox(height: 20),
+              const SizedBox(height: 14),
               BigActionButton(
                 icon: Icons.mosque_rounded,
                 label: 'İmamla Kıl',
                 subtitle: 'Namaz rehberini başlat',
                 gold: true,
-                onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                    builder: (_) => const GuideSelectScreen())),
+                onPressed: () => Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => const GuideSelectScreen()),
+                ),
               ),
               const SizedBox(height: 14),
               Row(
@@ -90,6 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ],
               ),
+              if (place != null) _MethodInfo(place: place),
             ],
           ),
         );
@@ -98,9 +101,50 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
+class _MethodInfo extends StatelessWidget {
+  const _MethodInfo({required this.place});
+  final Place place;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const SizedBox(height: 8),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: TextButton.icon(
+            onPressed: () => showDialog<void>(
+              context: context,
+              builder: (c) => AlertDialog(
+                title: const Text('Vakitler nasıl hesaplanıyor?'),
+                content: Text(
+                  '$kMethodDescription\n\nKonum: ${place.name} '
+                  '(${place.lat.toStringAsFixed(2)}, ${place.lng.toStringAsFixed(2)})',
+                  style: Theme.of(c).textTheme.bodyLarge,
+                ),
+                actions: [
+                  FilledButton(
+                    onPressed: () => Navigator.pop(c),
+                    child: const Text('Tamam'),
+                  ),
+                ],
+              ),
+            ),
+            icon: const Icon(Icons.info_outline_rounded),
+            label: const Text('Hesaplama yöntemi'),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
 class _Header extends StatelessWidget {
-  const _Header(
-      {required this.cityName, required this.onCity, required this.onSettings});
+  const _Header({
+    required this.cityName,
+    required this.onCity,
+    required this.onSettings,
+  });
 
   final String cityName;
   final VoidCallback onCity;
@@ -120,14 +164,20 @@ class _Header extends StatelessWidget {
               onTap: onCity,
               borderRadius: BorderRadius.circular(14),
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 4),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 12,
+                  horizontal: 4,
+                ),
                 child: Row(
                   children: [
                     const Icon(Icons.location_on_rounded, size: 32),
                     const SizedBox(width: 6),
                     Flexible(
-                      child: Text(cityName,
-                          style: t.titleLarge, overflow: TextOverflow.ellipsis),
+                      child: Text(
+                        cityName,
+                        style: t.titleLarge,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
                     const Icon(Icons.keyboard_arrow_down_rounded, size: 32),
                   ],
@@ -160,9 +210,11 @@ class _NoCityCard extends StatelessWidget {
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            Text('Namaz vakitleri için şehrinizi seçin',
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.headlineSmall),
+            Text(
+              'Namaz vakitleri için şehrinizi seçin',
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.headlineSmall,
+            ),
             const SizedBox(height: 16),
             FilledButton.icon(
               onPressed: onPick,
@@ -184,17 +236,23 @@ class _TimesSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final now = place.nowLocal();
     final today = PrayerTimes.calculate(
-        latitude: place.lat,
-        longitude: place.lng,
-        date: now,
-        utcOffset: place.utcOffset);
+      latitude: place.lat,
+      longitude: place.lng,
+      date: now,
+      utcOffset: place.utcOffset,
+    );
     final tomorrowDate = now.add(const Duration(days: 1));
     final tomorrow = PrayerTimes.calculate(
-        latitude: place.lat,
-        longitude: place.lng,
-        date: tomorrowDate,
-        utcOffset: place.utcOffset);
-    final next = findNextPrayer(today: today, tomorrow: tomorrow, nowLocal: now);
+      latitude: place.lat,
+      longitude: place.lng,
+      date: tomorrowDate,
+      utcOffset: place.utcOffset,
+    );
+    final next = findNextPrayer(
+      today: today,
+      tomorrow: tomorrow,
+      nowLocal: now,
+    );
     final cs = Theme.of(context).colorScheme;
     final t = Theme.of(context).textTheme;
     final dark = Theme.of(context).brightness == Brightness.dark;
@@ -209,7 +267,7 @@ class _TimesSection extends StatelessWidget {
           excludeSemantics: true,
           child: Container(
             width: double.infinity,
-            padding: const EdgeInsets.symmetric(vertical: 22, horizontal: 16),
+            padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
             decoration: BoxDecoration(
               color: dark ? Palette.nightCard : Palette.cream,
               borderRadius: BorderRadius.circular(26),
@@ -225,57 +283,38 @@ class _TimesSection extends StatelessWidget {
                 ),
                 FittedBox(
                   fit: BoxFit.scaleDown,
-                  child: Text('${formatRemaining(next.remaining)} kaldı',
-                      style: t.displaySmall),
+                  child: Text(
+                    '${formatRemaining(next.remaining)} kaldı',
+                    style: t.displaySmall,
+                  ),
                 ),
               ],
             ),
           ),
         ),
         const SizedBox(height: 14),
-        LayoutBuilder(builder: (context, c) {
-          final cols = c.maxWidth > 560 ? 6 : 3;
-          const gap = 8.0;
-          final w = (c.maxWidth - gap * (cols - 1)) / cols;
-          return Wrap(
-            spacing: gap,
-            runSpacing: gap,
-            children: [
-              for (final p in PrayerName.values)
-                SizedBox(
-                  width: w,
-                  child: _TimeTile(
-                    name: p,
-                    time: today[p],
-                    highlighted: p == next.name &&
-                        next.time.day == today[p].day,
+        LayoutBuilder(
+          builder: (context, c) {
+            final cols = c.maxWidth > 560 ? 6 : 3;
+            const gap = 8.0;
+            final w = (c.maxWidth - gap * (cols - 1)) / cols;
+            return Wrap(
+              spacing: gap,
+              runSpacing: gap,
+              children: [
+                for (final p in PrayerName.values)
+                  SizedBox(
+                    width: w,
+                    child: _TimeTile(
+                      name: p,
+                      time: today[p],
+                      highlighted:
+                          p == next.name && next.time.day == today[p].day,
+                    ),
                   ),
-                ),
-            ],
-          );
-        }),
-        const SizedBox(height: 8),
-        Align(
-          alignment: Alignment.centerLeft,
-          child: TextButton.icon(
-            onPressed: () => showDialog<void>(
-              context: context,
-              builder: (c) => AlertDialog(
-                title: const Text('Vakitler nasıl hesaplanıyor?'),
-                content: Text(
-                    '$kMethodDescription\n\nKonum: ${place.name} '
-                    '(${place.lat.toStringAsFixed(2)}, ${place.lng.toStringAsFixed(2)})',
-                    style: Theme.of(c).textTheme.bodyLarge),
-                actions: [
-                  FilledButton(
-                      onPressed: () => Navigator.pop(c),
-                      child: const Text('Tamam')),
-                ],
-              ),
-            ),
-            icon: const Icon(Icons.info_outline_rounded),
-            label: const Text('Hesaplama yöntemi'),
-          ),
+              ],
+            );
+          },
         ),
       ],
     );
@@ -283,8 +322,11 @@ class _TimesSection extends StatelessWidget {
 }
 
 class _TimeTile extends StatelessWidget {
-  const _TimeTile(
-      {required this.name, required this.time, required this.highlighted});
+  const _TimeTile({
+    required this.name,
+    required this.time,
+    required this.highlighted,
+  });
 
   final PrayerName name;
   final DateTime time;
@@ -308,28 +350,36 @@ class _TimeTile extends StatelessWidget {
           '${name.label} ${hhmm(time)}${name.isPrayer ? '' : ', güneş doğuşu, namaz vakti değildir'}${highlighted ? ', sıradaki vakit' : ''}',
       excludeSemantics: true,
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 6),
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 6),
         decoration: BoxDecoration(
           color: highlighted ? cs.primary : cs.surfaceContainerHigh,
           borderRadius: BorderRadius.circular(16),
-          border: highlighted ? Border.all(color: cs.secondary, width: 3) : null,
+          border: highlighted
+              ? Border.all(color: cs.secondary, width: 3)
+              : null,
         ),
         child: Column(
           children: [
-            Icon(icon, size: 28, color: highlighted ? cs.secondary : cs.tertiary),
+            Icon(
+              icon,
+              size: 28,
+              color: highlighted ? cs.secondary : cs.tertiary,
+            ),
             FittedBox(
-                fit: BoxFit.scaleDown,
-                child: Text(name.label,
-                    style: t.titleSmall!.copyWith(color: fg))),
+              fit: BoxFit.scaleDown,
+              child: Text(name.label, style: t.titleSmall!.copyWith(color: fg)),
+            ),
             FittedBox(
-                fit: BoxFit.scaleDown,
-                child: Text(hhmm(time),
-                    style: t.headlineSmall!.copyWith(color: fg))),
+              fit: BoxFit.scaleDown,
+              child: Text(
+                hhmm(time),
+                style: t.headlineSmall!.copyWith(color: fg),
+              ),
+            ),
             if (!name.isPrayer)
               FittedBox(
                 fit: BoxFit.scaleDown,
-                child: Text('doğuş',
-                    style: t.labelSmall!.copyWith(color: fg)),
+                child: Text('doğuş', style: t.labelSmall!.copyWith(color: fg)),
               ),
           ],
         ),
@@ -339,7 +389,11 @@ class _TimeTile extends StatelessWidget {
 }
 
 class _Shortcut extends StatelessWidget {
-  const _Shortcut({required this.icon, required this.label, required this.onTap});
+  const _Shortcut({
+    required this.icon,
+    required this.label,
+    required this.onTap,
+  });
 
   final IconData icon;
   final String label;
@@ -362,12 +416,13 @@ class _Shortcut extends StatelessWidget {
             children: [
               Icon(icon, size: 36, color: cs.secondary),
               const SizedBox(height: 6),
-              Text(label,
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleMedium!
-                      .copyWith(color: cs.onPrimary)),
+              Text(
+                label,
+                textAlign: TextAlign.center,
+                style: Theme.of(
+                  context,
+                ).textTheme.titleMedium!.copyWith(color: cs.onPrimary),
+              ),
             ],
           ),
         ),

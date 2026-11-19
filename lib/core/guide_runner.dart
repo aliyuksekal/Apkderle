@@ -8,11 +8,7 @@ import 'vibration_patterns.dart';
 /// Rehber akışını zamanlayıcıyla yürütür. Ekrana dokunmadan ilerler;
 /// durdurma her zaman mümkündür.
 class GuideRunner extends ChangeNotifier {
-  GuideRunner({
-    required this.steps,
-    required this.onSignal,
-    this.onStep,
-  });
+  GuideRunner({required this.steps, required this.onSignal, this.onStep});
 
   final List<GuideStep> steps;
   final void Function(Signal s) onSignal;

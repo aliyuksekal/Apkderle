@@ -4,14 +4,14 @@ import 'package:flutter/services.dart';
 
 class Dua {
   Dua.fromJson(Map<String, dynamic> j)
-      : id = j['id'] as String,
-        title = j['title'] as String,
-        arabic = j['arabic'] as String?,
-        transliteration = j['transliteration'] as String?,
-        meaning = j['meaning'] as String?,
-        audio = j['audio'] as String?,
-        source = j['source'] as String?,
-        verified = j['verified'] as bool? ?? false;
+    : id = j['id'] as String,
+      title = j['title'] as String,
+      arabic = j['arabic'] as String?,
+      transliteration = j['transliteration'] as String?,
+      meaning = j['meaning'] as String?,
+      audio = j['audio'] as String?,
+      source = j['source'] as String?,
+      verified = j['verified'] as bool? ?? false;
 
   final String id;
   final String title;
@@ -23,7 +23,8 @@ class Dua {
   final bool verified;
 
   bool get hasText =>
-      verified && (arabic != null || transliteration != null || meaning != null);
+      verified &&
+      (arabic != null || transliteration != null || meaning != null);
   bool get hasAudio => verified && audio != null;
 }
 

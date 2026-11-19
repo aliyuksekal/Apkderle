@@ -19,10 +19,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   ReadingSpeed speed = ReadingSpeed.slow;
 
   Future<void> _finish() => context.settings.completeOnboarding(
-        madhab: madhab,
-        surahs: surahs.toList(),
-        speed: speed,
-      );
+    madhab: madhab,
+    surahs: surahs.toList(),
+    speed: speed,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -41,8 +41,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               child: Row(
                 children: [
                   Expanded(
-                    child: Text('Hoş geldiniz',
-                        style: t.titleLarge, semanticsLabel: 'Hoş geldiniz'),
+                    child: Text(
+                      'Hoş geldiniz',
+                      style: t.titleLarge,
+                      semanticsLabel: 'Hoş geldiniz',
+                    ),
                   ),
                   TextButton(
                     onPressed: () => context.settings.skipOnboarding(),
@@ -84,8 +87,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   const SizedBox(height: 20),
                   ..._stepBody(),
                   const SizedBox(height: 16),
-                  Text('Daha sonra ayarlardan değiştirebilirsiniz.',
-                      style: t.bodyMedium),
+                  Text(
+                    'Daha sonra ayarlardan değiştirebilirsiniz.',
+                    style: t.bodyMedium,
+                  ),
                 ],
               ),
             ),
@@ -145,7 +150,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               value: surahs.contains(s),
               onChanged: s == 'Fatiha'
                   ? null
-                  : (v) => setState(() => v! ? surahs.add(s) : surahs.remove(s)),
+                  : (v) =>
+                        setState(() => v! ? surahs.add(s) : surahs.remove(s)),
               title: Text(s),
               subtitle: s == 'Fatiha' ? const Text('Her namazda okunur') : null,
               controlAffinity: ListTileControlAffinity.leading,

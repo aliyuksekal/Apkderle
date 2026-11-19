@@ -32,9 +32,10 @@ class QiblaScreen extends StatelessWidget {
               children: [
                 if (place == null)
                   const NoticeBox(
-                      text:
-                          'Kıble yönünü hesaplamak için önce Ana Sayfa\'dan şehrinizi seçin.',
-                      warning: true)
+                    text:
+                        'Kıble yönünü hesaplamak için önce Ana Sayfa\'dan şehrinizi seçin.',
+                    warning: true,
+                  )
                 else
                   _Compass(place: place, active: active),
                 const SizedBox(height: 24),
@@ -83,8 +84,10 @@ class _CompassState extends State<_Compass> {
     _sub?.cancel();
     _sub = null;
     if (!widget.active) return;
-    NativeBridge.instance
-        .setCompassLocation(widget.place.lat, widget.place.lng);
+    NativeBridge.instance.setCompassLocation(
+      widget.place.lat,
+      widget.place.lng,
+    );
     _sub = NativeBridge.instance.compass().listen(
       (r) {
         if (!mounted) return;
@@ -145,53 +148,59 @@ class _CompassState extends State<_Compass> {
       hint = 'Sola dönün (${diff.abs().round()}°)';
     }
 
-    return LayoutBuilder(builder: (context, c) {
-      final size = math.min(c.maxWidth * 0.85, 320.0);
-      return Column(
-        children: [
-          Semantics(
-            liveRegion: true,
-            label: 'Kıble yönü $q derece. $hint',
-            excludeSemantics: true,
-            child: SizedBox(
-              width: size,
-              height: size,
-              child: CustomPaint(
-                painter: _DialPainter(
-                  heading: heading,
-                  qibla: qibla,
-                  aligned: aligned,
-                  cs: cs,
+    return LayoutBuilder(
+      builder: (context, c) {
+        final size = math.min(c.maxWidth * 0.85, 320.0);
+        return Column(
+          children: [
+            Semantics(
+              liveRegion: true,
+              label: 'Kıble yönü $q derece. $hint',
+              excludeSemantics: true,
+              child: SizedBox(
+                width: size,
+                height: size,
+                child: CustomPaint(
+                  painter: _DialPainter(
+                    heading: heading,
+                    qibla: qibla,
+                    aligned: aligned,
+                    cs: cs,
+                  ),
                 ),
               ),
             ),
-          ),
-          const SizedBox(height: 14),
-          _QiblaValue(text: 'Kıble yönünüz: $q°'),
-          const SizedBox(height: 8),
-          Text(hint,
+            const SizedBox(height: 14),
+            _QiblaValue(text: 'Kıble yönünüz: $q°'),
+            const SizedBox(height: 8),
+            Text(
+              hint,
               style: t.headlineSmall!.copyWith(
-                  color: aligned
-                      ? (cs.brightness == Brightness.dark
+                color: aligned
+                    ? (cs.brightness == Brightness.dark
                           ? cs.secondary
                           : cs.primary)
-                      : null)),
-          if (r != null && r.needsCalibration) ...[
-            const SizedBox(height: 12),
-            const NoticeBox(
-              warning: true,
-              text:
-                  'Pusula ayarı zayıf. Telefonu düz tutun ve havada birkaç kez sekiz (8) çizin. Mıknatıs, hoparlör ve metal eşyalardan uzak durun.',
+                    : null,
+              ),
             ),
-          ] else ...[
-            const SizedBox(height: 12),
-            const NoticeBox(
+            if (r != null && r.needsCalibration) ...[
+              const SizedBox(height: 12),
+              const NoticeBox(
+                warning: true,
                 text:
-                    'Telefonu yere paralel, düz tutun. Yön, manyetik sapma düzeltilerek coğrafi kuzeye göre gösterilir.'),
+                    'Pusula ayarı zayıf. Telefonu düz tutun ve havada birkaç kez sekiz (8) çizin. Mıknatıs, hoparlör ve metal eşyalardan uzak durun.',
+              ),
+            ] else ...[
+              const SizedBox(height: 12),
+              const NoticeBox(
+                text:
+                    'Telefonu yere paralel, düz tutun. Yön, manyetik sapma düzeltilerek coğrafi kuzeye göre gösterilir.',
+              ),
+            ],
           ],
-        ],
-      );
-    });
+        );
+      },
+    );
   }
 }
 
@@ -233,12 +242,13 @@ class _DialPainter extends CustomPainter {
     final r = size.width / 2;
     canvas.drawCircle(c, r, Paint()..color = cs.primary);
     canvas.drawCircle(
-        c,
-        r - 4,
-        Paint()
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 6
-          ..color = aligned ? cs.secondary : cs.secondary.withValues(alpha: .6));
+      c,
+      r - 4,
+      Paint()
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 6
+        ..color = aligned ? cs.secondary : cs.secondary.withValues(alpha: .6),
+    );
 
     canvas.save();
     canvas.translate(c.dx, c.dy);
@@ -252,8 +262,11 @@ class _DialPainter extends CustomPainter {
       final a = i * 5 * math.pi / 180;
       final long = i % 18 == 0;
       final inner = r - (long ? 26 : 16);
-      canvas.drawLine(Offset(math.sin(a) * inner, -math.cos(a) * inner),
-          Offset(math.sin(a) * (r - 10), -math.cos(a) * (r - 10)), tick);
+      canvas.drawLine(
+        Offset(math.sin(a) * inner, -math.cos(a) * inner),
+        Offset(math.sin(a) * (r - 10), -math.cos(a) * (r - 10)),
+        tick,
+      );
     }
 
     // Yön harfleri (Türkçe: K, D, G, B)
@@ -262,11 +275,14 @@ class _DialPainter extends CustomPainter {
       final a = deg * math.pi / 180;
       final tp = TextPainter(
         text: TextSpan(
-            text: l,
-            style: TextStyle(
-                fontSize: r * .16,
-                fontWeight: FontWeight.w800,
-                color: l == 'K' ? cs.secondary : cs.onPrimary)),
+          text: l,
+          style: TextStyle(
+            fontFamily: 'Roboto',
+            fontSize: r * .16,
+            fontWeight: FontWeight.w800,
+            color: l == 'K' ? cs.secondary : cs.onPrimary,
+          ),
+        ),
         textDirection: TextDirection.ltr,
       )..layout();
       final p = Offset(math.sin(a) * (r - 46), -math.cos(a) * (r - 46));
@@ -280,22 +296,32 @@ class _DialPainter extends CustomPainter {
     // Kıble işareti (Kâbe simgesi)
     final qa = qibla * math.pi / 180;
     final qp = Offset(math.sin(qa) * (r * .55), -math.cos(qa) * (r * .55));
-    canvas.drawLine(Offset.zero, qp,
-        Paint()
-          ..color = cs.secondary
-          ..strokeWidth = 5
-          ..strokeCap = StrokeCap.round);
+    canvas.drawLine(
+      Offset.zero,
+      qp,
+      Paint()
+        ..color = cs.secondary
+        ..strokeWidth = 5
+        ..strokeCap = StrokeCap.round,
+    );
     final box = Rect.fromCenter(center: qp, width: r * .26, height: r * .26);
     canvas.save();
     canvas.translate(qp.dx, qp.dy);
     canvas.rotate(heading * math.pi / 180);
     canvas.translate(-qp.dx, -qp.dy);
-    canvas.drawRRect(RRect.fromRectAndRadius(box, const Radius.circular(4)),
-        Paint()..color = const Color(0xFF151515));
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(box, const Radius.circular(4)),
+      Paint()..color = const Color(0xFF151515),
+    );
     canvas.drawRect(
-        Rect.fromLTWH(box.left, box.top + box.height * .28, box.width,
-            box.height * .14),
-        Paint()..color = const Color(0xFFE9B949));
+      Rect.fromLTWH(
+        box.left,
+        box.top + box.height * .28,
+        box.width,
+        box.height * .14,
+      ),
+      Paint()..color = const Color(0xFFE9B949),
+    );
     canvas.restore();
 
     canvas.restore();
@@ -306,7 +332,10 @@ class _DialPainter extends CustomPainter {
       ..lineTo(c.dx - r * .09, c.dy - r * .52)
       ..lineTo(c.dx + r * .09, c.dy - r * .52)
       ..close();
-    canvas.drawPath(arrow, Paint()..color = aligned ? cs.secondary : cs.onPrimary);
+    canvas.drawPath(
+      arrow,
+      Paint()..color = aligned ? cs.secondary : cs.onPrimary,
+    );
     canvas.drawCircle(c, 8, Paint()..color = cs.secondary);
   }
 
@@ -351,8 +380,11 @@ class _DuaListState extends State<_DuaList> {
                   if (d.arabic != null)
                     Directionality(
                       textDirection: TextDirection.rtl,
-                      child: Text(d.arabic!,
-                          style: t.headlineSmall, textAlign: TextAlign.right),
+                      child: Text(
+                        d.arabic!,
+                        style: t.headlineSmall,
+                        textAlign: TextAlign.right,
+                      ),
                     ),
                   if (d.transliteration != null) ...[
                     const SizedBox(height: 12),
@@ -372,10 +404,13 @@ class _DuaListState extends State<_DuaList> {
                 const SizedBox(height: 16),
                 FilledButton.icon(
                   style: FilledButton.styleFrom(
-                      minimumSize: const Size.fromHeight(68)),
+                    minimumSize: const Size.fromHeight(68),
+                  ),
                   onPressed: d.hasAudio ? () {} : null,
                   icon: const Icon(Icons.play_arrow_rounded, size: 36),
-                  label: Text(d.hasAudio ? 'Dinle' : 'Ses kaydı henüz eklenmedi'),
+                  label: Text(
+                    d.hasAudio ? 'Dinle' : 'Ses kaydı henüz eklenmedi',
+                  ),
                 ),
               ],
             ),
@@ -397,57 +432,67 @@ class _DuaListState extends State<_DuaList> {
           color: cs.surfaceContainerHigh,
           borderRadius: BorderRadius.circular(22),
           child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Icon(Icons.volunteer_activism_rounded,
-                      size: 32, color: cs.tertiary),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Semantics(
-                      header: true,
-                      child: Text('En Çok Okunan Dualar', style: t.titleLarge),
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Icon(
+                      Icons.volunteer_activism_rounded,
+                      size: 32,
+                      color: cs.tertiary,
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 6),
-              for (var i = 0; i < duas.length; i++)
-                ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  minTileHeight: 64,
-                  title: Text('${i + 1}. ${duas[i].title}'),
-                  subtitle: duas[i].verified
-                      ? null
-                      : const Text('Doğrulama bekliyor'),
-                  trailing: Icon(Icons.play_circle_fill_rounded,
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Semantics(
+                        header: true,
+                        child: Text(
+                          'En Çok Okunan Dualar',
+                          style: t.titleLarge,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 6),
+                for (var i = 0; i < duas.length; i++)
+                  ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    minTileHeight: 64,
+                    title: Text('${i + 1}. ${duas[i].title}'),
+                    subtitle: duas[i].verified
+                        ? null
+                        : const Text('Doğrulama bekliyor'),
+                    trailing: Icon(
+                      Icons.play_circle_fill_rounded,
                       size: 44,
                       color: duas[i].hasAudio
                           ? cs.tertiary
-                          : cs.onSurface.withValues(alpha: .35)),
-                  onTap: () => _open(duas[i]),
-                ),
-              const SizedBox(height: 8),
-              OutlinedButton.icon(
-                style: OutlinedButton.styleFrom(
-                    minimumSize: const Size.fromHeight(64)),
-                onPressed: duas.any((d) => d.hasAudio)
-                    ? () {}
-                    : () => ScaffoldMessenger.of(context).showSnackBar(
+                          : cs.onSurface.withValues(alpha: .35),
+                    ),
+                    onTap: () => _open(duas[i]),
+                  ),
+                const SizedBox(height: 8),
+                OutlinedButton.icon(
+                  style: OutlinedButton.styleFrom(
+                    minimumSize: const Size.fromHeight(64),
+                  ),
+                  onPressed: duas.any((d) => d.hasAudio)
+                      ? () {}
+                      : () => ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text(
-                                'Dua ses kayıtları henüz eklenmedi. Doğrulanmış kayıtlar eklenince buradan dinleyebileceksiniz.',
-                                style: TextStyle(fontSize: 18)),
+                              'Dua ses kayıtları henüz eklenmedi. Doğrulanmış kayıtlar eklenince buradan dinleyebileceksiniz.',
+                              style: TextStyle(fontSize: 18),
+                            ),
                           ),
                         ),
-                icon: const Icon(Icons.volume_up_rounded, size: 30),
-                label: const Text('Duaları Dinle'),
-              ),
-            ],
-          ),
+                  icon: const Icon(Icons.volume_up_rounded, size: 30),
+                  label: const Text('Duaları Dinle'),
+                ),
+              ],
+            ),
           ),
         );
       },

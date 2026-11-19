@@ -46,17 +46,19 @@ class BigActionButton extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text(label,
-                            style: Theme.of(context)
-                                .textTheme
-                                .headlineSmall!
-                                .copyWith(color: fg)),
+                        Text(
+                          label,
+                          style: Theme.of(
+                            context,
+                          ).textTheme.headlineSmall!.copyWith(color: fg),
+                        ),
                         if (subtitle != null)
-                          Text(subtitle!,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium!
-                                  .copyWith(color: fg)),
+                          Text(
+                            subtitle!,
+                            style: Theme.of(
+                              context,
+                            ).textTheme.bodyMedium!.copyWith(color: fg),
+                          ),
                       ],
                     ),
                   ),
@@ -122,13 +124,20 @@ class ChoiceButton extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(label,
-                          style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                              color: selected ? cs.onPrimary : cs.onSurface)),
+                      Text(
+                        label,
+                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                          color: selected ? cs.onPrimary : cs.onSurface,
+                        ),
+                      ),
                       if (subtitle != null)
-                        Text(subtitle!,
-                            style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                                color: selected ? cs.onPrimary : cs.onSurface)),
+                        Text(
+                          subtitle!,
+                          style: Theme.of(context).textTheme.bodySmall!
+                              .copyWith(
+                                color: selected ? cs.onPrimary : cs.onSurface,
+                              ),
+                        ),
                     ],
                   ),
                 ),
@@ -167,16 +176,21 @@ class NoticeBox extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(warning ? Icons.warning_amber_rounded : icon,
-              size: 30,
-              color: warning ? cs.onSecondaryContainer : cs.onPrimaryContainer),
+          Icon(
+            warning ? Icons.warning_amber_rounded : icon,
+            size: 30,
+            color: warning ? cs.onSecondaryContainer : cs.onPrimaryContainer,
+          ),
           const SizedBox(width: 12),
           Expanded(
-            child: Text(text,
-                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    color: warning
-                        ? cs.onSecondaryContainer
-                        : cs.onPrimaryContainer)),
+            child: Text(
+              text,
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                color: warning
+                    ? cs.onSecondaryContainer
+                    : cs.onPrimaryContainer,
+              ),
+            ),
           ),
         ],
       ),
@@ -199,7 +213,10 @@ Future<bool> confirmDialog(
       content: Text(message, style: Theme.of(c).textTheme.bodyLarge),
       actionsAlignment: MainAxisAlignment.spaceBetween,
       actions: [
-        OutlinedButton(onPressed: () => Navigator.pop(c, false), child: Text(no)),
+        OutlinedButton(
+          onPressed: () => Navigator.pop(c, false),
+          child: Text(no),
+        ),
         FilledButton(onPressed: () => Navigator.pop(c, true), child: Text(yes)),
       ],
     ),

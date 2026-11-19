@@ -16,8 +16,12 @@ class Place {
 
 Place? placeFromSettings(AppSettings s) {
   if (s.cityName == 'GPS' && s.gpsLat != null && s.gpsLng != null) {
-    return Place('Konumum', s.gpsLat!, s.gpsLng!,
-        DateTime.now().timeZoneOffset);
+    return Place(
+      'Konumum',
+      s.gpsLat!,
+      s.gpsLng!,
+      DateTime.now().timeZoneOffset,
+    );
   }
   final c = cityByName(s.cityName);
   if (c == null) return null;
