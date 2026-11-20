@@ -14,6 +14,8 @@ dependencies:
     sdk: flutter
   shared_preferences: ^2.5.0
   geolocator: ^14.0.0
+  audioplayers: ^6.8.0
+  google_mobile_ads: ^9.2.0
 
 dev_dependencies:
   flutter_test:
@@ -25,3 +27,8 @@ flutter:
   assets:
     - content/
     - content/flows/
+    - content/audio/husary/
+  fonts:
+    - family: AmiriQuran
+      fonts:
+        - asset: assets/fonts/AmiriQuran-Regular.ttf

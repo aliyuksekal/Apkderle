@@ -56,10 +56,15 @@ jobs:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+          ADMOB_APP_ID: ${{ secrets.ADMOB_APP_ID }}
+          ADMOB_BANNER_ID: ${{ secrets.ADMOB_BANNER_ID }}
         run: |
           BN=$(( 100 + ${{ github.run_number }} ))
-          flutter build apk --release --build-number=$BN
-          flutter build appbundle --release --build-number=$BN
+          DEF=""
+          if [ -n "$ADMOB_BANNER_ID" ]; then DEF="--dart-define=ADMOB_BANNER_ID=$ADMOB_BANNER_ID"; echo "Gerçek AdMob banner kimliği kullanılacak."; else echo "AdMob kimliği yok: test reklamı."; fi
+          [ -z "$ADMOB_APP_ID" ] && unset ADMOB_APP_ID
+          flutter build apk --release --build-number=$BN $DEF
+          flutter build appbundle --release --build-number=$BN $DEF
           mkdir -p dist
           cp build/app/outputs/flutter-apk/app-release.apk dist/NamazAsistani.apk
           cp build/app/outputs/bundle/release/app-release.aab dist/NamazAsistani.aab

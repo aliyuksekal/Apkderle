@@ -1,56 +1,186 @@
 {
-  "schemaVersion": 1,
-  "note": "Metinler, okunuşlar, anlamlar ve ses kayıtları güvenilir kaynaktan alınıp uzman onayıyla eklenecek. verified=true olmayan içerik uygulamada 'doğrulama bekliyor' olarak gösterilir.",
+  "schemaVersion": 2,
+  "reciter": "Mahmud Halil el-Husarî",
+  "note": "Kur'an ayetlerinden oluşan dualar: Arapça metin Tanzil (fawazahmed0/quran-api), meal Türkiye Diyanet Vakfı, ses EveryAyah.com Husary 128kbps. Türkçe okunuşlar elle yazıldı ve uzman kontrolü bekliyor (transliterationReviewed=false).",
   "duas": [
     {
       "id": "nazar",
       "title": "Nazar Duası",
-      "arabic": null,
-      "transliteration": null,
-      "meaning": null,
-      "audio": null,
-      "source": null,
-      "verified": false
+      "reference": "Kalem Sûresi 51-52",
+      "verses": [
+        {
+          "surah": 68,
+          "ayah": 51,
+          "arabic": "وَإِن يَكَادُ ٱلَّذِينَ كَفَرُواْ لَيُزۡلِقُونَكَ بِأَبۡصَٰرِهِمۡ لَمَّا سَمِعُواْ ٱلذِّكۡرَ وَيَقُولُونَ إِنَّهُۥ لَمَجۡنُونࣱ‏",
+          "meaning": "O inkar edenler Zikr'i (Kur'an'ı) işittikleri zaman, neredeyse seni gözleriyle devirivereceklerdi. Hala da (kin ve hasetlerinden:) \"Hiç şüphe yok o bir delidir\" derler",
+          "audio": "content/audio/husary/068051.mp3"
+        },
+        {
+          "surah": 68,
+          "ayah": 52,
+          "arabic": "وَمَا هُوَ إِلَّا ذِكۡرࣱ لِّلۡعَٰلَمِينَ",
+          "meaning": "Oysa o (Kur'an), alemler için ancak bir öğüttür",
+          "audio": "content/audio/husary/068052.mp3"
+        }
+      ],
+      "transliteration": "Ve in yekâdullezîne keferû le yuzlikûneke bi ebsârihim lemmâ semiu'z-zikra ve yekûlûne innehû le mecnûn. Ve mâ huve illâ zikrun li'l-âlemîn.",
+      "source": "Kur'ân-ı Kerîm, Kalem Sûresi 51-52. Arapça metin: Tanzil (Uthmani/Hafs). Meal: Türkiye Diyanet Vakfı Meali. Kıraat: Mahmud Halil el-Husarî (EveryAyah.com).",
+      "verified": true,
+      "transliterationReviewed": false
     },
     {
-      "id": "yemek",
-      "title": "Yemek Duası",
-      "arabic": null,
-      "transliteration": null,
-      "meaning": null,
-      "audio": null,
-      "source": null,
-      "verified": false
+      "id": "ayetel_kursi",
+      "title": "Âyetü'l-Kürsî",
+      "reference": "Bakara Sûresi 255",
+      "verses": [
+        {
+          "surah": 2,
+          "ayah": 255,
+          "arabic": "ٱللَّهُ لَآ إِلَٰهَ إِلَّا هُوَ ٱلۡحَيُّ ٱلۡقَيُّومُۚ لَا تَأۡخُذُهُۥ سِنَةࣱ وَلَا نَوۡمࣱۚ لَّهُۥ مَا فِي ٱلسَّمَٰوَٰتِ وَمَا فِي ٱلۡأَرۡضِۗ مَن ذَا ٱلَّذِي يَشۡفَعُ عِندَهُۥٓ إِلَّا بِإِذۡنِهِۦۚ يَعۡلَمُ مَا بَيۡنَ أَيۡدِيهِمۡ وَمَا خَلۡفَهُمۡۖ وَلَا يُحِيطُونَ بِشَيۡءࣲ مِّنۡ عِلۡمِهِۦٓ إِلَّا بِمَا شَآءَۚ وَسِعَ كُرۡسِيُّهُ ٱلسَّمَٰوَٰتِ وَٱلۡأَرۡضَۖ وَلَا يَـُٔودُهُۥ حِفۡظُهُمَاۚ وَهُوَ ٱلۡعَلِيُّ ٱلۡعَظِيمُ",
+          "meaning": "Allah, O'ndan başka tanrı yoktur; O, hayydir, kayyumdur. Kendisine ne uyku gelir ne de uyuklama. Göklerde ve yerdekilerin hepsi O'nundur. İzni olmadan O'nun katında kim şefaat edebilir? O, kullarının yaptıklarını ve yapacaklarını bilir. (O'na hiçbir şey gizli kalmaz.) O'nun bildirdiklerinin dışında insanlar O'nun ilminden hiçbir şeyi tam olarak bilemezler. O'nun kürsüsü gökleri ve yeri içine alır, onları koruyup gözetmek kendisine zor gelmez. O, yücedir, büyüktür",
+          "audio": "content/audio/husary/002255.mp3"
+        }
+      ],
+      "transliteration": "Allâhu lâ ilâhe illâ huve'l-hayyu'l-kayyûm, lâ te'huzuhû sinetun ve lâ nevm, lehû mâ fi's-semâvâti ve mâ fi'l-ard, men ze'llezî yeşfeu indehû illâ bi-iznih, ya'lemu mâ beyne eydîhim ve mâ halfehum, ve lâ yuhîtûne bi-şey'in min ilmihî illâ bimâ şâe, vesia kursiyyuhu's-semâvâti ve'l-ard, ve lâ yeûduhû hıfzuhumâ ve huve'l-aliyyu'l-azîm.",
+      "source": "Kur'ân-ı Kerîm, Bakara Sûresi 255. Arapça metin: Tanzil (Uthmani/Hafs). Meal: Türkiye Diyanet Vakfı Meali. Kıraat: Mahmud Halil el-Husarî (EveryAyah.com).",
+      "verified": true,
+      "transliterationReviewed": false
     },
     {
       "id": "sinav",
       "title": "Sınava Girerken Okunacak Dua",
-      "arabic": null,
-      "transliteration": null,
-      "meaning": null,
-      "audio": null,
-      "source": null,
-      "verified": false
+      "reference": "Tâhâ Sûresi 25-28",
+      "verses": [
+        {
+          "surah": 20,
+          "ayah": 25,
+          "arabic": "قَالَ رَبِّ ٱشۡرَحۡ لِي صَدۡرِي",
+          "meaning": "Musa: Rabbim! dedi, yüreğime genişlik ver",
+          "audio": "content/audio/husary/020025.mp3"
+        },
+        {
+          "surah": 20,
+          "ayah": 26,
+          "arabic": "وَيَسِّرۡ لِيٓ أَمۡرِي",
+          "meaning": "İşimi bana kolaylaştır",
+          "audio": "content/audio/husary/020026.mp3"
+        },
+        {
+          "surah": 20,
+          "ayah": 27,
+          "arabic": "وَٱحۡلُلۡ عُقۡدَةࣰ مِّن لِّسَانِي",
+          "meaning": "Dilimden (şu) bağı çöz",
+          "audio": "content/audio/husary/020027.mp3"
+        },
+        {
+          "surah": 20,
+          "ayah": 28,
+          "arabic": "يَفۡقَهُواْ قَوۡلِي",
+          "meaning": "Ki sözümü anlasınlar",
+          "audio": "content/audio/husary/020028.mp3"
+        }
+      ],
+      "transliteration": "Kâle rabbi'şrah lî sadrî. Ve yessir lî emrî. Vahlul ukdeten min lisânî. Yefkahû kavlî.",
+      "source": "Kur'ân-ı Kerîm, Tâhâ Sûresi 25-28. Arapça metin: Tanzil (Uthmani/Hafs). Meal: Türkiye Diyanet Vakfı Meali. Kıraat: Mahmud Halil el-Husarî (EveryAyah.com).",
+      "verified": true,
+      "transliterationReviewed": false
     },
     {
       "id": "hastalik",
       "title": "Hastalık Duası",
-      "arabic": null,
-      "transliteration": null,
-      "meaning": null,
-      "audio": null,
-      "source": null,
-      "verified": false
+      "reference": "Enbiyâ Sûresi 83",
+      "verses": [
+        {
+          "surah": 21,
+          "ayah": 83,
+          "arabic": "وَأَيُّوبَ إِذۡ نَادَىٰ رَبَّهُۥٓ أَنِّي مَسَّنِيَ ٱلضُّرُّ وَأَنتَ أَرۡحَمُ ٱلرَّٰحِمِينَ",
+          "meaning": "Eyyub'u da (an). Hani Rabbine: \"Başıma bu dert geldi. Sen, merhametlilerin en merhametlisisin\" diye niyaz etmişti",
+          "audio": "content/audio/husary/021083.mp3"
+        }
+      ],
+      "transliteration": "Ve eyyûbe iz nâdâ rabbehû ennî messeniye'd-durru ve ente erhamu'r-râhimîn.",
+      "source": "Kur'ân-ı Kerîm, Enbiyâ Sûresi 83. Arapça metin: Tanzil (Uthmani/Hafs). Meal: Türkiye Diyanet Vakfı Meali. Kıraat: Mahmud Halil el-Husarî (EveryAyah.com).",
+      "verified": true,
+      "transliterationReviewed": false
     },
     {
       "id": "yolculuk",
       "title": "Yolculuk Duası",
-      "arabic": null,
+      "reference": "Zuhruf Sûresi 13-14",
+      "verses": [
+        {
+          "surah": 43,
+          "ayah": 13,
+          "arabic": "لِتَسۡتَوُۥاْ عَلَىٰ ظُهُورِهِۦ ثُمَّ تَذۡكُرُواْ نِعۡمَةَ رَبِّكُمۡ إِذَا ٱسۡتَوَيۡتُمۡ عَلَيۡهِ وَتَقُولُواْ سُبۡحَٰنَ ٱلَّذِي سَخَّرَ لَنَا هَٰذَا وَمَا كُنَّا لَهُۥ مُقۡرِنِينَ",
+          "meaning": "Ki, böylece onların sırtına binip üzerlerine yerleşince, Rabbinizin ni'metini anarak: Bunu bizim hizmetimize vereni tesbih ve takdis ederiz, yoksa biz bunlara güç yetiremezdik, diyesiniz",
+          "audio": "content/audio/husary/043013.mp3"
+        },
+        {
+          "surah": 43,
+          "ayah": 14,
+          "arabic": "وَإِنَّآ إِلَىٰ رَبِّنَا لَمُنقَلِبُونَ",
+          "meaning": "Biz şüphesiz Rabbimize döneceğiz (demelisiniz)",
+          "audio": "content/audio/husary/043014.mp3"
+        }
+      ],
+      "transliteration": "Li testevû alâ zuhûrihî summe tezkurû ni'mete rabbikum ize'steveytum aleyhi ve tekûlû subhâne'llezî sehhara lenâ hâzâ ve mâ kunnâ lehû mukrinîn. Ve innâ ilâ rabbinâ le munkalibûn.",
+      "source": "Kur'ân-ı Kerîm, Zuhruf Sûresi 13-14. Arapça metin: Tanzil (Uthmani/Hafs). Meal: Türkiye Diyanet Vakfı Meali. Kıraat: Mahmud Halil el-Husarî (EveryAyah.com).",
+      "verified": true,
+      "transliterationReviewed": false
+    },
+    {
+      "id": "rabbena_atina",
+      "title": "Rabbenâ Âtinâ",
+      "reference": "Bakara Sûresi 201",
+      "verses": [
+        {
+          "surah": 2,
+          "ayah": 201,
+          "arabic": "وَمِنۡهُم مَّن يَقُولُ رَبَّنَآ ءَاتِنَا فِي ٱلدُّنۡيَا حَسَنَةࣰ وَفِي ٱلۡأٓخِرَةِ حَسَنَةࣰ وَقِنَا عَذَابَ ٱلنَّارِ",
+          "meaning": "Onlardan bir kısmı da: Ey Rabbimiz! Bize dünyada da iyilik ver, ahirette de iyilik ver. Bizi cehennem azabından koru! derler",
+          "audio": "content/audio/husary/002201.mp3"
+        }
+      ],
+      "transliteration": "Ve minhum men yekûlu rabbenâ âtinâ fi'd-dunyâ haseneten ve fi'l-âhireti haseneten ve kınâ azâbe'n-nâr.",
+      "source": "Kur'ân-ı Kerîm, Bakara Sûresi 201. Arapça metin: Tanzil (Uthmani/Hafs). Meal: Türkiye Diyanet Vakfı Meali. Kıraat: Mahmud Halil el-Husarî (EveryAyah.com).",
+      "verified": true,
+      "transliterationReviewed": false
+    },
+    {
+      "id": "rabbenagfirli",
+      "title": "Rabbenâğfirlî",
+      "reference": "İbrâhîm Sûresi 40-41",
+      "verses": [
+        {
+          "surah": 14,
+          "ayah": 40,
+          "arabic": "رَبِّ ٱجۡعَلۡنِي مُقِيمَ ٱلصَّلَوٰةِ وَمِن ذُرِّيَّتِيۚ رَبَّنَا وَتَقَبَّلۡ دُعَآءِ",
+          "meaning": "Ey Rabbim! Beni ve soyumdan gelecekleri namazı devamlı kılanlardan eyle; ey Rabbimiz! Duamı kabul et",
+          "audio": "content/audio/husary/014040.mp3"
+        },
+        {
+          "surah": 14,
+          "ayah": 41,
+          "arabic": "رَبَّنَا ٱغۡفِرۡ لِي وَلِوَٰلِدَيَّ وَلِلۡمُؤۡمِنِينَ يَوۡمَ يَقُومُ ٱلۡحِسَابُ",
+          "meaning": "Ey Rabbimiz! (Amellerin) hesap olunacağı gün beni, ana-babamı ve müminleri bağışla",
+          "audio": "content/audio/husary/014041.mp3"
+        }
+      ],
+      "transliteration": "Rabbi'c'alnî mukîme's-salâti ve min zurriyyetî, rabbenâ ve tekabbel duâ. Rabbenâğfir lî ve li-vâlideyye ve li'l-mu'minîne yevme yekûmu'l-hisâb.",
+      "source": "Kur'ân-ı Kerîm, İbrâhîm Sûresi 40-41. Arapça metin: Tanzil (Uthmani/Hafs). Meal: Türkiye Diyanet Vakfı Meali. Kıraat: Mahmud Halil el-Husarî (EveryAyah.com).",
+      "verified": true,
+      "transliterationReviewed": false
+    },
+    {
+      "id": "yemek",
+      "title": "Yemek Duası",
+      "reference": null,
+      "verses": [],
       "transliteration": null,
-      "meaning": null,
-      "audio": null,
       "source": null,
-      "verified": false
+      "verified": false,
+      "transliterationReviewed": false,
+      "note": "Kur'an ayeti değildir; metin ve hoca ses kaydı güvenilir kaynaktan eklenecek."
     }
   ]
 }

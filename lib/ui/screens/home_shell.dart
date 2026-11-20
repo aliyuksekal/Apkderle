@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../../core/ads.dart';
+import '../../main.dart' show adsReady;
+
 import 'home_screen.dart';
 import 'profile_screen.dart';
 import 'qibla_screen.dart';
@@ -33,7 +36,19 @@ class _HomeShellState extends State<HomeShell> {
       },
       child: Scaffold(
         body: IndexedStack(index: index, children: pages),
-        bottomNavigationBar: _BottomBar(index: index, onTap: go),
+        bottomNavigationBar: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ValueListenableBuilder<bool>(
+              valueListenable: adsReady,
+              builder: (context, ready, _) =>
+                  ready && Ads.tabsWithBanner.contains(index)
+                  ? const BannerSlot()
+                  : const SizedBox.shrink(),
+            ),
+            _BottomBar(index: index, onTap: go),
+          ],
+        ),
       ),
     );
   }

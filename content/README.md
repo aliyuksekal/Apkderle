@@ -7,7 +7,8 @@ Kod hiçbir dinî metni, sureyi, tilaveti ya da namaz hükmünü kendisi üretme
 
 | Dosya | İçerik | Durum |
 |---|---|---|
-| `duas.json` | Dua listesi (ad, Arapça, okunuş, anlam, ses, kaynak) | Yalnızca adlar var, metinler boş |
+| `duas.json` | Dua listesi (ayetler, Arapça, okunuş, meal, ses, kaynak) | 7 Kur'an duası kaynaklı ve sesli; okunuşlar kontrol bekliyor; Yemek duası boş |
+| `audio/husary/` | Ayet ayet kıraat, Husarî 128 kbps (EveryAyah.com), `SSSAAA.mp3` | 13 dosya, ~4 MB |
 | `flows/hanefi.json` | Hanefi namaz rehberi akış şablonu | **TASLAK** — uzman onayı yok |
 | `flows/safii.json` | Şafi namaz rehberi akış şablonu | **TASLAK** — uzman onayı yok |
 

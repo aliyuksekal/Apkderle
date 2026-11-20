@@ -305,7 +305,7 @@ class _PremiumTile extends StatelessWidget {
                           .copyWith(color: cs.onSecondary),
                     ),
                     Text(
-                      'Ek temalar, gelişmiş istatistik',
+                      'Reklamsız, ek temalar',
                       style: Theme.of(
                         context,
                       ).textTheme.bodyMedium!.copyWith(color: cs.onSecondary),
@@ -445,6 +445,7 @@ class PremiumScreen extends StatelessWidget {
     final t = Theme.of(context).textTheme;
     final cs = Theme.of(context).colorScheme;
     const perks = [
+      'Reklamsız kullanım',
       'Ek temalar',
       'Gelişmiş zikir istatistikleri',
       'Ek dua ses koleksiyonu (doğrulandıkça)',
@@ -479,7 +480,7 @@ class PremiumScreen extends StatelessWidget {
             const SizedBox(height: 12),
             const NoticeBox(
               text:
-                  'Namaz vakitleri, zikirmatik, kıble ve namaz rehberi her zaman ücretsiz ve reklamsızdır. Premium yalnızca ek özellikler içerir.',
+                  'Namaz vakitleri, zikirmatik, kıble, sesli dualar ve namaz rehberi her zaman ücretsizdir. Vakit ekranında, zikirmatikte ve namaz sırasında hiç reklam gösterilmez.',
             ),
             const SizedBox(height: 16),
             const FilledButton(onPressed: null, child: Text('Yakında')),
@@ -518,10 +519,19 @@ class AboutScreen extends StatelessWidget {
             ),
             h('Gizlilik'),
             p(
-              'Hesap açmanız gerekmez. Ayarlarınız, zikir sayılarınız ve konumunuz yalnızca telefonunuzda saklanır; hiçbir sunucuya gönderilmez. Uygulamada reklam yoktur.',
+              'Hesap açmanız gerekmez. Ayarlarınız, zikir sayılarınız ve konumunuz yalnızca telefonunuzda saklanır; hiçbir sunucuya gönderilmez.',
+            ),
+            h('Reklam'),
+            p(
+              'Uygulamanın ücretsiz kalabilmesi için yalnızca Kıble + Dua ve Profil ekranlarının en altında küçük bir reklam alanı (Google AdMob) vardır. Vakit ekranında, zikirmatikte ve namaz rehberinde reklam gösterilmez. Reklam hizmeti cihazın reklam kimliğini kullanabilir.',
+            ),
+            h('Sesli dualar'),
+            p(
+              "Dualar Kur'ân-ı Kerîm ayetlerinden seçilmiştir. Kıraat: Hafız Mahmud Halil el-Husarî (EveryAyah.com). Arapça metin: Tanzil. Meal: Türkiye Diyanet Vakfı. Ses dosyaları uygulamanın içindedir, internetsiz çalışır. Türkçe okunuşlar henüz uzman kontrolünden geçmemiştir.",
             ),
             h('İzinler'),
             p(
+              '• İnternet: yalnızca reklam alanı için.\n'
               '• Konum: yalnızca "Konumumu Kullan" derseniz, vakit ve kıble hesabı için.\n'
               '• Bildirim: namaz rehberi sırasında "Durdur" düğmeli kalıcı bildirim için.\n'
               '• Titreşim: zikir ve rehber işaretleri için.\n'
