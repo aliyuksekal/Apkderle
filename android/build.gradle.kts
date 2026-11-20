@@ -22,3 +22,11 @@ subprojects {
 tasks.register<Delete>("clean") {
     delete(rootProject.layout.buildDirectory)
 }
+
+// Bazı eklentilerde (webview_flutter_android) Android lint aracı çöküyor;
+// sürüm derlemesindeki "lintVital" denetimini atla. Kod denetimi flutter analyze ile yapılıyor.
+allprojects {
+    tasks.matching { it.name.startsWith("lintVital") }.configureEach {
+        enabled = false
+    }
+}
