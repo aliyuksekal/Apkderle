@@ -8,6 +8,7 @@ import '../../core/vibration_patterns.dart';
 import '../app_scope.dart';
 import '../widgets.dart';
 import 'city_picker_screen.dart';
+import 'pro_screens.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -42,6 +43,52 @@ class ProfileScreen extends StatelessWidget {
                 const SizedBox(height: 12),
                 _PremiumTile(
                   onTap: () => _push(context, const PremiumScreen()),
+                ),
+                const SizedBox(height: 12),
+                _Card(
+                  children: [
+                    _sectionTitle(context, 'Pro Özellikler'),
+                    _proTile(
+                      context,
+                      Icons.family_restroom_rounded,
+                      'Annem Kıldı Mı? — Aile Takibi',
+                      'Paylaşmak ücretsiz, takip etmek Pro',
+                      const FamilyScreen(),
+                      lockedOpens: true,
+                    ),
+                    _proTile(
+                      context,
+                      Icons.notifications_active_rounded,
+                      'Namaz + İlaç Hatırlatma',
+                      'Vakit ve ilaç saatinde bildirim',
+                      const RemindersScreen(),
+                    ),
+                    _proTile(
+                      context,
+                      Icons.calculate_rounded,
+                      'Kaza Namazı Sayacı',
+                      'Kılınmayan vakitler otomatik sayılır',
+                      const KazaScreen(),
+                    ),
+                    SwitchListTile(
+                      secondary: Icon(
+                        context.premium.isPremium
+                            ? Icons.elderly_rounded
+                            : Icons.lock_rounded,
+                        size: 32,
+                      ),
+                      title: const Text('Nine Modu'),
+                      subtitle: const Text('Çok büyük yazı, sade ana ekran'),
+                      value: s.nineMode && context.premium.isPremium,
+                      onChanged: (v) {
+                        if (!context.premium.isPremium) {
+                          _push(context, const PremiumScreen());
+                          return;
+                        }
+                        s.setNineMode(v);
+                      },
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 12),
                 _Card(
@@ -216,6 +263,26 @@ class ProfileScreen extends StatelessWidget {
   static void _push(BuildContext context, Widget w) =>
       Navigator.of(context).push(MaterialPageRoute(builder: (_) => w));
 
+  static Widget _proTile(
+    BuildContext context,
+    IconData icon,
+    String title,
+    String subtitle,
+    Widget page, {
+    bool lockedOpens = false,
+  }) {
+    final pro = context.premium.isPremium;
+    return ListTile(
+      leading: Icon(pro || lockedOpens ? icon : Icons.lock_rounded, size: 32),
+      title: Text(title),
+      subtitle: Text(subtitle),
+      trailing: const Icon(Icons.chevron_right_rounded, size: 32),
+      onTap: () => pro || lockedOpens
+          ? _push(context, page)
+          : _push(context, const PremiumScreen()),
+    );
+  }
+
   static Widget _sectionTitle(BuildContext context, String t) => Container(
     alignment: Alignment.centerLeft,
     padding: const EdgeInsets.fromLTRB(16, 14, 16, 4),
@@ -300,12 +367,16 @@ class _PremiumTile extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Premium'a Geç",
+                      context.premium.isPremium
+                          ? "Pro Paket etkin"
+                          : "Pro Pakete Geç",
                       style: Theme.of(context).textTheme.headlineSmall!
                           .copyWith(color: cs.onSecondary),
                     ),
                     Text(
-                      'Sanal imam + reklamsız',
+                      context.premium.isPremium
+                          ? 'Allah razı olsun, destek için teşekkürler'
+                          : 'Sanal imam, aile takibi, hatırlatma…',
                       style: Theme.of(
                         context,
                       ).textTheme.bodyMedium!.copyWith(color: cs.onSecondary),
@@ -451,8 +522,28 @@ class PremiumScreen extends StatelessWidget {
     const perks = [
       (
         Icons.mosque_rounded,
-        'İmamla Kıl — sanal imam',
+        'Sanal İmam (Eller Serbest)',
         'Hafız Husarî Fatiha ve sureleri okur; rükû, secde ve oturuşlarda titreşimle yönlendirir. Ekran kararsa da devam eder.',
+      ),
+      (
+        Icons.family_restroom_rounded,
+        'Annem Kıldı Mı? — Aile Takibi',
+        'Annenizin, babanızın o gün hangi vakitleri kıldığını uzaktan görün.',
+      ),
+      (
+        Icons.notifications_active_rounded,
+        'Namaz + İlaç Hatırlatma',
+        'Vakit girince ve ilaç saatinde bildirim.',
+      ),
+      (
+        Icons.calculate_rounded,
+        'Kaza Namazı Otomatik Sayacı',
+        'Kılınmayan vakitler kendiliğinden kazaya yazılır; geçmiş borç hesaplanır.',
+      ),
+      (
+        Icons.elderly_rounded,
+        'Nine Modu',
+        'Çok büyük yazı ve yalnızca en gerekli düğmeler.',
       ),
       (
         Icons.block_rounded,
@@ -465,8 +556,9 @@ class PremiumScreen extends StatelessWidget {
         'Abonelik yok. Aynı Google hesabıyla yeni telefonda da geçerli.',
       ),
     ];
+
     return Scaffold(
-      appBar: AppBar(title: const Text('Premium')),
+      appBar: AppBar(title: const Text('Pro Paket')),
       body: SafeArea(
         child: ListenableBuilder(
           listenable: store,
@@ -481,7 +573,7 @@ class PremiumScreen extends StatelessWidget {
                 color: cs.secondary,
               ),
               Text(
-                store.isPremium ? 'Premium Etkin' : 'Premium',
+                store.isPremium ? 'Pro Paket Etkin' : 'Pro Paket',
                 textAlign: TextAlign.center,
                 style: t.headlineMedium,
               ),
@@ -490,7 +582,7 @@ class PremiumScreen extends StatelessWidget {
                 const NoticeBox(
                   icon: Icons.lock_rounded,
                   text:
-                      "İmamla Kıl (sanal imam) Premium'a özeldir. Vakitler, zikirmatik, kıble ve sesli dualar ücretsizdir.",
+                      "İmamla Kıl (sanal imam) Pro pakete dahildir. Vakitler, zikirmatik, kıble, sesli dualar ve günlük namaz işaretleme ücretsizdir.",
                 ),
               ],
               const SizedBox(height: 12),
@@ -541,8 +633,8 @@ class PremiumScreen extends StatelessWidget {
                         )
                       : Text(
                           store.product == null
-                              ? "Premium'u Satın Al"
-                              : "Premium'u Al — ${store.product!.price}",
+                              ? "Pro Paketi Satın Al"
+                              : "Pro Paketi Al — ${store.product!.price}",
                           textAlign: TextAlign.center,
                         ),
                 ),
@@ -603,7 +695,7 @@ class AboutScreen extends StatelessWidget {
             ),
             h('Reklam'),
             p(
-              'Kıble + Dua ve Profil ekranlarının en altında küçük bir reklam alanı (Google AdMob) vardır; Premium ile kalkar. Vakit ekranında, zikirmatikte ve namaz rehberinde reklam gösterilmez. Reklam hizmeti cihazın reklam kimliğini kullanabilir.',
+              'Kıble + Dua ve Profil ekranlarının en altında küçük bir reklam alanı (Google AdMob) vardır; Pro Paket ile kalkar. Vakit ekranında, zikirmatikte ve namaz rehberinde reklam gösterilmez. Reklam hizmeti cihazın reklam kimliğini kullanabilir.',
             ),
             h('Sesli dualar'),
             p(

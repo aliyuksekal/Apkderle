@@ -6,10 +6,13 @@ import '../../core/guide_audio.dart';
 import '../../core/guide_flow.dart';
 import '../../core/guide_runner.dart';
 import '../../core/native.dart';
+import '../../core/place.dart';
+import '../../core/prayer_log.dart';
 import '../../core/settings.dart';
 import '../../core/vibration_patterns.dart';
 import '../app_scope.dart';
 import '../widgets.dart';
+import 'pro_screens.dart' show todayInfo;
 
 /// 1) Namaz seçimi
 class GuideSelectScreen extends StatelessWidget {
@@ -275,12 +278,29 @@ class _GuideRunScreenState extends State<GuideRunScreen> {
     if (runner.finished && !_closed) {
       _closed = true;
       _cleanup();
+      _markPrayed();
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (_) => const GuideDoneScreen()),
       );
     } else {
       setState(() {});
     }
+  }
+
+  /// Farz namaz rehberle tamamlanınca "Bugün kıldıklarım"a işlenir.
+  void _markPrayed() {
+    final f = switch (widget.prayer.id) {
+      'sabah_farz' => Farz.sabah,
+      'ogle_farz' => Farz.ogle,
+      'ikindi_farz' => Farz.ikindi,
+      'aksam_farz' => Farz.aksam,
+      'yatsi_farz' => Farz.yatsi,
+      _ => null,
+    };
+    if (f == null) return;
+    final scope = context.scopeRead;
+    final day = todayInfo(placeFromSettings(scope.settings)).day;
+    scope.log.setMarked(day, f, true);
   }
 
   void _stop() {

@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:namaz_asistani/core/premium.dart';
-import 'package:namaz_asistani/core/settings.dart';
-import 'package:namaz_asistani/core/zikr.dart';
 import 'package:namaz_asistani/main.dart';
 import 'package:namaz_asistani/ui/screens/zikr_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -10,11 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 Future<NamazApp> app(Map<String, Object> prefs) async {
   SharedPreferences.setMockInitialValues(prefs);
   final p = await SharedPreferences.getInstance();
-  return NamazApp(
-    settings: AppSettings(p),
-    zikr: ZikrCounter(p),
-    premium: PremiumStore(p),
-  );
+  return NamazApp.fromPrefs(p);
 }
 
 void main() {
@@ -119,10 +112,10 @@ void main() {
     tester,
   ) async {
     await tester.pumpWidget(await app({'onboarding_done': true}));
-    expect(find.textContaining('Premium — hafız sesiyle'), findsOneWidget);
+    expect(find.textContaining('Pro — hafız sesiyle'), findsOneWidget);
     await tester.tap(find.text('İmamla Kıl'));
     await tester.pumpAndSettle();
-    expect(find.textContaining("Premium'a özeldir"), findsOneWidget);
+    expect(find.textContaining('Pro pakete dahildir'), findsOneWidget);
     expect(find.text('Sabah Farzı'), findsNothing);
     await tester.scrollUntilVisible(
       find.text('Satın Alımı Geri Yükle'),
@@ -205,9 +198,27 @@ void main() {
     await tester.pumpWidget(await app({'onboarding_done': true}));
     await tester.tap(find.text('Profil').last);
     await tester.pumpAndSettle();
-    await tester.tap(find.text("Premium'a Geç"));
+    await tester.tap(find.text('Pro Pakete Geç'));
     await tester.pumpAndSettle();
-    expect(find.text('İmamla Kıl — sanal imam'), findsOneWidget);
+    expect(find.text('Sanal İmam (Eller Serbest)'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('Nine Modu açılınca sade ekran hemen gelir (Pro)', (
+    tester,
+  ) async {
+    SharedPreferences.setMockInitialValues({
+      'onboarding_done': true,
+      'city_name': 'İzmir',
+      'premium_owned': true,
+    });
+    final p = await SharedPreferences.getInstance();
+    final a = NamazApp.fromPrefs(p);
+    await tester.pumpWidget(a);
+    expect(find.text('Profil'), findsOneWidget);
+    await a.settings.setNineMode(true);
+    await tester.pumpAndSettle();
+    expect(find.text('Profil'), findsNothing, reason: 'sekmeler gizlenir');
     expect(tester.takeException(), isNull);
   });
 }

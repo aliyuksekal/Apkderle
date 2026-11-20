@@ -89,6 +89,14 @@ class MainActivity : FlutterActivity() {
                         ).declination
                         result.success(null)
                     }
+                    "shareText" -> {
+                        val send = Intent(Intent.ACTION_SEND).apply {
+                            type = "text/plain"
+                            putExtra(Intent.EXTRA_TEXT, call.argument<String>("text") ?: "")
+                        }
+                        startActivity(Intent.createChooser(send, "Paylaş"))
+                        result.success(null)
+                    }
                     "openAppSettings" -> {
                         startActivity(
                             Intent(

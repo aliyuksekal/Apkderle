@@ -84,8 +84,8 @@ class PremiumStore extends ChangeNotifier {
     if (busy) {
       busy = false;
       message = isPremium
-          ? 'Premium etkin.'
-          : 'Bu Google hesabında Premium satın alımı bulunamadı.';
+          ? 'Pro Paket etkin.'
+          : 'Bu Google hesabında Pro Paket satın alımı bulunamadı.';
       notifyListeners();
     }
   }
@@ -98,9 +98,10 @@ class PremiumStore extends ChangeNotifier {
         case PurchaseStatus.restored:
           await _p.setBool(_kPremium, true);
           busy = false;
-          message = 'Premium etkin. Teşekkür ederiz!';
+          message = 'Pro Paket etkin. Allah razı olsun!';
         case PurchaseStatus.pending:
-          message = 'Ödeme onay bekliyor. Onaylanınca Premium otomatik açılır.';
+          message =
+              'Ödeme onay bekliyor. Onaylanınca Pro Paket otomatik açılır.';
         case PurchaseStatus.error:
           busy = false;
           message = 'Ödeme tamamlanamadı. Hesabınızdan para çekilmedi.';

@@ -66,6 +66,7 @@ class AppSettings extends ChangeNotifier {
   static const _kKeepAudio = 'keep_audio_screen_off';
   static const _kTheme = 'theme_mode';
   static const _kAnnounce = 'zikr_announce';
+  static const _kNine = 'nine_mode';
 
   bool get onboardingDone => _p.getBool(_kOnboarding) ?? false;
   Madhab get madhab =>
@@ -80,6 +81,10 @@ class AppSettings extends ChangeNotifier {
   String? get cityName => _p.getString(_kCity);
   double? get gpsLat => _p.getDouble(_kGpsLat);
   double? get gpsLng => _p.getDouble(_kGpsLng);
+
+  /// Nine Modu (Pro): sadeleştirilmiş, çok büyük yazılı ana ekran.
+  bool get nineMode => _p.getBool(_kNine) ?? false;
+  Future<void> setNineMode(bool v) => _set(_p.setBool(_kNine, v));
 
   bool get largeText => _p.getBool(_kLargeText) ?? true;
   bool get vibrationOn => _p.getBool(_kVibration) ?? true;

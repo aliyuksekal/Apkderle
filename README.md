@@ -14,7 +14,15 @@ Hesap yok, konum ve veriler yalnızca telefonda.
 
 **Reklam:** yalnızca Kıble + Dua ve Profil sekmelerinin en altında küçük bir AdMob banner'ı. Vakit ekranında, zikirmatikte ve namaz rehberinde reklam yok (`lib/core/ads.dart` → `tabsWithBanner`). Premium'da reklam yok.
 
-**Premium (tek seferlik Google Play satın alması, ürün kimliği `namaz_premium`):** İmamla Kıl (sanal imam) + reklamsız kullanım. Vakitler, zikirmatik, kıble ve sesli dualar ücretsiz. Play Console → Para kazanma → Uygulama içi ürünler'de `namaz_premium` kimliğiyle ürün oluşturulup etkinleştirilmeli; fiyat oradan belirlenir. Satın alma yalnızca Play'den kurulan sürümde (kapalı test dahil) çalışır.
+**Pro Paket (tek seferlik Google Play satın alması, ürün kimliği `namaz_premium`):**
+- Sanal İmam (Eller Serbest) — İmamla Kıl, hafız sesiyle
+- Annem Kıldı Mı? — Aile Takibi (paylaşan taraf ücretsiz, takip eden Pro)
+- Namaz + İlaç Hatırlatma (14 gün ileriye yerel bildirim)
+- Kaza Namazı Otomatik Sayacı (işaretlenmeyen vakit süresi çıkınca kazaya yazılır; Hanefi'de vitir dahil; geçmiş borç ekleme)
+- Nine Modu (çok büyük yazı, sade ana ekran)
+- Reklamsız kullanım
+
+Ücretsiz: vakitler, "Bugün kıldıklarım" işaretleme, zikirmatik, kıble, sesli dualar. Vakitler, zikirmatik, kıble ve sesli dualar ücretsiz. Play Console → Para kazanma → Uygulama içi ürünler'de `namaz_premium` kimliğiyle ürün oluşturulup etkinleştirilmeli; fiyat oradan belirlenir. Satın alma yalnızca Play'den kurulan sürümde (kapalı test dahil) çalışır.
 
 ## Telefona kurma
 
@@ -24,6 +32,8 @@ Her `main` gönderiminde GitHub Actions uygulamayı derler. APK'yı telefondan i
 Gerçek reklam geliri için depo ayarlarına (Settings → Secrets → Actions) şu iki gizli değişkeni ekleyin, yoksa Google'ın **test reklamı** gösterilir:
 `ADMOB_APP_ID` (ör. `ca-app-pub-9672960376821171~XXXXXXXXXX`) ve `ADMOB_BANNER_ID` (ör. `ca-app-pub-9672960376821171/XXXXXXXXXX`).
 
+**Aile takibi sunucusu** (`server/`, Cloudflare Worker + KV): yalnızca paylaşım kodu, ad ve son 7 günün "kıldım" işaretleri saklanır, 90 günde silinir. Yayınlamak için depo gizli değişkenlerine `CLOUDFLARE_API_TOKEN` (Workers Scripts: Edit + Workers KV Storage: Edit) ve `CLOUDFLARE_ACCOUNT_ID` eklenmeli; "Aile Sunucusunu Yayınla" iş akışı `https://namaz-aile.aliyuksekal.workers.dev` adresine kurar. Adres farklıysa derlemede `--dart-define=FAMILY_API=...` verilir.
+
 Gerçek imza anahtarıyla imzalamak için depo ayarlarına şu gizli değişkenleri ekleyin:
 `KEYSTORE_BASE64`, `KEYSTORE_PASSWORD`, `KEY_ALIAS`, `KEY_PASSWORD`. Yoksa test (debug) anahtarı kullanılır — bu sürüm Play'e yüklenemez.
 
@@ -32,7 +42,8 @@ Gerçek imza anahtarıyla imzalamak için depo ayarlarına şu gizli değişkenl
 ```bash
 flutter pub get
 flutter analyze
-flutter test                      # 39 test: vakit, kıble, zikir, ayarlar, akış, ekranlar
+flutter test                      # 47 test
+node server/worker.test.mjs       # aile sunucusu testleri: vakit, kıble, zikir, ayarlar, akış, ekranlar
 flutter run                       # bağlı telefonda çalıştır
 flutter build apk --release       # build/app/outputs/flutter-apk/app-release.apk
 flutter build appbundle --release

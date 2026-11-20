@@ -9,6 +9,7 @@ import '../theme.dart';
 import '../widgets.dart';
 import 'city_picker_screen.dart';
 import 'guide_screens.dart';
+import 'pro_screens.dart' show TodayMarksCard;
 import 'profile_screen.dart' show PremiumScreen;
 
 class HomeScreen extends StatefulWidget {
@@ -73,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     label: 'İmamla Kıl',
                     subtitle: owned
                         ? 'Hafız sesiyle namaz kıldır'
-                        : 'Premium — hafız sesiyle sanal imam',
+                        : 'Pro — hafız sesiyle sanal imam',
                     gold: true,
                     onPressed: () => Navigator.of(context).push(
                       MaterialPageRoute(
@@ -105,6 +106,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ],
               ),
+              const SizedBox(height: 14),
+              const TodayMarksCard(),
               if (place != null) _MethodInfo(place: place),
             ],
           ),

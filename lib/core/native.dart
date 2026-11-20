@@ -64,6 +64,9 @@ class NativeBridge {
 
   Future<void> openAppSettings() => _call('openAppSettings');
 
+  /// WhatsApp, SMS vb. ile metin paylaş.
+  Future<void> shareText(String text) => _call('shareText', {'text': text});
+
   /// Coğrafi kuzeye göre yön (derece) ve doğruluk (0=güvenilmez … 3=yüksek).
   Stream<CompassReading> compass() => _compass.receiveBroadcastStream().map(
     (e) => CompassReading.fromMap(Map<Object?, Object?>.from(e as Map)),

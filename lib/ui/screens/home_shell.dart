@@ -1,8 +1,13 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../../core/ads.dart';
-import '../../main.dart' show adsReady;
+import '../../core/place.dart';
+import '../../core/reminders.dart';
+import '../../main.dart' show adsReady, platformServices;
 import '../app_scope.dart';
+import 'pro_screens.dart';
 
 import 'home_screen.dart';
 import 'profile_screen.dart';
@@ -17,13 +22,84 @@ class HomeShell extends StatefulWidget {
   State<HomeShell> createState() => _HomeShellState();
 }
 
-class _HomeShellState extends State<HomeShell> {
+class _HomeShellState extends State<HomeShell> with WidgetsBindingObserver {
   int index = 0;
+  Timer? _timer;
 
   void go(int i) => setState(() => index = i);
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    _timer = Timer.periodic(const Duration(minutes: 1), (_) => _tick());
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _tick();
+      _background();
+      context.scopeRead.premium.addListener(_background);
+    });
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      _tick();
+      _background();
+    }
+  }
+
+  /// Süresi çıkan vakitleri kaza sayacına işler (yalnızca Pro'da sayar).
+  void _tick() {
+    if (!mounted) return;
+    final scope = context.scopeRead;
+    final place = placeFromSettings(scope.settings);
+    if (place == null) return;
+    scope.log.processMissed(
+      place: place,
+      madhab: scope.settings.madhab,
+      count: scope.premium.isPremium,
+    );
+  }
+
+  /// Hatırlatmaları yeniden kur, aile paylaşımını tazele.
+  void _background() {
+    if (!mounted || !platformServices) return;
+    final scope = context.scopeRead;
+    ReminderScheduler.instance.reschedule(
+      r: scope.reminders,
+      place: placeFromSettings(scope.settings),
+      enabled: scope.premium.isPremium,
+    );
+    scope.family.pushNow();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final s = context.settings;
+    return ListenableBuilder(
+      listenable: Listenable.merge([s, context.premium]),
+      builder: (context, _) {
+        if (s.nineMode && context.premium.isPremium) {
+          return NineHome(
+            onExit: () async {
+              await s.setNineMode(false);
+              go(3);
+            },
+          );
+        }
+        return _tabs(context);
+      },
+    );
+  }
+
+  Widget _tabs(BuildContext context) {
     final pages = [
       HomeScreen(onOpenTab: go),
       const ZikrScreen(),
