@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:namaz_asistani/core/premium.dart';
 import 'package:namaz_asistani/core/settings.dart';
 import 'package:namaz_asistani/core/zikr.dart';
 import 'package:namaz_asistani/main.dart';
@@ -9,7 +10,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 Future<NamazApp> app(Map<String, Object> prefs) async {
   SharedPreferences.setMockInitialValues(prefs);
   final p = await SharedPreferences.getInstance();
-  return NamazApp(settings: AppSettings(p), zikr: ZikrCounter(p));
+  return NamazApp(
+    settings: AppSettings(p),
+    zikr: ZikrCounter(p),
+    premium: PremiumStore(p),
+  );
 }
 
 void main() {
@@ -110,8 +115,28 @@ void main() {
     );
   });
 
-  testWidgets('İmamla Kıl → namaz seçimi → hazırlık ekranı', (tester) async {
+  testWidgets('Premium yoksa İmamla Kıl satın alma ekranına götürür', (
+    tester,
+  ) async {
     await tester.pumpWidget(await app({'onboarding_done': true}));
+    expect(find.textContaining('Premium — hafız sesiyle'), findsOneWidget);
+    await tester.tap(find.text('İmamla Kıl'));
+    await tester.pumpAndSettle();
+    expect(find.textContaining("Premium'a özeldir"), findsOneWidget);
+    expect(find.text('Sabah Farzı'), findsNothing);
+    await tester.scrollUntilVisible(
+      find.text('Satın Alımı Geri Yükle'),
+      200,
+      scrollable: find.byType(Scrollable).last,
+    );
+    expect(find.text('Satın Alımı Geri Yükle'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('İmamla Kıl → namaz seçimi → hazırlık ekranı', (tester) async {
+    await tester.pumpWidget(
+      await app({'onboarding_done': true, 'premium_owned': true}),
+    );
     await tester.tap(find.text('İmamla Kıl'));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Sabah Farzı'));
@@ -120,7 +145,7 @@ void main() {
     expect(find.textContaining('TASLAK'), findsOneWidget);
     final sc = find.byType(Scrollable).last;
     await tester.scrollUntilVisible(
-      find.textContaining('Ses içerikleri henüz eklenmedi'),
+      find.textContaining('Hafız Mahmud Halil el-Husarî okur'),
       200,
       scrollable: sc,
     );
@@ -140,6 +165,7 @@ void main() {
         await app({
           'onboarding_done': true,
           'city_name': 'Kahramanmaraş',
+          'premium_owned': true,
           'theme_mode': dark ? 'dark' : 'light',
         }),
       );
@@ -169,5 +195,19 @@ void main() {
       await tester.pumpAndSettle();
       expect(tester.takeException(), isNull, reason: 'hazırlık dark=$dark');
     }
+  });
+
+  testWidgets('Premium kullanıcıda ve premium ekranında taşma yok', (
+    tester,
+  ) async {
+    tester.platformDispatcher.textScaleFactorTestValue = 1.3;
+    addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+    await tester.pumpWidget(await app({'onboarding_done': true}));
+    await tester.tap(find.text('Profil').last);
+    await tester.pumpAndSettle();
+    await tester.tap(find.text("Premium'a Geç"));
+    await tester.pumpAndSettle();
+    expect(find.text('İmamla Kıl — sanal imam'), findsOneWidget);
+    expect(tester.takeException(), isNull);
   });
 }

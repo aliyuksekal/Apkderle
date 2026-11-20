@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:namaz_asistani/core/guide_flow.dart';
 import 'package:namaz_asistani/core/guide_runner.dart';
@@ -174,5 +177,69 @@ void main() {
     expect(r2.current!.id, 'a');
     r.dispose();
     r2.dispose();
+  });
+
+  test('Fatiha ve zamm-ı sure adımlarında hafız kaydı var', () async {
+    final t = await FlowTemplate.load(Madhab.hanefi);
+    final steps = buildGuide(
+      template: t,
+      prayer: opt('sabah_farz'),
+      knownSurahs: const ['Fatiha', 'İhlas', 'Kevser'],
+      speed: ReadingSpeed.slow,
+    );
+    final f = steps.firstWhere((s) => s.id == 'fatiha');
+    expect(f.audioFiles.length, 7);
+    expect(f.audioFiles.first, 'content/audio/husary/001001.mp3');
+    final z = steps.where((s) => s.id == 'zamm').toList();
+    expect(z[0].audioFiles.first, 'content/audio/husary/108001.mp3'); // Kevser
+    expect(z[1].audioFiles.length, 4); // İhlas
+    expect(steps.firstWhere((s) => s.id == 'ruku_tesbih').hasAudio, isFalse);
+    for (final s in steps.expand((s) => s.audioFiles).toSet()) {
+      final d = await rootBundle.load(s);
+      expect(d.lengthInBytes, greaterThan(5000), reason: s);
+    }
+  });
+
+  testWidgets('Sesli adım kayıt bitince ilerler, durdurunca ses de durur', (
+    tester,
+  ) async {
+    final played = <List<String>>[];
+    var stoppedAudio = 0;
+    late Completer<void> c;
+    final steps = [
+      const GuideStep(
+        id: 'fatiha',
+        title: 'Fatiha...',
+        duration: Duration(seconds: 99),
+        rakat: 1,
+        audioFiles: ['a.mp3', 'b.mp3'],
+      ),
+      const GuideStep(
+        id: 'x',
+        title: 'X',
+        duration: Duration(seconds: 1),
+        rakat: 1,
+      ),
+    ];
+    final r = GuideRunner(
+      steps: steps,
+      onSignal: (_) {},
+      playAudio: (f) {
+        played.add(f);
+        c = Completer<void>();
+        return c.future;
+      },
+      stopAudio: () async => stoppedAudio++,
+    )..start();
+    expect(played.single, ['a.mp3', 'b.mp3']);
+    await tester.pump(const Duration(seconds: 5));
+    expect(r.current!.id, 'fatiha', reason: 'kayıt bitmeden ilerlemez');
+    c.complete();
+    await tester.pump();
+    await tester.pump(GuideRunner.audioGap);
+    expect(r.current!.id, 'x');
+    r.stop();
+    expect(stoppedAudio, 1);
+    r.dispose();
   });
 }

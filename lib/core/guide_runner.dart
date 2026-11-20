@@ -8,11 +8,24 @@ import 'vibration_patterns.dart';
 /// Rehber akışını zamanlayıcıyla yürütür. Ekrana dokunmadan ilerler;
 /// durdurma her zaman mümkündür.
 class GuideRunner extends ChangeNotifier {
-  GuideRunner({required this.steps, required this.onSignal, this.onStep});
+  GuideRunner({
+    required this.steps,
+    required this.onSignal,
+    this.onStep,
+    this.playAudio,
+    this.stopAudio,
+  });
 
   final List<GuideStep> steps;
   final void Function(Signal s) onSignal;
   final void Function(GuideStep s)? onStep;
+
+  /// Adımın kaydını çalar; kayıt bitince tamamlanır. Verilmezse süreye göre.
+  final Future<void> Function(List<String> files)? playAudio;
+  final Future<void> Function()? stopAudio;
+
+  /// Kayıt bittikten sonra sonraki adıma geçmeden önce kısa nefes payı.
+  static const audioGap = Duration(milliseconds: 700);
 
   int index = -1;
   bool finished = false;
@@ -42,13 +55,29 @@ class GuideRunner extends ChangeNotifier {
     if (s.signal != null) onSignal(s.signal!);
     onStep?.call(s);
     notifyListeners();
-    _timer = Timer(s.duration, () => _go(i + 1));
+    final play = playAudio;
+    if (s.hasAudio && play != null) {
+      play(s.audioFiles).then(
+        (_) {
+          if (stopped || index != i) return;
+          _timer = Timer(audioGap, () => _go(i + 1));
+        },
+        // Ses çalınamazsa süreye göre devam et.
+        onError: (Object _) {
+          if (stopped || index != i) return;
+          _timer = Timer(s.duration, () => _go(i + 1));
+        },
+      );
+    } else {
+      _timer = Timer(s.duration, () => _go(i + 1));
+    }
   }
 
   void stop() {
     if (stopped || finished) return;
     stopped = true;
     _timer?.cancel();
+    stopAudio?.call();
     notifyListeners();
   }
 

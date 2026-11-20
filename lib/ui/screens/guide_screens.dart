@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
+import '../../core/guide_audio.dart';
 import '../../core/guide_flow.dart';
 import '../../core/guide_runner.dart';
 import '../../core/native.dart';
@@ -90,7 +91,7 @@ class _GuidePrepScreenState extends State<GuidePrepScreen> {
             knownSurahs: s.knownSurahs,
             speed: s.readingSpeed,
           );
-    final hasAudio = steps.any((x) => x.audio != null);
+    final hasAudio = steps.any((x) => x.hasAudio);
     final zamm = tpl == null
         ? const <String>[]
         : zammCandidates(tpl, s.knownSurahs);
@@ -126,13 +127,13 @@ class _GuidePrepScreenState extends State<GuidePrepScreen> {
               ),
               const SizedBox(height: 10),
             ],
-            if (!hasAudio) ...[
-              const NoticeBox(
-                text:
-                    'Ses içerikleri henüz eklenmedi. Rehber şimdilik titreşim ve ekrandaki büyük yazılarla ilerler.',
-              ),
-              const SizedBox(height: 10),
-            ],
+            NoticeBox(
+              icon: Icons.record_voice_over_rounded,
+              text: hasAudio
+                  ? 'Fatiha ve sureleri Hafız Mahmud Halil el-Husarî okur. Tekbir ve tesbihlerde ekranda büyük yazı ve titreşim olur.'
+                  : 'Bu namazda ses kaydı yok; rehber titreşim ve ekrandaki büyük yazılarla ilerler.',
+            ),
+            const SizedBox(height: 10),
             if (tpl != null && zamm.isEmpty) ...[
               const NoticeBox(
                 warning: true,
@@ -233,6 +234,7 @@ class GuideRunScreen extends StatefulWidget {
 
 class _GuideRunScreenState extends State<GuideRunScreen> {
   late final GuideRunner runner;
+  final audio = GuideAudio();
   StreamSubscription<void>? _stopSub;
   late final AppSettings s = context.settingsRead;
   bool _closed = false;
@@ -242,6 +244,8 @@ class _GuideRunScreenState extends State<GuideRunScreen> {
     super.initState();
     runner = GuideRunner(
       steps: widget.steps,
+      playAudio: audio.play,
+      stopAudio: audio.stop,
       onSignal: (sig) {
         if (s.vibrationOn) NativeBridge.instance.vibrate(sig, strong: true);
       },
@@ -288,6 +292,7 @@ class _GuideRunScreenState extends State<GuideRunScreen> {
   }
 
   void _cleanup() {
+    audio.stop();
     NativeBridge.instance.stopGuideService();
     NativeBridge.instance.keepScreenOn(false);
   }
@@ -300,6 +305,7 @@ class _GuideRunScreenState extends State<GuideRunScreen> {
       _cleanup();
     }
     runner.dispose();
+    audio.dispose();
     super.dispose();
   }
 

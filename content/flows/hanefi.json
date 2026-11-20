@@ -9,74 +9,156 @@
     "Fatiha": {
       "number": 1,
       "seconds": 45,
-      "audio": null,
-      "verified": false
+      "audio": [
+        "content/audio/husary/001001.mp3",
+        "content/audio/husary/001002.mp3",
+        "content/audio/husary/001003.mp3",
+        "content/audio/husary/001004.mp3",
+        "content/audio/husary/001005.mp3",
+        "content/audio/husary/001006.mp3",
+        "content/audio/husary/001007.mp3"
+      ],
+      "verified": true,
+      "reciter": "Mahmud Halil el-Husarî (EveryAyah.com)"
     },
     "Asr": {
       "number": 103,
       "seconds": 10,
-      "audio": null,
-      "verified": false
+      "audio": [
+        "content/audio/husary/103001.mp3",
+        "content/audio/husary/103002.mp3",
+        "content/audio/husary/103003.mp3"
+      ],
+      "verified": true,
+      "reciter": "Mahmud Halil el-Husarî (EveryAyah.com)"
     },
     "Fil": {
       "number": 105,
       "seconds": 18,
-      "audio": null,
-      "verified": false
+      "audio": [
+        "content/audio/husary/105001.mp3",
+        "content/audio/husary/105002.mp3",
+        "content/audio/husary/105003.mp3",
+        "content/audio/husary/105004.mp3",
+        "content/audio/husary/105005.mp3"
+      ],
+      "verified": true,
+      "reciter": "Mahmud Halil el-Husarî (EveryAyah.com)"
     },
     "Kureyş": {
       "number": 106,
       "seconds": 14,
-      "audio": null,
-      "verified": false
+      "audio": [
+        "content/audio/husary/106001.mp3",
+        "content/audio/husary/106002.mp3",
+        "content/audio/husary/106003.mp3",
+        "content/audio/husary/106004.mp3"
+      ],
+      "verified": true,
+      "reciter": "Mahmud Halil el-Husarî (EveryAyah.com)"
     },
     "Maun": {
       "number": 107,
       "seconds": 18,
-      "audio": null,
-      "verified": false
+      "audio": [
+        "content/audio/husary/107001.mp3",
+        "content/audio/husary/107002.mp3",
+        "content/audio/husary/107003.mp3",
+        "content/audio/husary/107004.mp3",
+        "content/audio/husary/107005.mp3",
+        "content/audio/husary/107006.mp3",
+        "content/audio/husary/107007.mp3"
+      ],
+      "verified": true,
+      "reciter": "Mahmud Halil el-Husarî (EveryAyah.com)"
     },
     "Kevser": {
       "number": 108,
       "seconds": 10,
-      "audio": null,
-      "verified": false
+      "audio": [
+        "content/audio/husary/108001.mp3",
+        "content/audio/husary/108002.mp3",
+        "content/audio/husary/108003.mp3"
+      ],
+      "verified": true,
+      "reciter": "Mahmud Halil el-Husarî (EveryAyah.com)"
     },
     "Kâfirun": {
       "number": 109,
       "seconds": 18,
-      "audio": null,
-      "verified": false
+      "audio": [
+        "content/audio/husary/109001.mp3",
+        "content/audio/husary/109002.mp3",
+        "content/audio/husary/109003.mp3",
+        "content/audio/husary/109004.mp3",
+        "content/audio/husary/109005.mp3",
+        "content/audio/husary/109006.mp3"
+      ],
+      "verified": true,
+      "reciter": "Mahmud Halil el-Husarî (EveryAyah.com)"
     },
     "Nasr": {
       "number": 110,
       "seconds": 12,
-      "audio": null,
-      "verified": false
+      "audio": [
+        "content/audio/husary/110001.mp3",
+        "content/audio/husary/110002.mp3",
+        "content/audio/husary/110003.mp3"
+      ],
+      "verified": true,
+      "reciter": "Mahmud Halil el-Husarî (EveryAyah.com)"
     },
     "Tebbet": {
       "number": 111,
       "seconds": 18,
-      "audio": null,
-      "verified": false
+      "audio": [
+        "content/audio/husary/111001.mp3",
+        "content/audio/husary/111002.mp3",
+        "content/audio/husary/111003.mp3",
+        "content/audio/husary/111004.mp3",
+        "content/audio/husary/111005.mp3"
+      ],
+      "verified": true,
+      "reciter": "Mahmud Halil el-Husarî (EveryAyah.com)"
     },
     "İhlas": {
       "number": 112,
       "seconds": 12,
-      "audio": null,
-      "verified": false
+      "audio": [
+        "content/audio/husary/112001.mp3",
+        "content/audio/husary/112002.mp3",
+        "content/audio/husary/112003.mp3",
+        "content/audio/husary/112004.mp3"
+      ],
+      "verified": true,
+      "reciter": "Mahmud Halil el-Husarî (EveryAyah.com)"
     },
     "Felak": {
       "number": 113,
       "seconds": 14,
-      "audio": null,
-      "verified": false
+      "audio": [
+        "content/audio/husary/113001.mp3",
+        "content/audio/husary/113002.mp3",
+        "content/audio/husary/113003.mp3",
+        "content/audio/husary/113004.mp3",
+        "content/audio/husary/113005.mp3"
+      ],
+      "verified": true,
+      "reciter": "Mahmud Halil el-Husarî (EveryAyah.com)"
     },
     "Nas": {
       "number": 114,
       "seconds": 15,
-      "audio": null,
-      "verified": false
+      "audio": [
+        "content/audio/husary/114001.mp3",
+        "content/audio/husary/114002.mp3",
+        "content/audio/husary/114003.mp3",
+        "content/audio/husary/114004.mp3",
+        "content/audio/husary/114005.mp3",
+        "content/audio/husary/114006.mp3"
+      ],
+      "verified": true,
+      "reciter": "Mahmud Halil el-Husarî (EveryAyah.com)"
     }
   },
   "blocks": {
@@ -94,7 +176,8 @@
         "id": "fatiha",
         "title": "Fatiha...",
         "seconds": 45,
-        "audio": null
+        "audio": null,
+        "surah": "Fatiha"
       }
     ],
     "zamm": [
@@ -250,5 +333,6 @@
         "audio": null
       }
     ]
-  }
+  },
+  "audioNote": "Fatiha ve zamm-ı sureler Husarî kıraatiyle çalınır; adım süresi kaydın süresi kadardır. Tekbir ve tesbihlerin kaydı yok: ekranda yazı + titreşim."
 }

@@ -3,6 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/ads.dart';
+import 'core/premium.dart';
 import 'core/settings.dart';
 import 'core/zikr.dart';
 import 'ui/app_scope.dart';
@@ -13,7 +14,15 @@ import 'ui/theme.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final prefs = await SharedPreferences.getInstance();
-  runApp(NamazApp(settings: AppSettings(prefs), zikr: ZikrCounter(prefs)));
+  final premium = PremiumStore(prefs);
+  runApp(
+    NamazApp(
+      settings: AppSettings(prefs),
+      zikr: ZikrCounter(prefs),
+      premium: premium,
+    ),
+  );
+  premium.connect();
   // Reklamlar açılışı geciktirmesin: uygulama çizildikten sonra başlat.
   Ads.init().then((_) => adsReady.value = Ads.enabled);
 }
@@ -22,16 +31,23 @@ Future<void> main() async {
 final ValueNotifier<bool> adsReady = ValueNotifier(false);
 
 class NamazApp extends StatelessWidget {
-  const NamazApp({super.key, required this.settings, required this.zikr});
+  const NamazApp({
+    super.key,
+    required this.settings,
+    required this.zikr,
+    required this.premium,
+  });
 
   final AppSettings settings;
   final ZikrCounter zikr;
+  final PremiumStore premium;
 
   @override
   Widget build(BuildContext context) {
     return AppScope(
       settings: settings,
       zikr: zikr,
+      premium: premium,
       child: ListenableBuilder(
         listenable: settings,
         builder: (context, _) => MaterialApp(

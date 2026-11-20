@@ -9,6 +9,7 @@ import '../theme.dart';
 import '../widgets.dart';
 import 'city_picker_screen.dart';
 import 'guide_screens.dart';
+import 'profile_screen.dart' show PremiumScreen;
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key, required this.onOpenTab});
@@ -63,14 +64,26 @@ class _HomeScreenState extends State<HomeScreen> {
               else
                 _TimesSection(place: place),
               const SizedBox(height: 14),
-              BigActionButton(
-                icon: Icons.mosque_rounded,
-                label: 'İmamla Kıl',
-                subtitle: 'Namaz rehberini başlat',
-                gold: true,
-                onPressed: () => Navigator.of(context).push(
-                  MaterialPageRoute(builder: (_) => const GuideSelectScreen()),
-                ),
+              ListenableBuilder(
+                listenable: context.premium,
+                builder: (context, _) {
+                  final owned = context.premium.isPremium;
+                  return BigActionButton(
+                    icon: owned ? Icons.mosque_rounded : Icons.lock_rounded,
+                    label: 'İmamla Kıl',
+                    subtitle: owned
+                        ? 'Hafız sesiyle namaz kıldır'
+                        : 'Premium — hafız sesiyle sanal imam',
+                    gold: true,
+                    onPressed: () => Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => owned
+                            ? const GuideSelectScreen()
+                            : const PremiumScreen(fromGuide: true),
+                      ),
+                    ),
+                  );
+                },
               ),
               const SizedBox(height: 14),
               Row(

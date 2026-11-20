@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/ads.dart';
 import '../../main.dart' show adsReady;
+import '../app_scope.dart';
 
 import 'home_screen.dart';
 import 'profile_screen.dart';
@@ -39,10 +40,12 @@ class _HomeShellState extends State<HomeShell> {
         bottomNavigationBar: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            ValueListenableBuilder<bool>(
-              valueListenable: adsReady,
-              builder: (context, ready, _) =>
-                  ready && Ads.tabsWithBanner.contains(index)
+            ListenableBuilder(
+              listenable: Listenable.merge([adsReady, context.premium]),
+              builder: (context, _) =>
+                  adsReady.value &&
+                      !context.premium.isPremium &&
+                      Ads.tabsWithBanner.contains(index)
                   ? const BannerSlot()
                   : const SizedBox.shrink(),
             ),

@@ -305,7 +305,7 @@ class _PremiumTile extends StatelessWidget {
                           .copyWith(color: cs.onSecondary),
                     ),
                     Text(
-                      'Reklamsız, ek temalar',
+                      'Sanal imam + reklamsız',
                       style: Theme.of(
                         context,
                       ).textTheme.bodyMedium!.copyWith(color: cs.onSecondary),
@@ -438,53 +438,133 @@ class MadhabSurahScreen extends StatelessWidget {
 }
 
 class PremiumScreen extends StatelessWidget {
-  const PremiumScreen({super.key});
+  const PremiumScreen({super.key, this.fromGuide = false});
+
+  /// "İmamla Kıl"a basılarak gelindiyse üstte açıklama gösterilir.
+  final bool fromGuide;
 
   @override
   Widget build(BuildContext context) {
     final t = Theme.of(context).textTheme;
     final cs = Theme.of(context).colorScheme;
+    final store = context.premium;
     const perks = [
-      'Reklamsız kullanım',
-      'Ek temalar',
-      'Gelişmiş zikir istatistikleri',
-      'Ek dua ses koleksiyonu (doğrulandıkça)',
-      'Ek kişiselleştirme',
+      (
+        Icons.mosque_rounded,
+        'İmamla Kıl — sanal imam',
+        'Hafız Husarî Fatiha ve sureleri okur; rükû, secde ve oturuşlarda titreşimle yönlendirir. Ekran kararsa da devam eder.',
+      ),
+      (
+        Icons.block_rounded,
+        'Reklamsız kullanım',
+        'Hiçbir ekranda reklam görünmez.',
+      ),
+      (
+        Icons.all_inclusive_rounded,
+        'Tek seferlik ödeme',
+        'Abonelik yok. Aynı Google hesabıyla yeni telefonda da geçerli.',
+      ),
     ];
     return Scaffold(
       appBar: AppBar(title: const Text('Premium')),
       body: SafeArea(
-        child: ListView(
-          padding: const EdgeInsets.all(20),
-          children: [
-            Icon(
-              Icons.workspace_premium_rounded,
-              size: 80,
-              color: cs.secondary,
-            ),
-            Text(
-              'Premium Avantajları',
-              textAlign: TextAlign.center,
-              style: t.headlineMedium,
-            ),
-            const SizedBox(height: 16),
-            for (final p in perks)
-              ListTile(
-                leading: Icon(
-                  Icons.check_circle_rounded,
-                  color: cs.secondary,
-                  size: 32,
-                ),
-                title: Text(p),
+        child: ListenableBuilder(
+          listenable: store,
+          builder: (context, _) => ListView(
+            padding: const EdgeInsets.all(20),
+            children: [
+              Icon(
+                store.isPremium
+                    ? Icons.verified_rounded
+                    : Icons.workspace_premium_rounded,
+                size: 80,
+                color: cs.secondary,
               ),
-            const SizedBox(height: 12),
-            const NoticeBox(
-              text:
-                  'Namaz vakitleri, zikirmatik, kıble, sesli dualar ve namaz rehberi her zaman ücretsizdir. Vakit ekranında, zikirmatikte ve namaz sırasında hiç reklam gösterilmez.',
-            ),
-            const SizedBox(height: 16),
-            const FilledButton(onPressed: null, child: Text('Yakında')),
-          ],
+              Text(
+                store.isPremium ? 'Premium Etkin' : 'Premium',
+                textAlign: TextAlign.center,
+                style: t.headlineMedium,
+              ),
+              if (fromGuide && !store.isPremium) ...[
+                const SizedBox(height: 12),
+                const NoticeBox(
+                  icon: Icons.lock_rounded,
+                  text:
+                      "İmamla Kıl (sanal imam) Premium'a özeldir. Vakitler, zikirmatik, kıble ve sesli dualar ücretsizdir.",
+                ),
+              ],
+              const SizedBox(height: 12),
+              for (final p in perks)
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Icon(p.$1, size: 36, color: cs.secondary),
+                      const SizedBox(width: 14),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(p.$2, style: t.titleLarge),
+                            Text(p.$3, style: t.bodyMedium),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              const SizedBox(height: 16),
+              if (store.isPremium)
+                FilledButton.icon(
+                  style: FilledButton.styleFrom(
+                    minimumSize: const Size.fromHeight(72),
+                  ),
+                  onPressed: () => Navigator.of(context).pop(),
+                  icon: const Icon(Icons.check_rounded, size: 32),
+                  label: const Text('Tamam'),
+                )
+              else ...[
+                FilledButton(
+                  style: FilledButton.styleFrom(
+                    minimumSize: const Size.fromHeight(80),
+                    backgroundColor: cs.secondary,
+                    foregroundColor: cs.onSecondary,
+                    textStyle: t.headlineSmall,
+                  ),
+                  onPressed: store.busy ? null : store.buy,
+                  child: store.busy
+                      ? const SizedBox(
+                          width: 32,
+                          height: 32,
+                          child: CircularProgressIndicator(strokeWidth: 3),
+                        )
+                      : Text(
+                          store.product == null
+                              ? "Premium'u Satın Al"
+                              : "Premium'u Al — ${store.product!.price}",
+                          textAlign: TextAlign.center,
+                        ),
+                ),
+                const SizedBox(height: 10),
+                OutlinedButton.icon(
+                  onPressed: store.busy ? null : store.restore,
+                  icon: const Icon(Icons.restore_rounded),
+                  label: const Text('Satın Alımı Geri Yükle'),
+                ),
+              ],
+              if (store.message != null) ...[
+                const SizedBox(height: 14),
+                NoticeBox(text: store.message!),
+              ],
+              const SizedBox(height: 14),
+              Text(
+                'Ödeme Google Play üzerinden yapılır.',
+                textAlign: TextAlign.center,
+                style: t.bodyMedium,
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -523,7 +603,7 @@ class AboutScreen extends StatelessWidget {
             ),
             h('Reklam'),
             p(
-              'Uygulamanın ücretsiz kalabilmesi için yalnızca Kıble + Dua ve Profil ekranlarının en altında küçük bir reklam alanı (Google AdMob) vardır. Vakit ekranında, zikirmatikte ve namaz rehberinde reklam gösterilmez. Reklam hizmeti cihazın reklam kimliğini kullanabilir.',
+              'Kıble + Dua ve Profil ekranlarının en altında küçük bir reklam alanı (Google AdMob) vardır; Premium ile kalkar. Vakit ekranında, zikirmatikte ve namaz rehberinde reklam gösterilmez. Reklam hizmeti cihazın reklam kimliğini kullanabilir.',
             ),
             h('Sesli dualar'),
             p(
@@ -531,7 +611,7 @@ class AboutScreen extends StatelessWidget {
             ),
             h('İzinler'),
             p(
-              '• İnternet: yalnızca reklam alanı için.\n'
+              '• İnternet: reklam alanı ve Google Play satın alma için.\n'
               '• Konum: yalnızca "Konumumu Kullan" derseniz, vakit ve kıble hesabı için.\n'
               '• Bildirim: namaz rehberi sırasında "Durdur" düğmeli kalıcı bildirim için.\n'
               '• Titreşim: zikir ve rehber işaretleri için.\n'

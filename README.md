@@ -8,11 +8,13 @@ Yaşlı dostu, Türkçe, Android öncelikli namaz asistanı (Flutter). **Aç, g�
 - **Sesli dualar** — Kur'an ayetlerinden 7 dua (Nazar, Âyetü'l-Kürsî, Sınav, Hastalık, Yolculuk, Rabbenâ Âtinâ, Rabbenâğfirlî). Hafız Mahmud Halil el-Husarî okur; okunan ayet vurgulanır, "Duaları Dinle" hepsini sırayla okur. Arapça metin (Amiri Quran yazı tipi), Türkçe okunuş ve Diyanet Vakfı meali. Sesler uygulamanın içinde, internetsiz çalışır.
 - **Profil / Ayarlar** — şehir, büyük yazı (varsayılan açık), görünüm (açık/koyu/telefona göre), okuma hızı, titreşim + deneme, sesli geri bildirim, ekran kararsa devam, mezhep ve sureler, Premium (yakında), hakkında.
 - **İlk kurulum** — yalnızca 3 soru (mezhep, bilinen sureler, imam hızı), atlanabilir.
-- **İmamla Kıl (eller serbest rehber)** — namaz seç → tek hazırlık ekranı → Başlat. Dokunmadan ilerler, ekran kararsa da ön plan hizmetiyle sürer, bildirimde **DURDUR** düğmesi vardır. Titreşim dili: 1 kısa rükû, 2 kısa secde, 1 uzun oturma/kalkma, 3 uzun bitti.
+- **İmamla Kıl (sanal imam, Premium)** — Hafız Husarî Fatiha ve zamm-ı sureleri okur (kayıt bitince sonraki adıma geçer); tekbir ve tesbihlerde büyük yazı + titreşim. Namaz seç → tek hazırlık ekranı → Başlat. Dokunmadan ilerler, ekran kararsa da ön plan hizmetiyle sürer, bildirimde **DURDUR** düğmesi vardır. Titreşim dili: 1 kısa rükû, 2 kısa secde, 1 uzun oturma/kalkma, 3 uzun bitti.
 
 Hesap yok, konum ve veriler yalnızca telefonda.
 
-**Reklam:** yalnızca Kıble + Dua ve Profil sekmelerinin en altında küçük bir AdMob banner'ı. Vakit ekranında, zikirmatikte ve namaz rehberinde reklam yok (`lib/core/ads.dart` → `tabsWithBanner`). Premium'un ilk avantajı "Reklamsız kullanım".
+**Reklam:** yalnızca Kıble + Dua ve Profil sekmelerinin en altında küçük bir AdMob banner'ı. Vakit ekranında, zikirmatikte ve namaz rehberinde reklam yok (`lib/core/ads.dart` → `tabsWithBanner`). Premium'da reklam yok.
+
+**Premium (tek seferlik Google Play satın alması, ürün kimliği `namaz_premium`):** İmamla Kıl (sanal imam) + reklamsız kullanım. Vakitler, zikirmatik, kıble ve sesli dualar ücretsiz. Play Console → Para kazanma → Uygulama içi ürünler'de `namaz_premium` kimliğiyle ürün oluşturulup etkinleştirilmeli; fiyat oradan belirlenir. Satın alma yalnızca Play'den kurulan sürümde (kapalı test dahil) çalışır.
 
 ## Telefona kurma
 
@@ -30,7 +32,7 @@ Gerçek imza anahtarıyla imzalamak için depo ayarlarına şu gizli değişkenl
 ```bash
 flutter pub get
 flutter analyze
-flutter test                      # 35 test: vakit, kıble, zikir, ayarlar, akış, ekranlar
+flutter test                      # 39 test: vakit, kıble, zikir, ayarlar, akış, ekranlar
 flutter run                       # bağlı telefonda çalıştır
 flutter build apk --release       # build/app/outputs/flutter-apk/app-release.apk
 flutter build appbundle --release
@@ -57,8 +59,8 @@ Diyanet açıları (İmsak 18°, Yatsı 17°, İkindi asr-ı evvel) ve Diyanet t
 
 - **Dualar:** Kur'an ayetinden oluşan 7 dua kaynaklı ve sesli. Türkçe okunuşlar elle yazıldı, uzman kontrolü bekliyor. Yemek duası (ayet değil) metin ve kayıt bekliyor. Ses kayıtları EveryAyah.com'dan; ticari kullanım için lisans durumu yayından önce teyit edilmeli.
 - **Rehber akışları TASLAK:** Hanefi ve Şafi akışları (sıralama, süreler, kunut, zamm-ı sure seçimi) yapı göstermek içindir; yetkin dinî danışman onayı olmadan yayımlanmamalı. Başlatmadan önce kullanıcıya "Taslak" uyarısı gösterilir.
-- **Namaz rehberinde ses yok:** rehber hâlâ titreşim + büyük yazıyla ilerliyor; sure kayıtları (Fatiha, zamm-ı sureler) aynı yöntemle eklenebilir.
-- **Premium:** yalnızca tanıtım sayfası ("Yakında"); satın alma bağlı değil. Temel işlevler hiçbir zaman kilitlenmez.
+- **Rehberde tekbir/tesbih sesi yok:** Fatiha ve 11 kısa sure Husarî kıraatiyle (64 kbps mono, uygulama içinde); "Allahu Ekber", tesbihler, Tahiyyat vb. için doğrulanmış kayıt yok, bunlar yazı + titreşimle.
+- **Premium doğrulaması cihazda:** satın alma Play'den gelir ve telefonda saklanır; sunucu tarafı makbuz doğrulaması yok. İade edilen satın alma şimdilik otomatik geri alınmaz.
 - **Ön plan hizmeti türü `mediaPlayback`:** ses kayıtları eklendiğinde amaca uygun hâle gelir; Play Console'da ön plan hizmeti beyanı gerekir.
 - Bazı üreticiler (Xiaomi, Huawei, Oppo…) pil tasarrufunda arka plan işlerini kesebilir; gerçek cihaz testi gerekir.
 - Vitir ve öğlenin ilk sünneti gibi farklı yapıdaki namazlar listede yok.

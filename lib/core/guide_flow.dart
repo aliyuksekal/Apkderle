@@ -34,7 +34,7 @@ class GuideStep {
     required this.duration,
     required this.rakat,
     this.signal,
-    this.audio,
+    this.audioFiles = const [],
   });
 
   final String id;
@@ -43,8 +43,11 @@ class GuideStep {
   final int rakat;
   final Signal? signal;
 
-  /// Doğrulanmış ses dosyası yolu (content/). Yoksa null.
-  final String? audio;
+  /// Hafız kaydı (ayet ayet, sırayla çalınır). Boşsa adım [duration] kadar
+  /// sürer; doluysa kayıt bitince ilerler.
+  final List<String> audioFiles;
+
+  bool get hasAudio => audioFiles.isNotEmpty;
 }
 
 /// Mezhebe göre akış şablonu (content/flows/*.json). Kodda dinî hüküm yok;
@@ -100,10 +103,18 @@ List<GuideStep> buildGuide({
       var title = s['title'] as String;
       vars.forEach((k, v) => title = title.replaceAll('{$k}', v));
       var seconds = (s['seconds'] as num).toDouble();
-      if (s['secondsFrom'] == 'surah' && vars['surah'] != null) {
-        final info = template.surahs[vars['surah']] as Map<String, dynamic>?;
-        if (info != null) seconds = (info['seconds'] as num).toDouble();
+      final surahName =
+          s['surah'] as String? ??
+          (s['secondsFrom'] == 'surah' ? vars['surah'] : null);
+      final info = surahName == null
+          ? null
+          : template.surahs[surahName] as Map<String, dynamic>?;
+      if (info != null && s['secondsFrom'] == 'surah') {
+        seconds = (info['seconds'] as num).toDouble();
       }
+      final audio = info != null && info['verified'] == true
+          ? ((info['audio'] as List?) ?? const []).cast<String>()
+          : const <String>[];
       final sig = s['signal'] as String?;
       steps.add(
         GuideStep(
@@ -114,7 +125,7 @@ List<GuideStep> buildGuide({
           ),
           rakat: rakat,
           signal: sig == null ? null : Signal.values.byName(sig),
-          audio: s['audio'] as String?,
+          audioFiles: audio,
         ),
       );
     }
