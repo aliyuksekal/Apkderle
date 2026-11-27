@@ -313,6 +313,16 @@ class ReminderScheduler {
       >();
 
   /// Bildirim ve tam zamanlı alarm izinlerini ister.
+  /// Yalnızca bildirim izni (uygulama içi pencere; ayarlara atmaz).
+  Future<void> requestNotificationPermission() async {
+    try {
+      await _init();
+      await _android?.requestNotificationsPermission();
+    } catch (_) {}
+  }
+
+  /// Bildirim + tam zamanlı alarm izni. Alarm izni telefon ayarlarını açar;
+  /// yalnızca kullanıcı Hatırlatmalar ekranında istediğinde çağrılır.
   Future<void> requestPermissions() async {
     try {
       await _init();

@@ -17,9 +17,18 @@ import 'ui/theme.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   platformServices = true;
-  final prefs = await SharedPreferences.getInstance();
-  final premium = PremiumStore(prefs);
-  runApp(NamazApp.fromPrefs(prefs, premium: premium));
+  // Ekran çizilirken hata olursa gri/boş ekran yerine okunabilir bir mesaj.
+  ErrorWidget.builder = (d) =>
+      _ErrorBox('${d.exceptionAsString()}\n${d.stack}');
+  final PremiumStore premium;
+  try {
+    final prefs = await SharedPreferences.getInstance();
+    premium = PremiumStore(prefs);
+    runApp(NamazApp.fromPrefs(prefs, premium: premium));
+  } catch (e, st) {
+    runApp(MaterialApp(home: Scaffold(body: _ErrorBox('$e\n$st'))));
+    return;
+  }
   premium.connect();
   AssetAudio.instance.problems.listen(
     (m) => messengerKey.currentState
@@ -112,4 +121,25 @@ class NamazApp extends StatelessWidget {
       ),
     );
   }
+}
+
+/// Hata mesajı kutusu: kullanıcı ekran görüntüsü alıp gönderebilsin.
+class _ErrorBox extends StatelessWidget {
+  const _ErrorBox(this.text);
+  final String text;
+
+  @override
+  Widget build(BuildContext context) => Directionality(
+    textDirection: TextDirection.ltr,
+    child: Container(
+      color: const Color(0xFFFBF3E1),
+      padding: const EdgeInsets.all(16),
+      child: SingleChildScrollView(
+        child: Text(
+          'Bir hata oluştu. Lütfen bu ekranın görüntüsünü geliştiriciye gönderin.\n\n$text',
+          style: const TextStyle(color: Color(0xFF13241D), fontSize: 14),
+        ),
+      ),
+    ),
+  );
 }

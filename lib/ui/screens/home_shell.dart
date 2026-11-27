@@ -79,7 +79,7 @@ class _HomeShellState extends State<HomeShell> with WidgetsBindingObserver {
     final r = scope.reminders;
     if (scope.premium.isPremium && r.prayerOn && !r.permissionAsked) {
       await r.markPermissionAsked();
-      await ReminderScheduler.instance.requestPermissions();
+      await ReminderScheduler.instance.requestNotificationPermission();
     }
     await ReminderScheduler.instance.reschedule(
       r: scope.reminders,
