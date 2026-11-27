@@ -1,8 +1,5 @@
-import 'dart:math';
-
 import 'package:flutter_test/flutter_test.dart';
 import 'package:namaz_asistani/core/cities.dart';
-import 'package:namaz_asistani/core/family.dart';
 import 'package:namaz_asistani/core/place.dart';
 import 'package:namaz_asistani/core/prayer_log.dart';
 import 'package:namaz_asistani/core/prayer_times.dart';
@@ -129,37 +126,14 @@ void main() {
       expect(plan.every((n) => n.atUtc.isAfter(now)), isTrue);
     });
 
-    test('Kapalıyken vakit bildirimi yok', () async {
+    test('Varsayılan açık; kapatılınca vakit bildirimi yok', () async {
       final r = ReminderSettings(await SharedPreferences.getInstance());
+      expect(r.prayerOn, isTrue);
+      r.prayerOn = false;
       expect(
         planNotifications(r: r, place: izmir, nowUtc: DateTime.utc(2026)),
         isEmpty,
       );
-    });
-  });
-
-  group('Aile takibi', () {
-    test('Paylaşım kodu okunaklı ve tahmin edilmesi zor', () {
-      final codes = {for (var i = 0; i < 200; i++) newShareCode(Random(i))};
-      expect(codes.length, 200);
-      for (final c in codes) {
-        expect(c, matches(RegExp(r'^[ABCDEFGHJKMNPQRSTUVWXYZ23456789]{8}$')));
-      }
-      expect(prettyCode('K7M2QX9P'), 'K7M2-QX9P');
-      expect(normalizeCode(' k7m2-qx9p '), 'K7M2QX9P');
-      expect(newSecret().length, 32);
-    });
-
-    test('Özet metni', () {
-      final now = DateTime(2026, 11, 20, 15);
-      final s = FamilyStatus('Annem', {
-        '2026-11-20': {'sabah', 'ogle'},
-      }, now);
-      expect(familySummary(s, now), 'Bugün Sabah, Öğle kılındı');
-      final all = FamilyStatus('Annem', {
-        '2026-11-20': {'sabah', 'ogle', 'ikindi', 'aksam', 'yatsi'},
-      }, now);
-      expect(familySummary(all, now), 'Bugün 5 vaktin hepsini kıldı');
     });
   });
 }

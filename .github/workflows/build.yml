@@ -51,7 +51,7 @@ jobs:
             echo "KEYSTORE_BASE64 yok: test (debug) anahtarıyla imzalanacak."
           fi
 
-      - name: APK ve AAB derle
+      - name: AAB (Play) ve deneme APK'sı derle
         env:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
@@ -63,11 +63,18 @@ jobs:
           DEF=""
           if [ -n "$ADMOB_BANNER_ID" ]; then DEF="--dart-define=ADMOB_BANNER_ID=$ADMOB_BANNER_ID"; echo "Gerçek AdMob banner kimliği kullanılacak."; else echo "AdMob kimliği yok: test reklamı."; fi
           [ -z "$ADMOB_APP_ID" ] && unset ADMOB_APP_ID
-          flutter build apk --release --build-number=$BN $DEF
+          # Play'e yüklenecek paket (Pro satın almayla açılır)
           flutter build appbundle --release --build-number=$BN $DEF
+          # Telefona kurup denemek için: Pro özellikleri açık
+          flutter build apk --release --build-number=$BN $DEF --dart-define=PRO_TEST=true
           mkdir -p dist
-          cp build/app/outputs/flutter-apk/app-release.apk dist/NamazAsistani.apk
-          cp build/app/outputs/bundle/release/app-release.aab dist/NamazAsistani.aab
+          cp build/app/outputs/bundle/release/app-release.aab dist/NamazAsistani-Play.aab
+          cp build/app/outputs/flutter-apk/app-release.apk dist/NamazAsistani-Deneme.apk
+          if [ -n "${KEYSTORE_PATH:-}" ]; then
+            echo "IMZA=Play yükleme anahtarıyla imzalı (Play Console'a yüklenebilir)" >> "$GITHUB_ENV"
+          else
+            echo "IMZA=UYARI: imza anahtarı tanımlı değil, AAB Play'e yüklenemez" >> "$GITHUB_ENV"
+          fi
           ls -la dist
 
       - uses: actions/upload-artifact@v4
@@ -81,7 +88,7 @@ jobs:
         run: |
           TAG=son-surum
           gh release delete "$TAG" --cleanup-tag -y || true
-          gh release create "$TAG" dist/NamazAsistani.apk dist/NamazAsistani.aab \
+          gh release create "$TAG" dist/NamazAsistani-Deneme.apk dist/NamazAsistani-Play.aab \
             --title "Namaz Asistanı — son derleme (#${{ github.run_number }})" \
-            --notes "Otomatik derleme. Telefona kurmak için NamazAsistani.apk dosyasını indirin. Commit: ${{ github.sha }}" \
+            --notes "NamazAsistani-Deneme.apk: telefona kurup denemek için (Pro özellikleri açık). NamazAsistani-Play.aab: Play Console'a yüklenecek paket. $IMZA. Commit: ${{ github.sha }}" \
             --prerelease

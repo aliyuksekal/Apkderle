@@ -5,10 +5,10 @@ Yaşlı dostu, Türkçe, Android öncelikli namaz asistanı (Flutter). **Aç, g�
 - **Ana Sayfa** — sıradaki vakte geri sayım ("İzmir — İkindi'ye 1 sa 12 dk kaldı") ve İmsak, Güneş, Öğle, İkindi, Akşam, Yatsı. Vakitler internetsiz, cihazda hesaplanır.
 - **Zikirmatik** — dev +1 alanı, hedef (33/99/100/özel), "Maşallah!" + özel titreşim, geri al, onaylı sıfırla, günlük toplam ve 7 günlük geçmiş.
 - **Kıble + Dua** — pusula (manyetik sapma düzeltmeli), kalibrasyon uyarısı, pusulası olmayan telefonda derece bilgisi.
-- **Sesli dualar** — Kur'an ayetlerinden 7 dua (Nazar, Âyetü'l-Kürsî, Sınav, Hastalık, Yolculuk, Rabbenâ Âtinâ, Rabbenâğfirlî). Hafız Mahmud Halil el-Husarî okur; okunan ayet vurgulanır, "Duaları Dinle" hepsini sırayla okur. Arapça metin (Amiri Quran yazı tipi), Türkçe okunuş ve Diyanet Vakfı meali. Sesler uygulamanın içinde, internetsiz çalışır.
+- **Dualar ve Yâsîn** — Namaz duaları (Sübhâneke, Ettehiyyâtü, Salli, Bârik, Rabbenâ, Kunut; Diyanet İlmihali), Yâsîn (83 ayet), Kur'an'dan dualar. Hepsinde Arapça, okunuş, Diyanet meali ve büyük 🔊 düğmesi. Eski: Kur'an ayetlerinden 7 dua (Nazar, Âyetü'l-Kürsî, Sınav, Hastalık, Yolculuk, Rabbenâ Âtinâ, Rabbenâğfirlî). Hafız Mahmud Halil el-Husarî okur; okunan ayet vurgulanır, "Duaları Dinle" hepsini sırayla okur. Arapça metin (Amiri Quran yazı tipi), Türkçe okunuş ve Diyanet Vakfı meali. Sesler uygulamanın içinde, internetsiz çalışır.
 - **Profil / Ayarlar** — şehir, büyük yazı (varsayılan açık), görünüm (açık/koyu/telefona göre), okuma hızı, titreşim + deneme, sesli geri bildirim, ekran kararsa devam, mezhep ve sureler, Premium (yakında), hakkında.
 - **İlk kurulum** — yalnızca 3 soru (mezhep, bilinen sureler, imam hızı), atlanabilir.
-- **İmamla Kıl (sanal imam, Premium)** — Hafız Husarî Fatiha ve zamm-ı sureleri okur (kayıt bitince sonraki adıma geçer); tekbir ve tesbihlerde büyük yazı + titreşim. Namaz seç → tek hazırlık ekranı → Başlat. Dokunmadan ilerler, ekran kararsa da ön plan hizmetiyle sürer, bildirimde **DURDUR** düğmesi vardır. Titreşim dili: 1 kısa rükû, 2 kısa secde, 1 uzun oturma/kalkma, 3 uzun bitti.
+- **İmamla Kıl (sanal imam, Pro)** — 5 vakit, her vaktin sünnetleriyle ("Hepsini Kıl" / "Sadece Farzı Kıl" / tek tek) ve ayrı **Kaza Namazı** bölümü (yalnız farzlar + Hanefi vitir, kaza niyetiyle; kılınan kaza borçtan düşer). İmam başta niyeti söyler (ekranda). — Hafız Husarî Fatiha ve zamm-ı sureleri okur (kayıt bitince sonraki adıma geçer); tekbir ve tesbihlerde büyük yazı + titreşim. Namaz seç → tek hazırlık ekranı → Başlat. Dokunmadan ilerler, ekran kararsa da ön plan hizmetiyle sürer, bildirimde **DURDUR** düğmesi vardır. Titreşim dili: 1 kısa rükû, 2 kısa secde, 1 uzun oturma/kalkma, 3 uzun bitti.
 
 Hesap yok, konum ve veriler yalnızca telefonda.
 
@@ -16,7 +16,6 @@ Hesap yok, konum ve veriler yalnızca telefonda.
 
 **Pro Paket (tek seferlik Google Play satın alması, ürün kimliği `namaz_premium`):**
 - Sanal İmam (Eller Serbest) — İmamla Kıl, hafız sesiyle
-- Annem Kıldı Mı? — Aile Takibi (paylaşan taraf ücretsiz, takip eden Pro)
 - Namaz + İlaç Hatırlatma (14 gün ileriye yerel bildirim)
 - Kaza Namazı Otomatik Sayacı (işaretlenmeyen vakit süresi çıkınca kazaya yazılır; Hanefi'de vitir dahil; geçmiş borç ekleme)
 - Nine Modu (çok büyük yazı, sade ana ekran)
@@ -32,7 +31,15 @@ Her `main` gönderiminde GitHub Actions uygulamayı derler. APK'yı telefondan i
 Gerçek reklam geliri için depo ayarlarına (Settings → Secrets → Actions) şu iki gizli değişkeni ekleyin, yoksa Google'ın **test reklamı** gösterilir:
 `ADMOB_APP_ID` (ör. `ca-app-pub-9672960376821171~XXXXXXXXXX`) ve `ADMOB_BANNER_ID` (ör. `ca-app-pub-9672960376821171/XXXXXXXXXX`).
 
-**Aile takibi sunucusu** (`server/`, Cloudflare Worker + KV): yalnızca paylaşım kodu, ad ve son 7 günün "kıldım" işaretleri saklanır, 90 günde silinir. Yayınlamak için depo gizli değişkenlerine `CLOUDFLARE_API_TOKEN` (Workers Scripts: Edit + Workers KV Storage: Edit) ve `CLOUDFLARE_ACCOUNT_ID` eklenmeli; "Aile Sunucusunu Yayınla" iş akışı `https://namaz-aile.aliyuksekal.workers.dev` adresine kurar. Adres farklıysa derlemede `--dart-define=FAMILY_API=...` verilir.
+## Play Console imzası
+
+Yükleme anahtarı (`upload`, RSA 2048, 2054'e kadar geçerli) depoda **yoktur**; GitHub gizli değişkenlerinde durur:
+`KEYSTORE_BASE64` (anahtar dosyasının base64 hâli) ve `KEYSTORE_PASSWORD`. `KEY_ALIAS` verilmezse `upload`, `KEY_PASSWORD` verilmezse `KEYSTORE_PASSWORD` kullanılır.
+Play Console'da **Play Uygulama İmzalama** açık kalmalı (varsayılan); bu anahtar yalnızca yükleme anahtarıdır, kaybolursa Play Console'dan sıfırlanabilir.
+
+Her derlemede Releases → `son-surum`:
+- `NamazAsistani-Play.aab` — Play Console'a yüklenecek paket (Pro yalnızca satın almayla açılır).
+- `NamazAsistani-Deneme.apk` — telefona kurup denemek için (`PRO_TEST=true`, Pro özellikleri açık). Play'e yüklenmez.
 
 Gerçek imza anahtarıyla imzalamak için depo ayarlarına şu gizli değişkenleri ekleyin:
 `KEYSTORE_BASE64`, `KEYSTORE_PASSWORD`, `KEY_ALIAS`, `KEY_PASSWORD`. Yoksa test (debug) anahtarı kullanılır — bu sürüm Play'e yüklenemez.
@@ -84,3 +91,10 @@ Diyanet açıları (İmsak 18°, Yatsı 17°, İkindi asr-ı evvel) ve Diyanet t
 - Tüm dinî metin, ses ve akışların uzman onayı (`content/`).
 - Gizlilik politikası ve Play beyanları: reklam içeriyor, reklam kimliği (Veri güvenliği), konum (yaklaşık), bildirim, ön plan hizmeti.
 - app-ads.txt: aliyuksekal.github.io üzerinde.
+
+
+## Ses
+Tüm sesler uygulamanın içindedir (internetsiz). Android'in kendi `MediaPlayer`'ı ile çalınır (`AssetAudio.kt`); medya sesi kapalıysa kullanıcıya söylenir.
+- Kur'an kıraati: Hafız Mahmud Halil el-Husarî, ayet ayet (EveryAyah.com), 64 kbps mono.
+- Ezan: `res/raw/ezan1.mp3` ("Beautiful adhan", CC0) ve `ezan2.mp3` ("Azan", Andrewler, CC BY-SA 4.0) — Wikimedia Commons. Vakte göre makam (Saba, Uşşak, Rast, Segâh, Hicaz) kayıtları açık lisansla bulunamadı; izinli kayıtlar gelince `ezan_<vakit>.mp3` olarak eklenebilir.
+- Sübhâneke, Ettehiyyâtü, Salli, Bârik, Kunut: hafız kaydı yok (yalnızca metin).

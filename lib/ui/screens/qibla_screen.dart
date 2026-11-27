@@ -4,13 +4,12 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 import '../../core/cities.dart';
-import '../../core/dua_player.dart';
-import '../../core/duas.dart';
 import '../../core/native.dart';
 import '../../core/place.dart';
 import '../../core/vibration_patterns.dart';
 import '../app_scope.dart';
 import '../widgets.dart';
+import 'dua_screens.dart';
 
 class QiblaScreen extends StatelessWidget {
   const QiblaScreen({super.key, required this.active});
@@ -40,7 +39,7 @@ class QiblaScreen extends StatelessWidget {
                 else
                   _Compass(place: place, active: active),
                 const SizedBox(height: 24),
-                const _DuaList(),
+                const DuaSection(),
               ],
             );
           },
@@ -93,11 +92,17 @@ class _CompassState extends State<_Compass> {
       (r) {
         if (!mounted) return;
         final qibla = qiblaBearing(widget.place.lat, widget.place.lng);
-        final aligned = (((qibla - r.heading + 540) % 360) - 180).abs() <= 5;
-        if (aligned && !_wasAligned && context.settingsRead.vibrationOn) {
-          NativeBridge.instance.vibrate(Signal.ruku);
+        final off = (((qibla - r.heading + 540) % 360) - 180).abs();
+        // Gecikmeli eşik: kıbleye girince (≤5°) bir kez güçlü titreşir,
+        // 10°'den fazla sapınca yeniden hazır olur.
+        if (!_wasAligned && off <= 5) {
+          _wasAligned = true;
+          if (context.settingsRead.vibrationOn) {
+            NativeBridge.instance.vibrate(Signal.qibla, strong: true);
+          }
+        } else if (_wasAligned && off > 10) {
+          _wasAligned = false;
         }
-        _wasAligned = aligned;
         setState(() => reading = r);
       },
       onError: (Object e) {
@@ -137,12 +142,12 @@ class _CompassState extends State<_Compass> {
 
     final heading = r?.heading ?? 0;
     final diff = ((qibla - heading + 540) % 360) - 180; // −180…180
-    final aligned = r != null && diff.abs() <= 5;
+    final aligned = r != null && _wasAligned;
     final String hint;
     if (r == null) {
       hint = 'Pusula hazırlanıyor…';
     } else if (aligned) {
-      hint = 'Kıbleye dönüksünüz';
+      hint = 'Kıble bulundu ✓';
     } else if (diff > 0) {
       hint = 'Sağa dönün (${diff.abs().round()}°)';
     } else {
@@ -343,284 +348,4 @@ class _DialPainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant _DialPainter old) =>
       old.heading != heading || old.qibla != qibla || old.aligned != aligned;
-}
-
-class _DuaList extends StatefulWidget {
-  const _DuaList();
-
-  @override
-  State<_DuaList> createState() => _DuaListState();
-}
-
-class _DuaListState extends State<_DuaList> {
-  late final Future<DuaLibrary> _future = loadDuas();
-  final player = DuaPlayer.instance;
-
-  void _toggle(Dua d) {
-    if (player.isPlayingDua(d)) {
-      player.stop();
-    } else if (d.hasAudio) {
-      player.playDua(d);
-    }
-  }
-
-  void _open(Dua d, String reciter) {
-    showModalBottomSheet<void>(
-      context: context,
-      showDragHandle: true,
-      isScrollControlled: true,
-      useSafeArea: true,
-      builder: (c) => DraggableScrollableSheet(
-        expand: false,
-        initialChildSize: .85,
-        minChildSize: .5,
-        maxChildSize: .95,
-        builder: (c, scroll) => ListenableBuilder(
-          listenable: player,
-          builder: (c, _) => _DuaDetail(
-            dua: d,
-            reciter: reciter,
-            controller: scroll,
-            playing: player.isPlayingDua(d),
-            verse: player.isPlayingDua(d) ? player.currentVerse : -1,
-            onToggle: () => _toggle(d),
-          ),
-        ),
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final t = Theme.of(context).textTheme;
-    final cs = Theme.of(context).colorScheme;
-    return FutureBuilder<DuaLibrary>(
-      future: _future,
-      builder: (context, snap) {
-        final lib = snap.data;
-        final duas = lib?.duas ?? const <Dua>[];
-        return ListenableBuilder(
-          listenable: player,
-          builder: (context, _) => Material(
-            color: cs.surfaceContainerHigh,
-            borderRadius: BorderRadius.circular(22),
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.volunteer_activism_rounded,
-                        size: 32,
-                        color: cs.tertiary,
-                      ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: Semantics(
-                          header: true,
-                          child: Text(
-                            'En Çok Okunan Dualar',
-                            style: t.titleLarge,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  if (lib != null && lib.reciter.isNotEmpty)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 4),
-                      child: Text(
-                        'Okuyan: Hafız ${lib.reciter}',
-                        style: t.bodyMedium,
-                      ),
-                    ),
-                  const SizedBox(height: 6),
-                  for (var i = 0; i < duas.length; i++)
-                    _DuaRow(
-                      index: i + 1,
-                      dua: duas[i],
-                      playing: player.isPlayingDua(duas[i]),
-                      onOpen: () => _open(duas[i], lib!.reciter),
-                      onPlay: () => _toggle(duas[i]),
-                    ),
-                  const SizedBox(height: 8),
-                  FilledButton.icon(
-                    style: FilledButton.styleFrom(
-                      minimumSize: const Size.fromHeight(68),
-                      backgroundColor: cs.secondary,
-                      foregroundColor: cs.onSecondary,
-                    ),
-                    onPressed: duas.any((d) => d.hasAudio)
-                        ? () => player.playing
-                              ? player.stop()
-                              : player.playAll(duas)
-                        : null,
-                    icon: Icon(
-                      player.playing
-                          ? Icons.stop_rounded
-                          : Icons.volume_up_rounded,
-                      size: 32,
-                    ),
-                    label: Text(player.playing ? 'Durdur' : 'Duaları Dinle'),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
-}
-
-class _DuaRow extends StatelessWidget {
-  const _DuaRow({
-    required this.index,
-    required this.dua,
-    required this.playing,
-    required this.onOpen,
-    required this.onPlay,
-  });
-
-  final int index;
-  final Dua dua;
-  final bool playing;
-  final VoidCallback onOpen;
-  final VoidCallback onPlay;
-
-  @override
-  Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
-    final accent = cs.brightness == Brightness.dark
-        ? cs.secondary
-        : cs.tertiary;
-    return ListTile(
-      contentPadding: EdgeInsets.zero,
-      minTileHeight: 68,
-      title: Text('$index. ${dua.title}'),
-      subtitle: Text(
-        playing
-            ? 'Okunuyor…'
-            : dua.hasAudio
-            ? (dua.reference ?? '')
-            : 'Ses kaydı henüz yok',
-      ),
-      onTap: onOpen,
-      trailing: IconButton(
-        tooltip: playing ? '${dua.title} durdur' : '${dua.title} dinle',
-        iconSize: 52,
-        constraints: const BoxConstraints(minWidth: 64, minHeight: 64),
-        onPressed: dua.hasAudio ? onPlay : null,
-        icon: Icon(
-          playing ? Icons.stop_circle_rounded : Icons.play_circle_fill_rounded,
-          color: dua.hasAudio ? accent : cs.onSurface.withValues(alpha: .3),
-        ),
-      ),
-    );
-  }
-}
-
-class _DuaDetail extends StatelessWidget {
-  const _DuaDetail({
-    required this.dua,
-    required this.reciter,
-    required this.controller,
-    required this.playing,
-    required this.verse,
-    required this.onToggle,
-  });
-
-  final Dua dua;
-  final String reciter;
-  final ScrollController controller;
-  final bool playing;
-  final int verse;
-  final VoidCallback onToggle;
-
-  @override
-  Widget build(BuildContext context) {
-    final t = Theme.of(context).textTheme;
-    final cs = Theme.of(context).colorScheme;
-    return ListView(
-      controller: controller,
-      padding: const EdgeInsets.fromLTRB(20, 0, 20, 28),
-      children: [
-        Text(dua.title, style: t.headlineSmall),
-        if (dua.reference != null) Text(dua.reference!, style: t.titleSmall),
-        const SizedBox(height: 14),
-        FilledButton.icon(
-          style: FilledButton.styleFrom(
-            minimumSize: const Size.fromHeight(72),
-            backgroundColor: cs.secondary,
-            foregroundColor: cs.onSecondary,
-          ),
-          onPressed: dua.hasAudio ? onToggle : null,
-          icon: Icon(
-            playing ? Icons.stop_rounded : Icons.play_arrow_rounded,
-            size: 38,
-          ),
-          label: Text(
-            dua.hasAudio
-                ? (playing ? 'Durdur' : 'Hocadan Dinle')
-                : 'Ses kaydı henüz yok',
-          ),
-        ),
-        if (dua.hasAudio)
-          Padding(
-            padding: const EdgeInsets.only(top: 6),
-            child: Text(
-              'Okuyan: Hafız $reciter',
-              textAlign: TextAlign.center,
-              style: t.bodyMedium,
-            ),
-          ),
-        const SizedBox(height: 16),
-        if (!dua.hasText)
-          NoticeBox(
-            warning: true,
-            text:
-                dua.note ??
-                'İçerik doğrulama bekliyor. Metin ve ses kaydı güvenilir kaynaktan eklenecek.',
-          )
-        else ...[
-          for (var i = 0; i < dua.verses.length; i++)
-            Container(
-              margin: const EdgeInsets.only(bottom: 8),
-              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-              decoration: BoxDecoration(
-                color: i == verse ? cs.secondaryContainer : null,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Text(
-                dua.verses[i].arabic,
-                textDirection: TextDirection.rtl,
-                textAlign: TextAlign.right,
-                style: TextStyle(
-                  fontFamily: 'AmiriQuran',
-                  fontSize: 30,
-                  height: 2.0,
-                  color: cs.onSurface,
-                ),
-              ),
-            ),
-          if (dua.transliteration != null) ...[
-            const SizedBox(height: 8),
-            Text('Okunuşu', style: t.titleLarge),
-            const SizedBox(height: 4),
-            Text(dua.transliteration!, style: t.bodyLarge),
-          ],
-          const SizedBox(height: 16),
-          Text('Anlamı', style: t.titleLarge),
-          const SizedBox(height: 4),
-          Text(dua.meaning, style: t.bodyLarge),
-          if (dua.source != null) ...[
-            const SizedBox(height: 16),
-            Text('Kaynak: ${dua.source}', style: t.bodySmall),
-          ],
-        ],
-      ],
-    );
-  }
 }

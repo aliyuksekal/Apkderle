@@ -305,7 +305,8 @@
         "id": "tahiyyat",
         "title": "Ettehiyyatü...",
         "seconds": 25,
-        "audio": null
+        "audio": null,
+        "dua": "tahiyyat"
       }
     ],
     "final_sitting": [
@@ -320,12 +321,29 @@
         "id": "tahiyyat",
         "title": "Ettehiyyatü...",
         "seconds": 25,
-        "audio": null
+        "audio": null,
+        "dua": "tahiyyat"
       },
       {
         "id": "salavat",
         "title": "Salavat...",
         "seconds": 25,
+        "audio": null
+      }
+    ],
+    "niyet": [
+      {
+        "id": "niyet",
+        "title": "{niyet}",
+        "seconds": 8,
+        "audio": null
+      }
+    ],
+    "between": [
+      {
+        "id": "ara",
+        "title": "Sıradaki: {next}",
+        "seconds": 6,
         "audio": null
       }
     ]

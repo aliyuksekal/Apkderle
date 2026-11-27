@@ -37,13 +37,18 @@ android {
             System.getenv("ADMOB_APP_ID") ?: "ca-app-pub-3940256099942544~3347511713"
     }
 
+    // Sesler sıkıştırılmadan paketlensin (doğrudan dosyadan çalınabilsin).
+    androidResources {
+        noCompress += listOf("mp3", "ogg")
+    }
+
     signingConfigs {
         if (hasReleaseKey) {
             create("release") {
                 storeFile = keystoreFile
                 storePassword = System.getenv("KEYSTORE_PASSWORD")
-                keyAlias = System.getenv("KEY_ALIAS")
-                keyPassword = System.getenv("KEY_PASSWORD")
+                keyAlias = System.getenv("KEY_ALIAS")?.takeIf { it.isNotBlank() } ?: "upload"
+                keyPassword = System.getenv("KEY_PASSWORD")?.takeIf { it.isNotBlank() } ?: System.getenv("KEYSTORE_PASSWORD")
             }
         }
     }

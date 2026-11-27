@@ -50,14 +50,6 @@ class ProfileScreen extends StatelessWidget {
                     _sectionTitle(context, 'Pro Özellikler'),
                     _proTile(
                       context,
-                      Icons.family_restroom_rounded,
-                      'Annem Kıldı Mı? — Aile Takibi',
-                      'Paylaşmak ücretsiz, takip etmek Pro',
-                      const FamilyScreen(),
-                      lockedOpens: true,
-                    ),
-                    _proTile(
-                      context,
                       Icons.notifications_active_rounded,
                       'Namaz + İlaç Hatırlatma',
                       'Vakit ve ilaç saatinde bildirim',
@@ -524,11 +516,6 @@ class PremiumScreen extends StatelessWidget {
         Icons.mosque_rounded,
         'Sanal İmam (Eller Serbest)',
         'Hafız Husarî Fatiha ve sureleri okur; rükû, secde ve oturuşlarda titreşimle yönlendirir. Ekran kararsa da devam eder.',
-      ),
-      (
-        Icons.family_restroom_rounded,
-        'Annem Kıldı Mı? — Aile Takibi',
-        'Annenizin, babanızın o gün hangi vakitleri kıldığını uzaktan görün.',
       ),
       (
         Icons.notifications_active_rounded,

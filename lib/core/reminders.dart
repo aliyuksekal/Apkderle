@@ -44,20 +44,24 @@ class ReminderSettings extends ChangeNotifier {
     PrayerName.aksam,
     PrayerName.yatsi,
   };
-  bool prayerOn = false;
+  bool prayerOn = true;
 
   /// Vakitten kaç dakika önce (0 = vakit girince).
   int minutesBefore = 0;
 
   List<Medicine> medicines = [];
 
+  /// Vakit bildirimi sesi: 'ezan1', 'ezan2' ya da 'bildirim'.
+  String ezanSound = 'ezan1';
+
   void _load() {
     final raw = _p.getString(_k);
     if (raw == null) return;
     try {
       final m = jsonDecode(raw) as Map<String, dynamic>;
-      prayerOn = m['prayerOn'] as bool? ?? false;
+      prayerOn = m['prayerOn'] as bool? ?? true;
       minutesBefore = m['minutesBefore'] as int? ?? 0;
+      ezanSound = m['ezanSound'] as String? ?? 'ezan1';
       prayers = ((m['prayers'] as List?) ?? const [])
           .map((e) => PrayerName.values.byName(e as String))
           .toSet();
@@ -67,12 +71,17 @@ class ReminderSettings extends ChangeNotifier {
     } catch (_) {}
   }
 
+  /// İzin bir kez, ilk açılışta istensin.
+  bool get permissionAsked => _p.getBool('notif_asked') ?? false;
+  Future<void> markPermissionAsked() => _p.setBool('notif_asked', true);
+
   Future<void> save() async {
     await _p.setString(
       _k,
       jsonEncode({
         'prayerOn': prayerOn,
         'minutesBefore': minutesBefore,
+        'ezanSound': ezanSound,
         'prayers': prayers.map((e) => e.name).toList(),
         'medicines': medicines.map((e) => e.toJson()).toList(),
       }),
@@ -184,6 +193,15 @@ class ReminderScheduler {
   final _plugin = FlutterLocalNotificationsPlugin();
   bool _ready = false;
 
+  /// Ezan seçenekleri: kanal kimliği, ad, res/raw dosyası.
+  static const ezanOptions = <String, (String, String?)>{
+    'ezan1': ('Ezan 1', 'ezan1'),
+    'ezan2': ('Ezan 2', 'ezan2'),
+    'bildirim': ('Kısa bildirim sesi', null),
+  };
+
+  static String vakitChannel(String sound) => 'vakit_$sound';
+
   Future<void> _init() async {
     if (_ready) return;
     tzdata.initializeTimeZones();
@@ -193,23 +211,100 @@ class ReminderScheduler {
       ),
     );
     final a = _android;
-    await a?.createNotificationChannel(
-      const AndroidNotificationChannel(
-        'vakit',
-        'Namaz vakitleri',
-        description: 'Vakit girince hatırlatma',
-        importance: Importance.high,
-      ),
-    );
+    for (final e in ezanOptions.entries) {
+      final raw = e.value.$2;
+      await a?.createNotificationChannel(
+        AndroidNotificationChannel(
+          vakitChannel(e.key),
+          'Namaz vakti — ${e.value.$1}',
+          description: 'Vakit girince hatırlatma',
+          importance: Importance.max,
+          sound: raw == null ? null : RawResourceAndroidNotificationSound(raw),
+          audioAttributesUsage: raw == null
+              ? AudioAttributesUsage.notification
+              : AudioAttributesUsage.alarm,
+        ),
+      );
+    }
     await a?.createNotificationChannel(
       const AndroidNotificationChannel(
         'ilac',
         'İlaç hatırlatma',
         description: 'İlaç saatleri',
-        importance: Importance.high,
+        importance: Importance.max,
       ),
     );
     _ready = true;
+  }
+
+  NotificationDetails _details(String channel, ReminderSettings r) {
+    final isVakit = channel == 'vakit';
+    final sound = ezanOptions[r.ezanSound]?.$2;
+    return NotificationDetails(
+      android: AndroidNotificationDetails(
+        isVakit ? vakitChannel(r.ezanSound) : 'ilac',
+        isVakit
+            ? 'Namaz vakti — ${ezanOptions[r.ezanSound]?.$1 ?? ''}'
+            : 'İlaç hatırlatma',
+        importance: Importance.max,
+        priority: Priority.max,
+        category: isVakit
+            ? AndroidNotificationCategory.alarm
+            : AndroidNotificationCategory.reminder,
+        sound: isVakit && sound != null
+            ? RawResourceAndroidNotificationSound(sound)
+            : null,
+        audioAttributesUsage: isVakit && sound != null
+            ? AudioAttributesUsage.alarm
+            : AudioAttributesUsage.notification,
+        visibility: NotificationVisibility.public,
+      ),
+    );
+  }
+
+  /// Hemen bir deneme bildirimi gösterir (ses ve izin kontrolü için).
+  Future<String?> showTest(ReminderSettings r) async {
+    try {
+      await _init();
+      if (await _android?.areNotificationsEnabled() == false) {
+        return 'Bildirim izni kapalı. Telefon ayarlarından açın.';
+      }
+      await _plugin.show(
+        id: 9999,
+        title: 'Deneme: Öğle vakti girdi',
+        body: 'Bildirimler çalışıyor.',
+        notificationDetails: _details('vakit', r),
+      );
+      return null;
+    } catch (e) {
+      return 'Bildirim gösterilemedi: $e';
+    }
+  }
+
+  /// 1 dakika sonrasına deneme bildirimi kurar (zamanlama kontrolü için).
+  Future<String?> scheduleTest(ReminderSettings r) async {
+    try {
+      await _init();
+      final exact = await _android?.canScheduleExactNotifications() ?? false;
+      await _plugin.zonedSchedule(
+        id: 9998,
+        scheduledDate: tz.TZDateTime.from(
+          DateTime.now().toUtc().add(const Duration(minutes: 1)),
+          tz.UTC,
+        ),
+        title: 'Deneme: 1 dakika doldu',
+        body: 'Zamanlı bildirimler çalışıyor.',
+        androidScheduleMode: exact
+            ? AndroidScheduleMode.exactAllowWhileIdle
+            : AndroidScheduleMode.inexactAllowWhileIdle,
+        notificationDetails: _details('vakit', r),
+      );
+      return exact
+          ? null
+          : 'Tam zamanlı alarm izni kapalı; bildirim birkaç dakika gecikebilir.';
+    } catch (e) {
+      return 'Bildirim kurulamadı: $e';
+    }
   }
 
   AndroidFlutterLocalNotificationsPlugin? get _android => _plugin
@@ -252,15 +347,7 @@ class ReminderScheduler {
           title: n.title,
           body: n.body,
           androidScheduleMode: mode,
-          notificationDetails: NotificationDetails(
-            android: AndroidNotificationDetails(
-              n.channel,
-              n.channel == 'vakit' ? 'Namaz vakitleri' : 'İlaç hatırlatma',
-              importance: Importance.high,
-              priority: Priority.high,
-              category: AndroidNotificationCategory.reminder,
-            ),
-          ),
+          notificationDetails: _details(n.channel, r),
         );
       }
     } catch (e) {

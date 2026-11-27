@@ -2,18 +2,20 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart';
 
-/// Duadaki tek ayet: Arapça metin, meal ve hafız kaydı.
+/// Duadaki tek parça (ayet ya da dua metni).
 class DuaVerse {
   DuaVerse.fromJson(Map<String, dynamic> j)
-    : surah = j['surah'] as int,
-      ayah = j['ayah'] as int,
+    : surah = j['surah'] as int?,
+      ayah = j['ayah'] as int?,
       arabic = j['arabic'] as String,
+      transliteration = j['transliteration'] as String?,
       meaning = j['meaning'] as String?,
       audio = j['audio'] as String?;
 
-  final int surah;
-  final int ayah;
+  final int? surah;
+  final int? ayah;
   final String arabic;
+  final String? transliteration;
   final String? meaning;
   final String? audio;
 }
@@ -22,20 +24,20 @@ class Dua {
   Dua.fromJson(Map<String, dynamic> j)
     : id = j['id'] as String,
       title = j['title'] as String,
+      category = j['category'] as String? ?? 'Dualar',
       reference = j['reference'] as String?,
       verses = ((j['verses'] as List?) ?? const [])
           .map((e) => DuaVerse.fromJson(e as Map<String, dynamic>))
           .toList(),
-      transliteration = j['transliteration'] as String?,
       source = j['source'] as String?,
       note = j['note'] as String?,
       verified = j['verified'] as bool? ?? false;
 
   final String id;
   final String title;
+  final String category;
   final String? reference;
   final List<DuaVerse> verses;
-  final String? transliteration;
   final String? source;
   final String? note;
   final bool verified;
@@ -48,14 +50,18 @@ class Dua {
         ]
       : const [];
   bool get hasAudio => audioFiles.isNotEmpty;
-  String get arabic => verses.map((v) => v.arabic).join(' ۝ ');
-  String get meaning => verses.map((v) => v.meaning ?? '').join(' ');
 }
 
 class DuaLibrary {
   DuaLibrary(this.duas, this.reciter);
   final List<Dua> duas;
   final String reciter;
+
+  /// Kategoriler, dosyadaki sırayla.
+  List<String> get categories =>
+      <String>{for (final d in duas) d.category}.toList();
+
+  Dua byId(String id) => duas.firstWhere((d) => d.id == id);
 }
 
 Future<DuaLibrary> loadDuas({AssetBundle? bundle}) async {

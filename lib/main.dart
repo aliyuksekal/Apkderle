@@ -3,7 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/ads.dart';
-import 'core/family.dart';
+import 'core/audio.dart';
 import 'core/premium.dart';
 import 'core/prayer_log.dart';
 import 'core/reminders.dart';
@@ -21,6 +21,16 @@ Future<void> main() async {
   final premium = PremiumStore(prefs);
   runApp(NamazApp.fromPrefs(prefs, premium: premium));
   premium.connect();
+  AssetAudio.instance.problems.listen(
+    (m) => messengerKey.currentState
+      ?..hideCurrentSnackBar()
+      ..showSnackBar(
+        SnackBar(
+          content: Text(m, style: const TextStyle(fontSize: 20)),
+          duration: const Duration(seconds: 6),
+        ),
+      ),
+  );
   // Reklamlar açılışı geciktirmesin: uygulama çizildikten sonra başlat.
   Ads.init().then((_) => adsReady.value = Ads.enabled);
 }
@@ -28,6 +38,10 @@ Future<void> main() async {
 /// Bildirim/ağ gibi platform hizmetleri yalnızca gerçek uygulamada çalışır
 /// (testlerde kapalı).
 bool platformServices = false;
+
+/// Ses sorunlarını (sessiz telefon, çalınamayan dosya) her ekranda gösterir.
+final GlobalKey<ScaffoldMessengerState> messengerKey =
+    GlobalKey<ScaffoldMessengerState>();
 
 /// Reklam altyapısı hazır olunca true olur.
 final ValueNotifier<bool> adsReady = ValueNotifier(false);
@@ -40,7 +54,6 @@ class NamazApp extends StatelessWidget {
     required this.premium,
     required this.log,
     required this.reminders,
-    required this.family,
   });
 
   factory NamazApp.fromPrefs(SharedPreferences p, {PremiumStore? premium}) {
@@ -51,7 +64,6 @@ class NamazApp extends StatelessWidget {
       premium: premium ?? PremiumStore(p),
       log: log,
       reminders: ReminderSettings(p),
-      family: FamilyStore(p, log),
     );
   }
 
@@ -60,7 +72,6 @@ class NamazApp extends StatelessWidget {
   final PremiumStore premium;
   final PrayerLog log;
   final ReminderSettings reminders;
-  final FamilyStore family;
 
   @override
   Widget build(BuildContext context) {
@@ -70,12 +81,12 @@ class NamazApp extends StatelessWidget {
       premium: premium,
       log: log,
       reminders: reminders,
-      family: family,
       child: ListenableBuilder(
         listenable: Listenable.merge([settings, premium]),
         builder: (context, _) => MaterialApp(
           title: 'Namaz Asistanı',
           debugShowCheckedModeBanner: false,
+          scaffoldMessengerKey: messengerKey,
           theme: lightTheme,
           darkTheme: darkTheme,
           themeMode: settings.themeMode,

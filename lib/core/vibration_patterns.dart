@@ -18,6 +18,9 @@ enum Signal {
 
   /// Zikir hedefi tamamlandı ("Maşallah").
   zikrGoal,
+
+  /// Kıble bulundu.
+  qibla,
 }
 
 const int kShort = 180;
@@ -32,6 +35,7 @@ extension SignalX on Signal {
     Signal.transition => const [0, kLong],
     Signal.done => const [0, kLong, 350, kLong, 350, kLong],
     Signal.zikrGoal => const [0, 120, 120, 120, 120, 400],
+    Signal.qibla => const [0, 400, 150, 400],
   };
 
   String get label => switch (this) {
@@ -41,6 +45,7 @@ extension SignalX on Signal {
     Signal.transition => 'Oturma / kalkma (1 uzun)',
     Signal.done => 'Namaz bitti (3 uzun)',
     Signal.zikrGoal => 'Zikir hedefi tamam',
+    Signal.qibla => 'Kıble bulundu',
   };
 
   /// Desendeki titreşim (açık) sayısı.

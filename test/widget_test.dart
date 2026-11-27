@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:namaz_asistani/main.dart';
+import 'package:namaz_asistani/ui/screens/guide_screens.dart';
 import 'package:namaz_asistani/ui/screens/zikr_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -12,6 +14,8 @@ Future<NamazApp> app(Map<String, Object> prefs) async {
 
 void main() {
   setUp(() {
+    // Önceki testlerde yarım kalan önbellekli yüklemeler takılmasın.
+    rootBundle.clear();
     // Küçük bir telefon ekranı (360x740 dp) — taşma olmamalı.
     final binding = TestWidgetsFlutterBinding.ensureInitialized();
     binding.platformDispatcher.views.first.physicalSize = const Size(
@@ -132,11 +136,42 @@ void main() {
     );
     await tester.tap(find.text('İmamla Kıl'));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Sabah Farzı'));
+    for (final v in ['Sabah', 'Öğle', 'İkindi']) {
+      expect(find.text('$v Namazı'), findsOneWidget, reason: v);
+    }
+    await tester.tap(find.text('Sabah Namazı'));
     await tester.pumpAndSettle();
+    expect(find.text('Hepsini Kıl'), findsOneWidget);
+    expect(find.text('Sadece Farzı Kıl'), findsOneWidget);
+    await tester.tap(find.text('Sadece Farzı Kıl'));
+    await tester.pumpAndSettle();
+    // Büyük JSON dosyaları gerçek G/Ç ile yüklenir.
+    for (
+      var i = 0;
+      i < 80 && find.textContaining('TASLAK').evaluate().isEmpty;
+      i++
+    ) {
+      await tester.runAsync(
+        () => Future<void>.delayed(const Duration(milliseconds: 100)),
+      );
+      await tester.pump();
+    }
     expect(find.text('Sabah Farzı — 2 rekât'), findsOneWidget);
-    expect(find.textContaining('TASLAK'), findsOneWidget);
-    final sc = find.byType(Scrollable).last;
+    expect(
+      find.textContaining('bugünkü sabah namazının farzını'),
+      findsOneWidget,
+    );
+    final sc = find
+        .descendant(
+          of: find.byType(GuidePrepScreen),
+          matching: find.byType(Scrollable),
+        )
+        .first;
+    await tester.scrollUntilVisible(
+      find.textContaining('TASLAK'),
+      200,
+      scrollable: sc,
+    );
     await tester.scrollUntilVisible(
       find.textContaining('Hafız Mahmud Halil el-Husarî okur'),
       200,
@@ -177,14 +212,10 @@ void main() {
       await tester.pumpAndSettle();
       await tester.tap(find.text('İmamla Kıl'));
       await tester.pumpAndSettle();
-      await tester.dragUntilVisible(
-        find.text('Öğle Farzı'),
-        find.byType(ListView).last,
-        const Offset(0, -200),
-      );
-      await tester.ensureVisible(find.text('Öğle Farzı'));
+      await tester.tap(find.text('Öğle Namazı'));
       await tester.pumpAndSettle();
-      await tester.tap(find.text('Öğle Farzı'));
+      expect(tester.takeException(), isNull, reason: 'vakit dark=$dark');
+      await tester.tap(find.text('Hepsini Kıl'));
       await tester.pumpAndSettle();
       expect(tester.takeException(), isNull, reason: 'hazırlık dark=$dark');
     }
@@ -219,6 +250,24 @@ void main() {
     await a.settings.setNineMode(true);
     await tester.pumpAndSettle();
     expect(find.text('Profil'), findsNothing, reason: 'sekmeler gizlenir');
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('Kaza bölümünde yalnız farzlar var', (tester) async {
+    await tester.pumpWidget(
+      await app({'onboarding_done': true, 'premium_owned': true}),
+    );
+    await tester.tap(find.text('İmamla Kıl'));
+    await tester.pumpAndSettle();
+    await tester.scrollUntilVisible(
+      find.text('Kaza Namazı'),
+      200,
+      scrollable: find.byType(Scrollable).last,
+    );
+    await tester.tap(find.text('Kaza Namazı'));
+    await tester.pumpAndSettle();
+    expect(find.text('Kaza: Sabah Farzı'), findsOneWidget);
+    expect(find.textContaining('Sünnet'), findsNothing);
     expect(tester.takeException(), isNull);
   });
 }

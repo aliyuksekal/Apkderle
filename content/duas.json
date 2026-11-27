@@ -1,186 +1,962 @@
 {
-  "schemaVersion": 2,
-  "reciter": "Mahmud Halil el-Husarî",
-  "note": "Kur'an ayetlerinden oluşan dualar: Arapça metin Tanzil (fawazahmed0/quran-api), meal Türkiye Diyanet Vakfı, ses EveryAyah.com Husary 128kbps. Türkçe okunuşlar elle yazıldı ve uzman kontrolü bekliyor (transliterationReviewed=false).",
-  "duas": [
+ "schemaVersion": 3,
+ "reciter": "Mahmud Halil el-Husarî",
+ "note": "Kur'an ayetleri: Tanzil metni, Diyanet İşleri meali, Tanzil Türkçe okunuşu, Husarî kıraati (uygulama içinde). Namaz duaları (Sübhâneke, Ettehiyyâtü, Salli, Bârik, Kunut): Diyanet İlmihali; hafız kaydı yok.",
+ "duas": [
+  {
+   "id": "subhaneke",
+   "title": "Sübhâneke",
+   "category": "Namaz Duaları",
+   "reference": "Namaza başlarken, iftitah tekbirinden sonra",
+   "verses": [
     {
-      "id": "nazar",
-      "title": "Nazar Duası",
-      "reference": "Kalem Sûresi 51-52",
-      "verses": [
-        {
-          "surah": 68,
-          "ayah": 51,
-          "arabic": "وَإِن يَكَادُ ٱلَّذِينَ كَفَرُواْ لَيُزۡلِقُونَكَ بِأَبۡصَٰرِهِمۡ لَمَّا سَمِعُواْ ٱلذِّكۡرَ وَيَقُولُونَ إِنَّهُۥ لَمَجۡنُونࣱ‏",
-          "meaning": "O inkar edenler Zikr'i (Kur'an'ı) işittikleri zaman, neredeyse seni gözleriyle devirivereceklerdi. Hala da (kin ve hasetlerinden:) \"Hiç şüphe yok o bir delidir\" derler",
-          "audio": "content/audio/husary/068051.mp3"
-        },
-        {
-          "surah": 68,
-          "ayah": 52,
-          "arabic": "وَمَا هُوَ إِلَّا ذِكۡرࣱ لِّلۡعَٰلَمِينَ",
-          "meaning": "Oysa o (Kur'an), alemler için ancak bir öğüttür",
-          "audio": "content/audio/husary/068052.mp3"
-        }
-      ],
-      "transliteration": "Ve in yekâdullezîne keferû le yuzlikûneke bi ebsârihim lemmâ semiu'z-zikra ve yekûlûne innehû le mecnûn. Ve mâ huve illâ zikrun li'l-âlemîn.",
-      "source": "Kur'ân-ı Kerîm, Kalem Sûresi 51-52. Arapça metin: Tanzil (Uthmani/Hafs). Meal: Türkiye Diyanet Vakfı Meali. Kıraat: Mahmud Halil el-Husarî (EveryAyah.com).",
-      "verified": true,
-      "transliterationReviewed": false
-    },
-    {
-      "id": "ayetel_kursi",
-      "title": "Âyetü'l-Kürsî",
-      "reference": "Bakara Sûresi 255",
-      "verses": [
-        {
-          "surah": 2,
-          "ayah": 255,
-          "arabic": "ٱللَّهُ لَآ إِلَٰهَ إِلَّا هُوَ ٱلۡحَيُّ ٱلۡقَيُّومُۚ لَا تَأۡخُذُهُۥ سِنَةࣱ وَلَا نَوۡمࣱۚ لَّهُۥ مَا فِي ٱلسَّمَٰوَٰتِ وَمَا فِي ٱلۡأَرۡضِۗ مَن ذَا ٱلَّذِي يَشۡفَعُ عِندَهُۥٓ إِلَّا بِإِذۡنِهِۦۚ يَعۡلَمُ مَا بَيۡنَ أَيۡدِيهِمۡ وَمَا خَلۡفَهُمۡۖ وَلَا يُحِيطُونَ بِشَيۡءࣲ مِّنۡ عِلۡمِهِۦٓ إِلَّا بِمَا شَآءَۚ وَسِعَ كُرۡسِيُّهُ ٱلسَّمَٰوَٰتِ وَٱلۡأَرۡضَۖ وَلَا يَـُٔودُهُۥ حِفۡظُهُمَاۚ وَهُوَ ٱلۡعَلِيُّ ٱلۡعَظِيمُ",
-          "meaning": "Allah, O'ndan başka tanrı yoktur; O, hayydir, kayyumdur. Kendisine ne uyku gelir ne de uyuklama. Göklerde ve yerdekilerin hepsi O'nundur. İzni olmadan O'nun katında kim şefaat edebilir? O, kullarının yaptıklarını ve yapacaklarını bilir. (O'na hiçbir şey gizli kalmaz.) O'nun bildirdiklerinin dışında insanlar O'nun ilminden hiçbir şeyi tam olarak bilemezler. O'nun kürsüsü gökleri ve yeri içine alır, onları koruyup gözetmek kendisine zor gelmez. O, yücedir, büyüktür",
-          "audio": "content/audio/husary/002255.mp3"
-        }
-      ],
-      "transliteration": "Allâhu lâ ilâhe illâ huve'l-hayyu'l-kayyûm, lâ te'huzuhû sinetun ve lâ nevm, lehû mâ fi's-semâvâti ve mâ fi'l-ard, men ze'llezî yeşfeu indehû illâ bi-iznih, ya'lemu mâ beyne eydîhim ve mâ halfehum, ve lâ yuhîtûne bi-şey'in min ilmihî illâ bimâ şâe, vesia kursiyyuhu's-semâvâti ve'l-ard, ve lâ yeûduhû hıfzuhumâ ve huve'l-aliyyu'l-azîm.",
-      "source": "Kur'ân-ı Kerîm, Bakara Sûresi 255. Arapça metin: Tanzil (Uthmani/Hafs). Meal: Türkiye Diyanet Vakfı Meali. Kıraat: Mahmud Halil el-Husarî (EveryAyah.com).",
-      "verified": true,
-      "transliterationReviewed": false
-    },
-    {
-      "id": "sinav",
-      "title": "Sınava Girerken Okunacak Dua",
-      "reference": "Tâhâ Sûresi 25-28",
-      "verses": [
-        {
-          "surah": 20,
-          "ayah": 25,
-          "arabic": "قَالَ رَبِّ ٱشۡرَحۡ لِي صَدۡرِي",
-          "meaning": "Musa: Rabbim! dedi, yüreğime genişlik ver",
-          "audio": "content/audio/husary/020025.mp3"
-        },
-        {
-          "surah": 20,
-          "ayah": 26,
-          "arabic": "وَيَسِّرۡ لِيٓ أَمۡرِي",
-          "meaning": "İşimi bana kolaylaştır",
-          "audio": "content/audio/husary/020026.mp3"
-        },
-        {
-          "surah": 20,
-          "ayah": 27,
-          "arabic": "وَٱحۡلُلۡ عُقۡدَةࣰ مِّن لِّسَانِي",
-          "meaning": "Dilimden (şu) bağı çöz",
-          "audio": "content/audio/husary/020027.mp3"
-        },
-        {
-          "surah": 20,
-          "ayah": 28,
-          "arabic": "يَفۡقَهُواْ قَوۡلِي",
-          "meaning": "Ki sözümü anlasınlar",
-          "audio": "content/audio/husary/020028.mp3"
-        }
-      ],
-      "transliteration": "Kâle rabbi'şrah lî sadrî. Ve yessir lî emrî. Vahlul ukdeten min lisânî. Yefkahû kavlî.",
-      "source": "Kur'ân-ı Kerîm, Tâhâ Sûresi 25-28. Arapça metin: Tanzil (Uthmani/Hafs). Meal: Türkiye Diyanet Vakfı Meali. Kıraat: Mahmud Halil el-Husarî (EveryAyah.com).",
-      "verified": true,
-      "transliterationReviewed": false
-    },
-    {
-      "id": "hastalik",
-      "title": "Hastalık Duası",
-      "reference": "Enbiyâ Sûresi 83",
-      "verses": [
-        {
-          "surah": 21,
-          "ayah": 83,
-          "arabic": "وَأَيُّوبَ إِذۡ نَادَىٰ رَبَّهُۥٓ أَنِّي مَسَّنِيَ ٱلضُّرُّ وَأَنتَ أَرۡحَمُ ٱلرَّٰحِمِينَ",
-          "meaning": "Eyyub'u da (an). Hani Rabbine: \"Başıma bu dert geldi. Sen, merhametlilerin en merhametlisisin\" diye niyaz etmişti",
-          "audio": "content/audio/husary/021083.mp3"
-        }
-      ],
-      "transliteration": "Ve eyyûbe iz nâdâ rabbehû ennî messeniye'd-durru ve ente erhamu'r-râhimîn.",
-      "source": "Kur'ân-ı Kerîm, Enbiyâ Sûresi 83. Arapça metin: Tanzil (Uthmani/Hafs). Meal: Türkiye Diyanet Vakfı Meali. Kıraat: Mahmud Halil el-Husarî (EveryAyah.com).",
-      "verified": true,
-      "transliterationReviewed": false
-    },
-    {
-      "id": "yolculuk",
-      "title": "Yolculuk Duası",
-      "reference": "Zuhruf Sûresi 13-14",
-      "verses": [
-        {
-          "surah": 43,
-          "ayah": 13,
-          "arabic": "لِتَسۡتَوُۥاْ عَلَىٰ ظُهُورِهِۦ ثُمَّ تَذۡكُرُواْ نِعۡمَةَ رَبِّكُمۡ إِذَا ٱسۡتَوَيۡتُمۡ عَلَيۡهِ وَتَقُولُواْ سُبۡحَٰنَ ٱلَّذِي سَخَّرَ لَنَا هَٰذَا وَمَا كُنَّا لَهُۥ مُقۡرِنِينَ",
-          "meaning": "Ki, böylece onların sırtına binip üzerlerine yerleşince, Rabbinizin ni'metini anarak: Bunu bizim hizmetimize vereni tesbih ve takdis ederiz, yoksa biz bunlara güç yetiremezdik, diyesiniz",
-          "audio": "content/audio/husary/043013.mp3"
-        },
-        {
-          "surah": 43,
-          "ayah": 14,
-          "arabic": "وَإِنَّآ إِلَىٰ رَبِّنَا لَمُنقَلِبُونَ",
-          "meaning": "Biz şüphesiz Rabbimize döneceğiz (demelisiniz)",
-          "audio": "content/audio/husary/043014.mp3"
-        }
-      ],
-      "transliteration": "Li testevû alâ zuhûrihî summe tezkurû ni'mete rabbikum ize'steveytum aleyhi ve tekûlû subhâne'llezî sehhara lenâ hâzâ ve mâ kunnâ lehû mukrinîn. Ve innâ ilâ rabbinâ le munkalibûn.",
-      "source": "Kur'ân-ı Kerîm, Zuhruf Sûresi 13-14. Arapça metin: Tanzil (Uthmani/Hafs). Meal: Türkiye Diyanet Vakfı Meali. Kıraat: Mahmud Halil el-Husarî (EveryAyah.com).",
-      "verified": true,
-      "transliterationReviewed": false
-    },
-    {
-      "id": "rabbena_atina",
-      "title": "Rabbenâ Âtinâ",
-      "reference": "Bakara Sûresi 201",
-      "verses": [
-        {
-          "surah": 2,
-          "ayah": 201,
-          "arabic": "وَمِنۡهُم مَّن يَقُولُ رَبَّنَآ ءَاتِنَا فِي ٱلدُّنۡيَا حَسَنَةࣰ وَفِي ٱلۡأٓخِرَةِ حَسَنَةࣰ وَقِنَا عَذَابَ ٱلنَّارِ",
-          "meaning": "Onlardan bir kısmı da: Ey Rabbimiz! Bize dünyada da iyilik ver, ahirette de iyilik ver. Bizi cehennem azabından koru! derler",
-          "audio": "content/audio/husary/002201.mp3"
-        }
-      ],
-      "transliteration": "Ve minhum men yekûlu rabbenâ âtinâ fi'd-dunyâ haseneten ve fi'l-âhireti haseneten ve kınâ azâbe'n-nâr.",
-      "source": "Kur'ân-ı Kerîm, Bakara Sûresi 201. Arapça metin: Tanzil (Uthmani/Hafs). Meal: Türkiye Diyanet Vakfı Meali. Kıraat: Mahmud Halil el-Husarî (EveryAyah.com).",
-      "verified": true,
-      "transliterationReviewed": false
-    },
-    {
-      "id": "rabbenagfirli",
-      "title": "Rabbenâğfirlî",
-      "reference": "İbrâhîm Sûresi 40-41",
-      "verses": [
-        {
-          "surah": 14,
-          "ayah": 40,
-          "arabic": "رَبِّ ٱجۡعَلۡنِي مُقِيمَ ٱلصَّلَوٰةِ وَمِن ذُرِّيَّتِيۚ رَبَّنَا وَتَقَبَّلۡ دُعَآءِ",
-          "meaning": "Ey Rabbim! Beni ve soyumdan gelecekleri namazı devamlı kılanlardan eyle; ey Rabbimiz! Duamı kabul et",
-          "audio": "content/audio/husary/014040.mp3"
-        },
-        {
-          "surah": 14,
-          "ayah": 41,
-          "arabic": "رَبَّنَا ٱغۡفِرۡ لِي وَلِوَٰلِدَيَّ وَلِلۡمُؤۡمِنِينَ يَوۡمَ يَقُومُ ٱلۡحِسَابُ",
-          "meaning": "Ey Rabbimiz! (Amellerin) hesap olunacağı gün beni, ana-babamı ve müminleri bağışla",
-          "audio": "content/audio/husary/014041.mp3"
-        }
-      ],
-      "transliteration": "Rabbi'c'alnî mukîme's-salâti ve min zurriyyetî, rabbenâ ve tekabbel duâ. Rabbenâğfir lî ve li-vâlideyye ve li'l-mu'minîne yevme yekûmu'l-hisâb.",
-      "source": "Kur'ân-ı Kerîm, İbrâhîm Sûresi 40-41. Arapça metin: Tanzil (Uthmani/Hafs). Meal: Türkiye Diyanet Vakfı Meali. Kıraat: Mahmud Halil el-Husarî (EveryAyah.com).",
-      "verified": true,
-      "transliterationReviewed": false
-    },
-    {
-      "id": "yemek",
-      "title": "Yemek Duası",
-      "reference": null,
-      "verses": [],
-      "transliteration": null,
-      "source": null,
-      "verified": false,
-      "transliterationReviewed": false,
-      "note": "Kur'an ayeti değildir; metin ve hoca ses kaydı güvenilir kaynaktan eklenecek."
+     "arabic": "سُبْحَانَكَ اللّٰهُمَّ وَبِحَمْدِكَ وَتَبَارَكَ اسْمُكَ وَتَعَالٰى جَدُّكَ وَلَا اِلٰهَ غَيْرُكَ",
+     "transliteration": "Sübhânekellâhümme ve bi hamdik ve tebârakesmük ve teâlâ ceddük ve lâ ilâhe ğayrük.",
+     "meaning": "Allah'ım! Sen eksik sıfatlardan pak ve uzaksın. Seni daima böyle tenzih eder ve överim. Senin adın mübarektir. Varlığın her şeyden üstündür. Senden başka ilâh yoktur.",
+     "audio": null
     }
-  ]
+   ],
+   "source": "Diyanet İşleri Başkanlığı, İlmihal (Namazda okunan dualar). Hadislerle sabit dualardır, Kur'an ayeti değildir. Hafız kaydı henüz eklenmedi.",
+   "verified": true
+  },
+  {
+   "id": "tahiyyat",
+   "title": "Ettehiyyâtü",
+   "category": "Namaz Duaları",
+   "reference": "Her oturuşta",
+   "verses": [
+    {
+     "arabic": "اَلتَّحِيَّاتُ لِلّٰهِ وَالصَّلَوَاتُ وَالطَّيِّبَاتُ اَلسَّلَامُ عَلَيْكَ اَيُّهَا النَّبِيُّ وَرَحْمَةُ اللّٰهِ وَبَرَكَاتُهُ اَلسَّلَامُ عَلَيْنَا وَعَلٰى عِبَادِ اللّٰهِ الصَّالِحِينَ اَشْهَدُ اَنْ لَا اِلٰهَ اِلَّا اللّٰهُ وَاَشْهَدُ اَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ",
+     "transliteration": "Ettehiyyâtü lillâhi ves-salevâtü vet-tayyibât. Esselâmü aleyke eyyühen-nebiyyü ve rahmetullâhi ve berekâtüh. Esselâmü aleynâ ve alâ ıbâdillâhis-sâlihîn. Eşhedü en lâ ilâhe illallâh ve eşhedü enne Muhammeden abdühû ve rasûlüh.",
+     "meaning": "Dil ile, beden ve mal ile yapılan bütün ibadetler Allah'adır. Ey Peygamber! Allah'ın selamı, rahmeti ve bereketleri senin üzerine olsun. Selam bizim üzerimize ve Allah'ın bütün iyi kulları üzerine olsun. Şahitlik ederim ki Allah'tan başka ilâh yoktur. Yine şahitlik ederim ki Muhammed O'nun kulu ve peygamberidir.",
+     "audio": null
+    }
+   ],
+   "source": "Diyanet İşleri Başkanlığı, İlmihal (Namazda okunan dualar). Hadislerle sabit dualardır, Kur'an ayeti değildir. Hafız kaydı henüz eklenmedi.",
+   "verified": true
+  },
+  {
+   "id": "salli",
+   "title": "Allâhümme Salli",
+   "category": "Namaz Duaları",
+   "reference": "Son oturuşta Ettehiyyâtü'den sonra",
+   "verses": [
+    {
+     "arabic": "اَللّٰهُمَّ صَلِّ عَلٰى مُحَمَّدٍ وَعَلٰى اٰلِ مُحَمَّدٍ كَمَا صَلَّيْتَ عَلٰى اِبْرٰهِيمَ وَعَلٰى اٰلِ اِبْرٰهِيمَ اِنَّكَ حَمِيدٌ مَجِيدٌ",
+     "transliteration": "Allâhümme salli alâ Muhammedin ve alâ âli Muhammed. Kemâ salleyte alâ İbrâhîme ve alâ âli İbrâhîm. İnneke hamîdün mecîd.",
+     "meaning": "Allah'ım! Muhammed'e ve Muhammed'in ümmetine rahmet eyle; şerefini yücelt. İbrahim'e ve İbrahim'in ümmetine rahmet ettiğin gibi. Şüphesiz övülmeye lâyık yalnız sensin, şan ve şeref sahibi de sensin.",
+     "audio": null
+    }
+   ],
+   "source": "Diyanet İşleri Başkanlığı, İlmihal (Namazda okunan dualar). Hadislerle sabit dualardır, Kur'an ayeti değildir. Hafız kaydı henüz eklenmedi.",
+   "verified": true
+  },
+  {
+   "id": "barik",
+   "title": "Allâhümme Bârik",
+   "category": "Namaz Duaları",
+   "reference": "Son oturuşta Allâhümme Salli'den sonra",
+   "verses": [
+    {
+     "arabic": "اَللّٰهُمَّ بَارِكْ عَلٰى مُحَمَّدٍ وَعَلٰى اٰلِ مُحَمَّدٍ كَمَا بَارَكْتَ عَلٰى اِبْرٰهِيمَ وَعَلٰى اٰلِ اِبْرٰهِيمَ اِنَّكَ حَمِيدٌ مَجِيدٌ",
+     "transliteration": "Allâhümme bârik alâ Muhammedin ve alâ âli Muhammed. Kemâ bârekte alâ İbrâhîme ve alâ âli İbrâhîm. İnneke hamîdün mecîd.",
+     "meaning": "Allah'ım! Muhammed'e ve Muhammed'in ümmetine hayır ve bereket ver. İbrahim'e ve İbrahim'in ümmetine verdiğin gibi. Şüphesiz övülmeye lâyık yalnız sensin, şan ve şeref sahibi de sensin.",
+     "audio": null
+    }
+   ],
+   "source": "Diyanet İşleri Başkanlığı, İlmihal (Namazda okunan dualar). Hadislerle sabit dualardır, Kur'an ayeti değildir. Hafız kaydı henüz eklenmedi.",
+   "verified": true
+  },
+  {
+   "id": "rabbena_atina",
+   "title": "Rabbenâ Âtinâ",
+   "category": "Namaz Duaları",
+   "reference": "Bakara Sûresi 201",
+   "verses": [
+    {
+     "surah": 2,
+     "ayah": 201,
+     "arabic": "وَمِنۡهُم مَّن يَقُولُ رَبَّنَآ ءَاتِنَا فِي ٱلدُّنۡيَا حَسَنَةࣰ وَفِي ٱلۡأٓخِرَةِ حَسَنَةࣰ وَقِنَا عَذَابَ ٱلنَّارِ",
+     "transliteration": "Ve minhum men yekûlu rabbenâ âtinâ fîd dunyâ haseneten ve fîl âhirati haseneten ve kınâ azâben nâr",
+     "meaning": "Rabbimiz! Bize dünyada iyiyi, ahirette de iyiyi ver, bizi ateşin azabından koru\" diyenler vardır",
+     "audio": "content/audio/husary/002201.mp3"
+    }
+   ],
+   "source": "Kur'ân-ı Kerîm. Arapça metin: Tanzil (Osmanî hat, Hafs). Meal: Diyanet İşleri Başkanlığı meali. Okunuş: Tanzil Türkçe okunuş. Kıraat: Hafız Mahmud Halil el-Husarî (EveryAyah.com).",
+   "verified": true,
+   "note": "Namazda ayetin 'Rabbenâ âtinâ…' ile başlayan kısmı okunur; kayıtta ayetin tamamı vardır."
+  },
+  {
+   "id": "rabbenagfirli",
+   "title": "Rabbenâğfirlî",
+   "category": "Namaz Duaları",
+   "reference": "İbrâhîm Sûresi 41",
+   "verses": [
+    {
+     "surah": 14,
+     "ayah": 41,
+     "arabic": "رَبَّنَا ٱغۡفِرۡ لِي وَلِوَٰلِدَيَّ وَلِلۡمُؤۡمِنِينَ يَوۡمَ يَقُومُ ٱلۡحِسَابُ",
+     "transliteration": "Rabbenagfirlî ve li vâlideyye ve lil mu’minîne yevme yekûmul hisâb",
+     "meaning": "Rabbimiz! Hesap görülecek günde, beni, anamı babamı ve inananları bağışla",
+     "audio": "content/audio/husary/014041.mp3"
+    }
+   ],
+   "source": "Kur'ân-ı Kerîm. Arapça metin: Tanzil (Osmanî hat, Hafs). Meal: Diyanet İşleri Başkanlığı meali. Okunuş: Tanzil Türkçe okunuş. Kıraat: Hafız Mahmud Halil el-Husarî (EveryAyah.com).",
+   "verified": true
+  },
+  {
+   "id": "kunut1",
+   "title": "Kunut Duası 1",
+   "category": "Namaz Duaları",
+   "reference": "Vitir namazının üçüncü rekâtında",
+   "verses": [
+    {
+     "arabic": "اَللّٰهُمَّ اِنَّا نَسْتَعِينُكَ وَنَسْتَغْفِرُكَ وَنَسْتَهْدِيكَ وَنُؤْمِنُ بِكَ وَنَتُوبُ اِلَيْكَ وَنَتَوَكَّلُ عَلَيْكَ وَنُثْنِي عَلَيْكَ الْخَيْرَ كُلَّهُ نَشْكُرُكَ وَلَا نَكْفُرُكَ وَنَخْلَعُ وَنَتْرُكُ مَنْ يَفْجُرُكَ",
+     "transliteration": "Allâhümme innâ nesteînüke ve nestağfirüke ve nestehdîk. Ve nü'minü bike ve netûbü ileyk. Ve netevekkelü aleyke ve nüsnî aleykel-hayra küllehû neşkürük. Ve lâ nekfürüke ve nahleu ve netrükü men yefcürük.",
+     "meaning": "Allah'ım! Ancak senden yardım isteriz, günahlarımızı bağışlamanı isteriz, razı olduğun şeylere hidayet etmeni isteriz. Sana inanırız, sana tövbe ederiz. Sana güveniriz. Bize verdiğin bütün nimetleri bilerek seni hayır ile överiz. Sana şükrederiz. Hiçbir nimetini inkâr etmeyiz. Nimetlerini inkâr edeni ve sana karşı geleni bırakırız.",
+     "audio": null
+    }
+   ],
+   "source": "Diyanet İşleri Başkanlığı, İlmihal (Namazda okunan dualar). Hadislerle sabit dualardır, Kur'an ayeti değildir. Hafız kaydı henüz eklenmedi.",
+   "verified": true
+  },
+  {
+   "id": "kunut2",
+   "title": "Kunut Duası 2",
+   "category": "Namaz Duaları",
+   "reference": "Kunut Duası 1'den sonra",
+   "verses": [
+    {
+     "arabic": "اَللّٰهُمَّ اِيَّاكَ نَعْبُدُ وَلَكَ نُصَلِّي وَنَسْجُدُ وَاِلَيْكَ نَسْعٰى وَنَحْفِدُ نَرْجُو رَحْمَتَكَ وَنَخْشٰى عَذَابَكَ اِنَّ عَذَابَكَ بِالْكُفَّارِ مُلْحِقٌ",
+     "transliteration": "Allâhümme iyyâke na'büdü ve leke nüsallî ve nescüdü ve ileyke nes'â ve nahfidü nercû rahmeteke ve nahşâ azâbeke inne azâbeke bil-küffâri mülhık.",
+     "meaning": "Allah'ım! Yalnız sana kulluk ederiz. Namazı yalnız senin için kılarız, yalnız sana secde ederiz. Yalnız sana koşar ve sana yaklaştıracak şeyleri yaparız. Rahmetini umarız. Azabından korkarız. Şüphesiz senin azabın kâfirlere ulaşır.",
+     "audio": null
+    }
+   ],
+   "source": "Diyanet İşleri Başkanlığı, İlmihal (Namazda okunan dualar). Hadislerle sabit dualardır, Kur'an ayeti değildir. Hafız kaydı henüz eklenmedi.",
+   "verified": true
+  },
+  {
+   "id": "yasin",
+   "title": "Yâsîn Sûresi",
+   "category": "Sûreler",
+   "reference": "Yâsîn Sûresi (36), 83 ayet",
+   "verses": [
+    {
+     "surah": 36,
+     "ayah": 1,
+     "arabic": "يسٓ",
+     "transliteration": "Yâ sîn",
+     "meaning": "Ya, Sin",
+     "audio": "content/audio/husary/036001.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 2,
+     "arabic": "وَٱلۡقُرۡءَانِ ٱلۡحَكِيمِ",
+     "transliteration": "Vel kur’ânil hakîm",
+     "meaning": "Kuran'ı Hakim'e and olsun ki, sen doğru yol üzere gönderilmiş peygamberlerdensin",
+     "audio": "content/audio/husary/036002.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 3,
+     "arabic": "إِنَّكَ لَمِنَ ٱلۡمُرۡسَلِينَ",
+     "transliteration": "İnneke leminel murselîn",
+     "meaning": "Kuran'ı Hakim'e and olsun ki, sen doğru yol üzere gönderilmiş peygamberlerdensin",
+     "audio": "content/audio/husary/036003.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 4,
+     "arabic": "عَلَىٰ صِرَٰطࣲ مُّسۡتَقِيمࣲ‏",
+     "transliteration": "Alâ sırâtın mustekîm",
+     "meaning": "Kuran'ı Hakim'e and olsun ki, sen doğru yol üzere gönderilmiş peygamberlerdensin",
+     "audio": "content/audio/husary/036004.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 5,
+     "arabic": "تَنزِيلَ ٱلۡعَزِيزِ ٱلرَّحِيمِ",
+     "transliteration": "Tenzîlel azîzir rahîm",
+     "meaning": "Bu, babaları uyarılmadığından gafil kalmış bir milleti uyarman için güçlü ve merhametli olan Allah'ın indirdiği Kuran'dır",
+     "audio": "content/audio/husary/036005.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 6,
+     "arabic": "لِتُنذِرَ قَوۡمࣰ ا مَّآ أُنذِرَ ءَابَآؤُهُمۡ فَهُمۡ غَٰفِلُونَ",
+     "transliteration": "Li tunzire kavmen mâ unzire âbâuhum fe hum gâfilûn",
+     "meaning": "Bu, babaları uyarılmadığından gafil kalmış bir milleti uyarman için güçlü ve merhametli olan Allah'ın indirdiği Kuran'dır",
+     "audio": "content/audio/husary/036006.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 7,
+     "arabic": "لَقَدۡ حَقَّ ٱلۡقَوۡلُ عَلَىٰٓ أَكۡثَرِهِمۡ فَهُمۡ لَا يُؤۡمِنُونَ",
+     "transliteration": "Lekad hakkal kavlu alâ ekserihim fe hum lâ yu’minûn",
+     "meaning": "And olsun ki, hüküm çoğunun aleyhine gerçekleşmiştir, bunun için artık inanmazlar",
+     "audio": "content/audio/husary/036007.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 8,
+     "arabic": "إِنَّا جَعَلۡنَا فِيٓ أَعۡنَٰقِهِمۡ أَغۡلَٰلࣰ ا فَهِيَ إِلَى ٱلۡأَذۡقَانِ فَهُم مُّقۡمَحُونَ",
+     "transliteration": "İnnâ cealnâ fî a’nâkıhim aglâlen fe hiye ilel ezkâni fe hum mukmehûn",
+     "meaning": "Boyunlarına, çenelerine kadar varan demir halkalar geçirmişizdir, bunun için başları yukarı kalkıktır",
+     "audio": "content/audio/husary/036008.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 9,
+     "arabic": "وَجَعَلۡنَا مِنۢ بَيۡنِ أَيۡدِيهِمۡ سَدࣰّ ا وَمِنۡ خَلۡفِهِمۡ سَدࣰّ ا فَأَغۡشَيۡنَٰهُمۡ فَهُمۡ لَا يُبۡصِرُونَ",
+     "transliteration": "Ve cealnâ min beyni eydîhim sedden ve min halfihim sedden fe agşeynâhum fe hum lâ yubsırûn",
+     "meaning": "Önlerine ve arkalarına sed çekmişizdir. Gözlerini perdelediğimizden artık göremezler",
+     "audio": "content/audio/husary/036009.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 10,
+     "arabic": "وَسَوَآءٌ عَلَيۡهِمۡ ءَأَنذَرۡتَهُمۡ أَمۡ لَمۡ تُنذِرۡهُمۡ لَا يُؤۡمِنُونَ",
+     "transliteration": "Ve sevâun aleyhim e enzertehum em lem tunzirhum lâ yu’minûn",
+     "meaning": "Onları uyarsan da uyarmasan da birdir, inanmazlar",
+     "audio": "content/audio/husary/036010.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 11,
+     "arabic": "إِنَّمَا تُنذِرُ مَنِ ٱتَّبَعَ ٱلذِّكۡرَ وَخَشِيَ ٱلرَّحۡمَٰنَ بِٱلۡغَيۡبِۖ فَبَشِّرۡهُ بِمَغۡفِرَةࣲ وَأَجۡرࣲ كَرِيمٍ",
+     "transliteration": "İnnemâ tunziru menittebeaz zikre ve haşiyer rahmâne bil gayb, fe beşşirhu bi magfiretin ve ecrin kerîm",
+     "meaning": "Sen ancak, Kuran'a uyan ve görmediği halde Rahman'dan korkan kimseyi uyarabilirsin. Artık o kimseyi, bağışlanma ve cömertçe verilecek bir ecirle müjdele",
+     "audio": "content/audio/husary/036011.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 12,
+     "arabic": "إِنَّا نَحۡنُ نُحۡيِ ٱلۡمَوۡتَىٰ وَنَكۡتُبُ مَا قَدَّمُواْ وَءَاثَٰرَهُمۡۚ وَكُلَّ شَيۡءٍ أَحۡصَيۡنَٰهُ فِيٓ إِمَامࣲ مُّبِينࣲ‏",
+     "transliteration": "İnnâ nahnu nuhyil mevtâ ve nektubu mâ kaddemû ve âsârehum ve kulle şey’in ahsaynâhu fî imâmin mubîn",
+     "meaning": "Şüphesiz ölüleri dirilten, işlediklerini ve eserlerini yazan Biziz; herşeyi, apaçık bir kitabda saymışızdır",
+     "audio": "content/audio/husary/036012.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 13,
+     "arabic": "وَٱضۡرِبۡ لَهُم مَّثَلًا أَصۡحَٰبَ ٱلۡقَرۡيَةِ إِذۡ جَآءَهَا ٱلۡمُرۡسَلُونَ",
+     "transliteration": "Vadrıb lehum meselen ashâbel karyeh, iz câe hel murselûn",
+     "meaning": "İnsanlara, halkına elçiler gelen şehri mesel olarak anlat",
+     "audio": "content/audio/husary/036013.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 14,
+     "arabic": "إِذۡ أَرۡسَلۡنَآ إِلَيۡهِمُ ٱثۡنَيۡنِ فَكَذَّبُوهُمَا فَعَزَّزۡنَا بِثَالِثࣲ فَقَالُوٓاْ إِنَّآ إِلَيۡكُم مُّرۡسَلُونَ",
+     "transliteration": "İz erselnâ ileyhimusneyni fe kezzebûhumâ fe azzeznâ bi sâlisin fe kâlû innâ ileykum murselûn",
+     "meaning": "Onlara iki elçi göndermiştik; onu yalanladıkları için üçüncü biriyle desteklemiştik. Onlar: \"Biz size gönderildik\" demişlerdi",
+     "audio": "content/audio/husary/036014.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 15,
+     "arabic": "قَالُواْ مَآ أَنتُمۡ إِلَّا بَشَرࣱ مِّثۡلُنَا وَمَآ أَنزَلَ ٱلرَّحۡمَٰنُ مِن شَيۡءٍ إِنۡ أَنتُمۡ إِلَّا تَكۡذِبُونَ",
+     "transliteration": "Kâlû mâ entum illâ beşerun mislunâ ve mâ enzeler rahmânu min şey’in in entum illâ tekzibûn",
+     "meaning": "Siz de ancak bizim gibi birer insansınız. Rahman da bir şey indirmemiştir. Sadece yalan söylüyorsunuz\" dediler",
+     "audio": "content/audio/husary/036015.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 16,
+     "arabic": "قَالُواْ رَبُّنَا يَعۡلَمُ إِنَّآ إِلَيۡكُمۡ لَمُرۡسَلُونَ",
+     "transliteration": "Kalû rabbunâ ya’lemu innâ ileykum le murselûn",
+     "meaning": "Elçiler: \"Doğrusu Rabbimiz bizim size gönderildiğimizi bilir; bize düşen ancak apaçık tebliğdir\" demişlerdi",
+     "audio": "content/audio/husary/036016.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 17,
+     "arabic": "وَمَا عَلَيۡنَآ إِلَّا ٱلۡبَلَٰغُ ٱلۡمُبِينُ",
+     "transliteration": "Ve mâ aleynâ illel belâgul mubîn",
+     "meaning": "Elçiler: \"Doğrusu Rabbimiz bizim size gönderildiğimizi bilir; bize düşen ancak apaçık tebliğdir\" demişlerdi",
+     "audio": "content/audio/husary/036017.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 18,
+     "arabic": "قَالُوٓاْ إِنَّا تَطَيَّرۡنَا بِكُمۡۖ لَئِن لَّمۡ تَنتَهُواْ لَنَرۡجُمَنَّكُمۡ وَلَيَمَسَّنَّكُم مِّنَّا عَذَابٌ أَلِيمࣱ‏",
+     "transliteration": "Kâlû innâ tetayyernâ bi kum, le in lem tentehû le nercumennekum ve le yemessennekum minnâ azâbun elîm",
+     "meaning": "Doğrusu sizin yüzünüzden uğursuzluğa uğradık; vazgeçmezseniz and olsun ki sizi taşlayacağız ve bizden size can yakıcı bir azap dokunacaktır\" dediler",
+     "audio": "content/audio/husary/036018.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 19,
+     "arabic": "قَالُواْ طَٰٓئِرُكُم مَّعَكُمۡ أَئِن ذُكِّرۡتُمۚ بَلۡ أَنتُمۡ قَوۡمࣱ مُّسۡرِفُونَ",
+     "transliteration": "Kâlû tâirikum meakum, e in zukkirtum, bel entum kavmun musrifûn",
+     "meaning": "Elçiler: \"Uğursuzluğunuz kendinizdendir. Bu uğursuzluk size öğüt verildiği için mi? Hayır; siz, aşırı giden bir milletsiniz\" demişlerdi",
+     "audio": "content/audio/husary/036019.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 20,
+     "arabic": "وَجَآءَ مِنۡ أَقۡصَا ٱلۡمَدِينَةِ رَجُلࣱ يَسۡعَىٰ قَالَ يَٰقَوۡمِ ٱتَّبِعُواْ ٱلۡمُرۡسَلِينَ",
+     "transliteration": "Ve câe min aksal medîneti raculun yes’â kâle yâ kavmittebiûl murselîn",
+     "meaning": "Şehrin öbür ucundan koşarak bir adam gelmiş ve şöyle demişti: \"Ey Milletim! Gönderilen elçilere uyun",
+     "audio": "content/audio/husary/036020.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 21,
+     "arabic": "ٱتَّبِعُواْ مَن لَّا يَسۡـَٔلُكُمۡ أَجۡرࣰ ا وَهُم مُّهۡتَدُونَ",
+     "transliteration": "İttebiû men lâ yes’elukum ecren ve hum muhtedûn",
+     "meaning": "Sizden bir ücret istemeyenlere uyun, onlar doğru yoldadırlar",
+     "audio": "content/audio/husary/036021.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 22,
+     "arabic": "وَمَالِيَ لَآ أَعۡبُدُ ٱلَّذِي فَطَرَنِي وَإِلَيۡهِ تُرۡجَعُونَ",
+     "transliteration": "Ve mâ liye lâ a’budullezî fataranî ve ileyhi turceûn",
+     "meaning": "Beni yaratana ne diye kulluk etmeyeyim? Siz de O'na döneceksiniz",
+     "audio": "content/audio/husary/036022.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 23,
+     "arabic": "ءَأَتَّخِذُ مِن دُونِهِۦٓ ءَالِهَةً إِن يُرِدۡنِ ٱلرَّحۡمَٰنُ بِضُرࣲّ لَّا تُغۡنِ عَنِّي شَفَٰعَتُهُمۡ شَيۡـࣰٔ ا وَلَا يُنقِذُونِ",
+     "transliteration": "E ettehızu min dûnihî âliheten in yuridnir rahmânu bi durrin lâ tugni annî şefâatuhum şey’en ve lâ yunkızûn",
+     "meaning": "O'nu bırakıp da tanrılar edinir miyim? Eğer Rahman olan Allah bana bir zarar vermek isterse, o tanrıların şefaati bana fayda vermez, beni kurtaramazlar",
+     "audio": "content/audio/husary/036023.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 24,
+     "arabic": "إِنِّيٓ إِذࣰ ا لَّفِي ضَلَٰلࣲ مُّبِينٍ",
+     "transliteration": "İnnî izen le fî dalâlin mubîn",
+     "meaning": "Doğrusu o takdirde apaçık bir sapıklık içinde olurum",
+     "audio": "content/audio/husary/036024.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 25,
+     "arabic": "إِنِّيٓ ءَامَنتُ بِرَبِّكُمۡ فَٱسۡمَعُونِ",
+     "transliteration": "İnnî âmentu bi rabbikum fesmeûn",
+     "meaning": "Şüphesiz ben Rabbinize inandım, beni dinleyin",
+     "audio": "content/audio/husary/036025.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 26,
+     "arabic": "قِيلَ ٱدۡخُلِ ٱلۡجَنَّةَۖ قَالَ يَٰلَيۡتَ قَوۡمِي يَعۡلَمُونَ",
+     "transliteration": "Kîled hulil cenneh, kâle yâ leyte kavmî ya’lemûn",
+     "meaning": "Ona \"Cennete gir\" denince, \"Keşke milletim Rabbimin beni bağışladığını ve beni ikrama mazhar olanlardan kıldığını bilseydi!\" demişti",
+     "audio": "content/audio/husary/036026.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 27,
+     "arabic": "بِمَا غَفَرَ لِي رَبِّي وَجَعَلَنِي مِنَ ٱلۡمُكۡرَمِينَ",
+     "transliteration": "Bimâ gafere lî rabbî ve cealenî minel mukremîn",
+     "meaning": "Ona \"Cennete gir\" denince, \"Keşke milletim Rabbimin beni bağışladığını ve beni ikrama mazhar olanlardan kıldığını bilseydi!\" demişti",
+     "audio": "content/audio/husary/036027.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 28,
+     "arabic": "وَمَآ أَنزَلۡنَا عَلَىٰ قَوۡمِهِۦ مِنۢ بَعۡدِهِۦ مِن جُندࣲ مِّنَ ٱلسَّمَآءِ وَمَا كُنَّا مُنزِلِينَ",
+     "transliteration": "Ve mâ enzelnâ alâ kavmihî min ba’dihî min cundin mines semâi ve mâ kunnâ munzilîn",
+     "meaning": "Ondan sonra milleti üzerine gökten bir ordu indirmedik; zaten indirecek de değildik; sadece tek bir çığlık.. o kadar, hemen sönüp gittiler",
+     "audio": "content/audio/husary/036028.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 29,
+     "arabic": "إِن كَانَتۡ إِلَّا صَيۡحَةࣰ وَٰحِدَةࣰ فَإِذَا هُمۡ خَٰمِدُونَ",
+     "transliteration": "İn kânet illâ sayhaten vâhıdetenfe izâ hum hâmidûn",
+     "meaning": "Ondan sonra milleti üzerine gökten bir ordu indirmedik; zaten indirecek de değildik; sadece tek bir çığlık.. o kadar, hemen sönüp gittiler",
+     "audio": "content/audio/husary/036029.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 30,
+     "arabic": "يَٰحَسۡرَةً عَلَى ٱلۡعِبَادِۚ مَا يَأۡتِيهِم مِّن رَّسُولٍ إِلَّا كَانُواْ بِهِۦ يَسۡتَهۡزِءُونَ",
+     "transliteration": "Yâ hasreten alel ıbâd, mâ ye’tîhim min resûlin illâ kânû bihî yestehziûn",
+     "meaning": "Kullara yazıklar olsun! Kendilerine hangi elçi gelse, onu alaya alıyorlardı",
+     "audio": "content/audio/husary/036030.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 31,
+     "arabic": "أَلَمۡ يَرَوۡاْ كَمۡ أَهۡلَكۡنَا قَبۡلَهُم مِّنَ ٱلۡقُرُونِ أَنَّهُمۡ إِلَيۡهِمۡ لَا يَرۡجِعُونَ",
+     "transliteration": "E lem yerev kem ehleknâ kablehum minel kurûni ennehum ileyhim lâ yerciûn",
+     "meaning": "Kendilerinden önce nice nesilleri yok ettiğimizi, onların bir daha kendilerine dönmediklerini görmezler mi",
+     "audio": "content/audio/husary/036031.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 32,
+     "arabic": "وَإِن كُلࣱّ لَّمَّا جَمِيعࣱ لَّدَيۡنَا مُحۡضَرُونَ",
+     "transliteration": "Ve in kullun lemmâ cemîun ledeynâ muhdarûn",
+     "meaning": "Hepsi huzurumuza getirileceklerdir",
+     "audio": "content/audio/husary/036032.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 33,
+     "arabic": "وَءَايَةࣱ لَّهُمُ ٱلۡأَرۡضُ ٱلۡمَيۡتَةُ أَحۡيَيۡنَٰهَا وَأَخۡرَجۡنَا مِنۡهَا حَبࣰّ ا فَمِنۡهُ يَأۡكُلُونَ",
+     "transliteration": "Ve âyetun lehumul ardul meyteh, ahyeynâhâ ve ahrecnâ minhâ habben fe minhu ye’kulûn",
+     "meaning": "İşte onlara bir delil: Ölü yeri diriltir ve oradan taneler çıkarırız da ondan yerler",
+     "audio": "content/audio/husary/036033.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 34,
+     "arabic": "وَجَعَلۡنَا فِيهَا جَنَّٰتࣲ مِّن نَّخِيلࣲ وَأَعۡنَٰبࣲ وَفَجَّرۡنَا فِيهَا مِنَ ٱلۡعُيُونِ",
+     "transliteration": "Ve cealnâ fîhâ cennâtin min nahîlin ve a’nâbin ve feccernâ fîhâ minel uyûn",
+     "meaning": "Orada hurmalıklar ve üzüm bağları var ederiz, aralarında pınarlar fışkırtırız",
+     "audio": "content/audio/husary/036034.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 35,
+     "arabic": "لِيَأۡكُلُواْ مِن ثَمَرِهِۦ وَمَا عَمِلَتۡهُ أَيۡدِيهِمۡۚ أَفَلَا يَشۡكُرُونَ",
+     "transliteration": "Li ye’kulû min semerihî ve mâ âmilethu eydîhim, e fe lâ yeşkurûn",
+     "meaning": "Onun ve elleriyle yaptıklarının ürünlerini yesinler; şükretmezler mi",
+     "audio": "content/audio/husary/036035.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 36,
+     "arabic": "سُبۡحَٰنَ ٱلَّذِي خَلَقَ ٱلۡأَزۡوَٰجَ كُلَّهَا مِمَّا تُنۢبِتُ ٱلۡأَرۡضُ وَمِنۡ أَنفُسِهِمۡ وَمِمَّا لَا يَعۡلَمُونَ",
+     "transliteration": "Subhânellezî halakal ezvâce kullehâ mimmâ tunbitulardu ve min enfusihim ve mimmâ lâ ya’lemûn",
+     "meaning": "Yerin yetiştirdiklerinden, kendilerinden ve daha bilmediklerinden çift çift yaratan Allah münezzehtir",
+     "audio": "content/audio/husary/036036.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 37,
+     "arabic": "وَءَايَةࣱ لَّهُمُ ٱلَّيۡلُ نَسۡلَخُ مِنۡهُ ٱلنَّهَارَ فَإِذَا هُم مُّظۡلِمُونَ",
+     "transliteration": "Ve âyetun lehumul leyl, neslehu minhun nehâre fe izâ hum muzlimûn",
+     "meaning": "Onlara bir delil de gecedir; gündüzü ondan sıyırırız da karanlıkta kalıverirler",
+     "audio": "content/audio/husary/036037.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 38,
+     "arabic": "وَٱلشَّمۡسُ تَجۡرِي لِمُسۡتَقَرࣲّ لَّهَاۚ ذَٰلِكَ تَقۡدِيرُ ٱلۡعَزِيزِ ٱلۡعَلِيمِ",
+     "transliteration": "Veş şemsu tecrî li mustekarrin lehâ, zâlike takdîrul azîzil alîm",
+     "meaning": "Güneş de yörüngesinde yürüyüp gitmektedir. Bu, güçlü ve bilgin olan Allah'ın kanunudur",
+     "audio": "content/audio/husary/036038.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 39,
+     "arabic": "وَٱلۡقَمَرَ قَدَّرۡنَٰهُ مَنَازِلَ حَتَّىٰ عَادَ كَٱلۡعُرۡجُونِ ٱلۡقَدِيمِ",
+     "transliteration": "Vel kamere kaddernâhu menâzile hattâ âdekel urcûnil kadîm",
+     "meaning": "Ay için de sonunda kuru bir hurma dalına döneceği konaklar tayin etmişizdir",
+     "audio": "content/audio/husary/036039.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 40,
+     "arabic": "لَا ٱلشَّمۡسُ يَنۢبَغِي لَهَآ أَن تُدۡرِكَ ٱلۡقَمَرَ وَلَا ٱلَّيۡلُ سَابِقُ ٱلنَّهَارِۚ وَكُلࣱّ فِي فَلَكࣲ يَسۡبَحُونَ",
+     "transliteration": "Leş şemsu yenbegî lehâ en tudrikel kamere ve lel leylu sâbikun nehâr, ve kullun fî felekin yesbehûn",
+     "meaning": "Aya erişmek güneşe düşmez. Gece de gündüzü geçemez. Her biri bir yörüngede yürürler",
+     "audio": "content/audio/husary/036040.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 41,
+     "arabic": "وَءَايَةࣱ لَّهُمۡ أَنَّا حَمَلۡنَا ذُرِّيَّتَهُمۡ فِي ٱلۡفُلۡكِ ٱلۡمَشۡحُونِ",
+     "transliteration": "Ve âyetun lehum ennâ hamelnâ zurriyyetehum fîl fulkil meşhûn",
+     "meaning": "Onlara bir delil de: Soylarını dolu gemiyle taşımamız ve kendileri için bunun gibi daha nice binekler yaratmış olmamızdır",
+     "audio": "content/audio/husary/036041.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 42,
+     "arabic": "وَخَلَقۡنَا لَهُم مِّن مِّثۡلِهِۦ مَا يَرۡكَبُونَ",
+     "transliteration": "Ve halaknâ lehum min mislihî mâ yerkebûn",
+     "meaning": "Onlara bir delil de: Soylarını dolu gemiyle taşımamız ve kendileri için bunun gibi daha nice binekler yaratmış olmamızdır",
+     "audio": "content/audio/husary/036042.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 43,
+     "arabic": "وَإِن نَّشَأۡ نُغۡرِقۡهُمۡ فَلَا صَرِيخَ لَهُمۡ وَلَا هُمۡ يُنقَذُونَ",
+     "transliteration": "Ve in neşe’ nugrıkhum fe lâ sarîha lehum ve lâ hum yunkazûn",
+     "meaning": "Dilesek, onları suda boğardık; ne yardımlarına koşan bulunur ve ne de kendileri kurtulabilirlerdi",
+     "audio": "content/audio/husary/036043.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 44,
+     "arabic": "إِلَّا رَحۡمَةࣰ مِّنَّا وَمَتَٰعًا إِلَىٰ حِينࣲ‏",
+     "transliteration": "İllâ rahmeten minnâ ve metâan ilâ hîn",
+     "meaning": "Ama katımızdan bir rahmet ve bir süreye kadar geçinme olarak onları geri bıraktık",
+     "audio": "content/audio/husary/036044.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 45,
+     "arabic": "وَإِذَا قِيلَ لَهُمُ ٱتَّقُواْ مَا بَيۡنَ أَيۡدِيكُمۡ وَمَا خَلۡفَكُمۡ لَعَلَّكُمۡ تُرۡحَمُونَ",
+     "transliteration": "Ve izâ kîle lehumuttekû mâ beyne eydîkum ve mâ halfekum leallekum turhamûn",
+     "meaning": "Onlara: \"Geçmişinizden ve geleceğinizden sakının, belki acınırsınız\" dendiği zaman yüz çevirirler",
+     "audio": "content/audio/husary/036045.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 46,
+     "arabic": "وَمَا تَأۡتِيهِم مِّنۡ ءَايَةࣲ مِّنۡ ءَايَٰتِ رَبِّهِمۡ إِلَّا كَانُواْ عَنۡهَا مُعۡرِضِينَ",
+     "transliteration": "Ve mâ te’tîhim min âyetin min âyâti rabbihim illâ kânû anhâ mu’ridîn",
+     "meaning": "Zaten Rabbinin ayetlerinden herhangi biri kendilerine geldiğinde ondan hep yüz çeviregelmişlerdi",
+     "audio": "content/audio/husary/036046.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 47,
+     "arabic": "وَإِذَا قِيلَ لَهُمۡ أَنفِقُواْ مِمَّا رَزَقَكُمُ ٱللَّهُ قَالَ ٱلَّذِينَ كَفَرُواْ لِلَّذِينَ ءَامَنُوٓاْ أَنُطۡعِمُ مَن لَّوۡ يَشَآءُ ٱللَّهُ أَطۡعَمَهُۥٓ إِنۡ أَنتُمۡ إِلَّا فِي ضَلَٰلࣲ مُّبِينࣲ‏",
+     "transliteration": "Ve izâ kîle lehum enfikû mimmâ rezakakumullâhu kâlellezîne keferû lillezîne âmenû e nut’imu men lev yeşâullâhu at’ameh, in entum illâ fî dalâlin mubîn",
+     "meaning": "Onlara: \"Allah'ın size verdiği rızıktan sarfedin\" denince inkar edenler inananlara: \"Allah dileseydi doyurabileceği bir kimseyi biz mi doyuralım? Doğrusu siz apaçık bir sapıklıktasınız\" derler",
+     "audio": "content/audio/husary/036047.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 48,
+     "arabic": "وَيَقُولُونَ مَتَىٰ هَٰذَا ٱلۡوَعۡدُ إِن كُنتُمۡ صَٰدِقِينَ",
+     "transliteration": "Ve yekûlûne metâ hâzel va’du in kuntum sâdikîn",
+     "meaning": "Doğru sözlü iseniz bildirin bu vaad ne zamandır?\" derler",
+     "audio": "content/audio/husary/036048.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 49,
+     "arabic": "مَا يَنظُرُونَ إِلَّا صَيۡحَةࣰ وَٰحِدَةࣰ تَأۡخُذُهُمۡ وَهُمۡ يَخِصِّمُونَ",
+     "transliteration": "Mâ yenzurûne illâ sayhaten vâhıdeten te’huzuhum ve hum yahıssımûn",
+     "meaning": "Çekişip dururlarken kendilerini yakalayacak bir tek çığlığı beklerler",
+     "audio": "content/audio/husary/036049.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 50,
+     "arabic": "فَلَا يَسۡتَطِيعُونَ تَوۡصِيَةࣰ وَلَآ إِلَىٰٓ أَهۡلِهِمۡ يَرۡجِعُونَ",
+     "transliteration": "Fe lâ yestetîûne tavsiyeten ve lâ ilâ ehlihim yerciûn",
+     "meaning": "O zaman, artık ne vasiyet edebilirler ne de ailelerine dönebilirler",
+     "audio": "content/audio/husary/036050.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 51,
+     "arabic": "وَنُفِخَ فِي ٱلصُّورِ فَإِذَا هُم مِّنَ ٱلۡأَجۡدَاثِ إِلَىٰ رَبِّهِمۡ يَنسِلُونَ",
+     "transliteration": "Ve nufiha fîs sûri fe izâ hum minel ecdâsi ilâ rabbihim yensilûn",
+     "meaning": "Sura üflenince, kabirlerinden Rablerine koşarak çıkarlar",
+     "audio": "content/audio/husary/036051.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 52,
+     "arabic": "قَالُواْ يَٰوَيۡلَنَا مَنۢ بَعَثَنَا مِن مَّرۡقَدِنَاۜۗ هَٰذَا مَا وَعَدَ ٱلرَّحۡمَٰنُ وَصَدَقَ ٱلۡمُرۡسَلُونَ",
+     "transliteration": "Kâlû yâ veylenâ men beasenâ min merkadinâ, hâzâ mâ vaader rahmânuve sadakal murselûn",
+     "meaning": "Vah halimize! Yattığımız yerden bizi kim kaldırdı?\" derler. Onlara: \"İşte Rahman olan Allah'ın vadettiği budur, peygamberler doğru söylemişlerdi\" denir",
+     "audio": "content/audio/husary/036052.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 53,
+     "arabic": "إِن كَانَتۡ إِلَّا صَيۡحَةࣰ وَٰحِدَةࣰ فَإِذَا هُمۡ جَمِيعࣱ لَّدَيۡنَا مُحۡضَرُونَ",
+     "transliteration": "İn kânet illâ sayhaten vâhıdeten fe izâ hum cemîun ledeynâ muhdarûn",
+     "meaning": "Tek bir çığlık kopar, hepsi, hemen huzurumuza getirilmiş olur",
+     "audio": "content/audio/husary/036053.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 54,
+     "arabic": "فَٱلۡيَوۡمَ لَا تُظۡلَمُ نَفۡسࣱ شَيۡـࣰٔ ا وَلَا تُجۡزَوۡنَ إِلَّا مَا كُنتُمۡ تَعۡمَلُونَ",
+     "transliteration": "Fel yevme lâ tuzlemu nefsun şey’en ve lâ tuczevne illâ mâ kuntum ta’melûn",
+     "meaning": "Artık bugün kimseye hiçbir haksızlıkta bulunulmaz. İşlediklerinizden başkasıyla karşılık görmezsiniz",
+     "audio": "content/audio/husary/036054.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 55,
+     "arabic": "إِنَّ أَصۡحَٰبَ ٱلۡجَنَّةِ ٱلۡيَوۡمَ فِي شُغُلࣲ فَٰكِهُونَ",
+     "transliteration": "İnne ashâbel cennetil yevme fî şugulin fâkihûn",
+     "meaning": "Doğrusu bugün, cennetlikler eğlenceyle meşguldürler",
+     "audio": "content/audio/husary/036055.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 56,
+     "arabic": "هُمۡ وَأَزۡوَٰجُهُمۡ فِي ظِلَٰلٍ عَلَى ٱلۡأَرَآئِكِ مُتَّكِـُٔونَ",
+     "transliteration": "Hum ve ezvâcuhum fî zılâlin alel erâiki muttekiûn",
+     "meaning": "Onlar ve eşleri gölgeliklerde, tahtlar üzerine yaslanmışlardır",
+     "audio": "content/audio/husary/036056.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 57,
+     "arabic": "لَهُمۡ فِيهَا فَٰكِهَةࣱ وَلَهُم مَّا يَدَّعُونَ",
+     "transliteration": "Lehum fîhâ fâkihetun ve lehum mâ yeddeûn",
+     "meaning": "Orada meyveler ve her istedikleri onlarındır",
+     "audio": "content/audio/husary/036057.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 58,
+     "arabic": "سَلَٰمࣱ قَوۡلࣰ ا مِّن رَّبࣲّ رَّحِيمࣲ‏",
+     "transliteration": "Selâmun kavlen min rabbin rahîm",
+     "meaning": "Merhametli olan Rab katından onlara selam vardır",
+     "audio": "content/audio/husary/036058.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 59,
+     "arabic": "وَٱمۡتَٰزُواْ ٱلۡيَوۡمَ أَيُّهَا ٱلۡمُجۡرِمُونَ",
+     "transliteration": "Vemtâzûl yevme eyyuhel mucrimûn",
+     "meaning": "Allah şöyle buyurur: Ey suçlular! Bugün müminlerden ayrılın. Ey insanoğulları! Ben size, şeytana tapmayın, o sizin için apaçık bir düşmandır, Bana kulluk edin, bu doğru yoldur, diye bildirmedim mi",
+     "audio": "content/audio/husary/036059.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 60,
+     "arabic": "أَلَمۡ أَعۡهَدۡ إِلَيۡكُمۡ يَٰبَنِيٓ ءَادَمَ أَن لَّا تَعۡبُدُواْ ٱلشَّيۡطَٰنَۖ إِنَّهُۥ لَكُمۡ عَدُوࣱّ مُّبِينࣱ‏",
+     "transliteration": "E lem a’had ileykum yâ benî âdeme en lâ ta’budûş şeytân, innehu lekum aduvvun mubîn",
+     "meaning": "Allah şöyle buyurur: Ey suçlular! Bugün müminlerden ayrılın. Ey insanoğulları! Ben size, şeytana tapmayın, o sizin için apaçık bir düşmandır, Bana kulluk edin, bu doğru yoldur, diye bildirmedim mi",
+     "audio": "content/audio/husary/036060.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 61,
+     "arabic": "وَأَنِ ٱعۡبُدُونِيۚ هَٰذَا صِرَٰطࣱ مُّسۡتَقِيمࣱ‏",
+     "transliteration": "Ve eni’budûnî, hâzâ sırâtun mustekîm",
+     "meaning": "Allah şöyle buyurur: Ey suçlular! Bugün müminlerden ayrılın. Ey insanoğulları! Ben size, şeytana tapmayın, o sizin için apaçık bir düşmandır, Bana kulluk edin, bu doğru yoldur, diye bildirmedim mi",
+     "audio": "content/audio/husary/036061.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 62,
+     "arabic": "وَلَقَدۡ أَضَلَّ مِنكُمۡ جِبِلࣰّ ا كَثِيرًاۖ أَفَلَمۡ تَكُونُواْ تَعۡقِلُونَ",
+     "transliteration": "Ve lekad edalle minkum cibillen kesîrâ, e fe lem tekûnû ta’kılûn",
+     "meaning": "And olsun ki, o sizden nice nesilleri saptırmıştı, akletmez miydiniz",
+     "audio": "content/audio/husary/036062.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 63,
+     "arabic": "هَٰذِهِۦ جَهَنَّمُ ٱلَّتِي كُنتُمۡ تُوعَدُونَ",
+     "transliteration": "Hâzihî cehennemulletî kuntum tûadûn",
+     "meaning": "İşte bu, size söz verilen cehennemdir",
+     "audio": "content/audio/husary/036063.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 64,
+     "arabic": "ٱصۡلَوۡهَا ٱلۡيَوۡمَ بِمَا كُنتُمۡ تَكۡفُرُونَ",
+     "transliteration": "Islevhel yevme bimâ kuntum tekfurûn",
+     "meaning": "Bugün, inkarcılığınıza karşılık oraya girin",
+     "audio": "content/audio/husary/036064.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 65,
+     "arabic": "ٱلۡيَوۡمَ نَخۡتِمُ عَلَىٰٓ أَفۡوَٰهِهِمۡ وَتُكَلِّمُنَآ أَيۡدِيهِمۡ وَتَشۡهَدُ أَرۡجُلُهُم بِمَا كَانُواْ يَكۡسِبُونَ",
+     "transliteration": "El yevme nahtimu alâ efvâhihim ve tukellimunâ eydîhim ve teşhedu erculuhum bimâ kânû yeksibûn",
+     "meaning": "İşte o gün ağızlarını mühürleriz, Bizimle elleri konuşur, ayakları da yaptıklarına şahidlik eder",
+     "audio": "content/audio/husary/036065.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 66,
+     "arabic": "وَلَوۡ نَشَآءُ لَطَمَسۡنَا عَلَىٰٓ أَعۡيُنِهِمۡ فَٱسۡتَبَقُواْ ٱلصِّرَٰطَ فَأَنَّىٰ يُبۡصِرُونَ",
+     "transliteration": "Ve lev neşâu le tamesnâ alâ a’yunihim festebekûs sırâta fe ennâ yubsırûn",
+     "meaning": "Dilesek, gözlerini kör ederdik de yol bulmağa çalışırlardı. Nasıl görebilirlerdi",
+     "audio": "content/audio/husary/036066.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 67,
+     "arabic": "وَلَوۡ نَشَآءُ لَمَسَخۡنَٰهُمۡ عَلَىٰ مَكَانَتِهِمۡ فَمَا ٱسۡتَطَٰعُواْ مُضِيࣰّ ا وَلَا يَرۡجِعُونَ",
+     "transliteration": "Ve lev neşâu le mesahnâhum alâ mekânetihim fe mâstetâû mudiyyen ve lâ yerciûn",
+     "meaning": "Dilesek, onları oldukları yerde dondururduk da, ne ileri gidebilirler ve ne de geri dönebilirlerdi",
+     "audio": "content/audio/husary/036067.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 68,
+     "arabic": "وَمَن نُّعَمِّرۡهُ نُنَكِّسۡهُ فِي ٱلۡخَلۡقِۚ أَفَلَا يَعۡقِلُونَ",
+     "transliteration": "Ve men nuammirhu nunekkishu fîl halk, e fe lâ ya’kılûn",
+     "meaning": "Uzun ömürlü yaptığımızın hilkatini tersine çevirmişizdir. Akletmezler mi",
+     "audio": "content/audio/husary/036068.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 69,
+     "arabic": "وَمَا عَلَّمۡنَٰهُ ٱلشِّعۡرَ وَمَا يَنۢبَغِي لَهُۥٓۚ إِنۡ هُوَ إِلَّا ذِكۡرࣱ وَقُرۡءَانࣱ مُّبِينࣱ‏",
+     "transliteration": "Ve mâ allemnâhuş şi’re ve mâ yenbagî leh, in huve illâ zikrun ve kur’ânun mubîn",
+     "meaning": "Biz ona şiir öğretmedik, zaten ona gerekmezdi. Bu bir öğüt ve apaçık Kuran'dır",
+     "audio": "content/audio/husary/036069.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 70,
+     "arabic": "لِّيُنذِرَ مَن كَانَ حَيࣰّ ا وَيَحِقَّ ٱلۡقَوۡلُ عَلَى ٱلۡكَٰفِرِينَ",
+     "transliteration": "Li yunzire men kâne hayyen ve yehıkkal kavlu alel kâfirîn",
+     "meaning": "Diri olan kimseyi uyarsın ve verilen söz de inkarcıların aleyhine çıksın",
+     "audio": "content/audio/husary/036070.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 71,
+     "arabic": "أَوَلَمۡ يَرَوۡاْ أَنَّا خَلَقۡنَا لَهُم مِّمَّا عَمِلَتۡ أَيۡدِينَآ أَنۡعَٰمࣰ ا فَهُمۡ لَهَا مَٰلِكُونَ",
+     "transliteration": "E ve lem yerev ennâ halaknâ lehum mimmâ amilet eydînâ en’âmen fe hum lehâ mâlikûn",
+     "meaning": "Kudretimizle kendileri için hayvanlar yarattığımızı görmezler mi? Onlara sahip olmaktadırlar",
+     "audio": "content/audio/husary/036071.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 72,
+     "arabic": "وَذَلَّلۡنَٰهَا لَهُمۡ فَمِنۡهَا رَكُوبُهُمۡ وَمِنۡهَا يَأۡكُلُونَ",
+     "transliteration": "Ve zellelnâhâ lehum fe minhâ rakûbuhum ve minhâ ye’kulûn",
+     "meaning": "Onları kendilerinin buyruğuna verdik; bindikleri de, etini yedikleri de vardır",
+     "audio": "content/audio/husary/036072.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 73,
+     "arabic": "وَلَهُمۡ فِيهَا مَنَٰفِعُ وَمَشَارِبُۚ أَفَلَا يَشۡكُرُونَ",
+     "transliteration": "Ve lehum fîhâ menâfiu ve meşârib, e fe lâ yeşkurûn",
+     "meaning": "Onlarda daha nice faydalar, içecekler vardır; şükretmezler mi",
+     "audio": "content/audio/husary/036073.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 74,
+     "arabic": "وَٱتَّخَذُواْ مِن دُونِ ٱللَّهِ ءَالِهَةࣰ لَّعَلَّهُمۡ يُنصَرُونَ",
+     "transliteration": "Vettehazû min dûnillâhi âliheten leallehum yunsarûn",
+     "meaning": "Allah'ı bırakıp da, kendilerine yardımı dokunur diye, başka tanrılar edindiler",
+     "audio": "content/audio/husary/036074.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 75,
+     "arabic": "لَا يَسۡتَطِيعُونَ نَصۡرَهُمۡ وَهُمۡ لَهُمۡ جُندࣱ مُّحۡضَرُونَ",
+     "transliteration": "Lâ yestetîûne nasrahum ve hum lehum cundun muhdarûn",
+     "meaning": "Oysa onlar yardım edemezler, ancak kendileri o tanrılara koruyuculuk için nöbet beklerler",
+     "audio": "content/audio/husary/036075.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 76,
+     "arabic": "فَلَا يَحۡزُنكَ قَوۡلُهُمۡۘ إِنَّا نَعۡلَمُ مَا يُسِرُّونَ وَمَا يُعۡلِنُونَ",
+     "transliteration": "Fe lâ yahzunke kavluhum, innâ na’lemu mâ yusirrûne ve mâ yu’linûn",
+     "meaning": "Bunların sözü seni üzmesin. Biz onların gizlediklerini de, açığa vurduklarını da şüphesiz biliriz",
+     "audio": "content/audio/husary/036076.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 77,
+     "arabic": "أَوَلَمۡ يَرَ ٱلۡإِنسَٰنُ أَنَّا خَلَقۡنَٰهُ مِن نُّطۡفَةࣲ فَإِذَا هُوَ خَصِيمࣱ مُّبِينࣱ‏",
+     "transliteration": "E ve lem yerel insânu ennâ halaknâhu min nutfetin fe iza huve hasîmun mubîn",
+     "meaning": "İnsan kendisini bir nutfeden yarattığımızı görmez mi ki hemen apaçık bir hasım kesilir ve kendi yaratılışını unutur da; \"Çürümüş kemikleri kim yaratacak\" diyerek, Bize misal vermeye kalkar",
+     "audio": "content/audio/husary/036077.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 78,
+     "arabic": "وَضَرَبَ لَنَا مَثَلࣰ ا وَنَسِيَ خَلۡقَهُۥۖ قَالَ مَن يُحۡيِ ٱلۡعِظَٰمَ وَهِيَ رَمِيمࣱ‏",
+     "transliteration": "Ve darebe lenâ meselen ve nesiye halkah, kâle men yuhyil izâme ve hiye remîm",
+     "meaning": "İnsan kendisini bir nutfeden yarattığımızı görmez mi ki hemen apaçık bir hasım kesilir ve kendi yaratılışını unutur da; \"Çürümüş kemikleri kim yaratacak\" diyerek, Bize misal vermeye kalkar",
+     "audio": "content/audio/husary/036078.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 79,
+     "arabic": "قُلۡ يُحۡيِيهَا ٱلَّذِيٓ أَنشَأَهَآ أَوَّلَ مَرَّةࣲۖ وَهُوَ بِكُلِّ خَلۡقٍ عَلِيمٌ",
+     "transliteration": "Kul yuhyîhellezî enşeehâ evvele merreh, ve huve bi kulli halkın alîm",
+     "meaning": "De ki: \"Onları ilk defa yaratan diriltecektir. O, her türlü yaratmayı bilendir",
+     "audio": "content/audio/husary/036079.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 80,
+     "arabic": "ٱلَّذِي جَعَلَ لَكُم مِّنَ ٱلشَّجَرِ ٱلۡأَخۡضَرِ نَارࣰ ا فَإِذَآ أَنتُم مِّنۡهُ تُوقِدُونَ",
+     "transliteration": "Ellezî ceale lekum mineş şeceril ahdarinâren fe izâ entum minhu tûkıdûn",
+     "meaning": "Yaş ağaçtan size ateş çıkarandır. Ondan ateş yakarsınız",
+     "audio": "content/audio/husary/036080.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 81,
+     "arabic": "أَوَلَيۡسَ ٱلَّذِي خَلَقَ ٱلسَّمَٰوَٰتِ وَٱلۡأَرۡضَ بِقَٰدِرٍ عَلَىٰٓ أَن يَخۡلُقَ مِثۡلَهُمۚ بَلَىٰ وَهُوَ ٱلۡخَلَّٰقُ ٱلۡعَلِيمُ",
+     "transliteration": "E ve leysellezî halakas semâvâti vel arda bi kâdirin alâ en yahluka mislehum, belâ ve huvel hallâkul alîm",
+     "meaning": "Gökleri ve yeri yaratan, kendilerinin benzerini yaratmaya kadir olmaz mı? Elbette olur; çünkü O, yaratan ve bilendir",
+     "audio": "content/audio/husary/036081.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 82,
+     "arabic": "إِنَّمَآ أَمۡرُهُۥٓ إِذَآ أَرَادَ شَيۡـًٔا أَن يَقُولَ لَهُۥ كُن فَيَكُونُ",
+     "transliteration": "İnnemâ emruhû izâ erâde şey’en en yekûle lehu kun fe yekûn",
+     "meaning": "Bir şeyi dilediği zaman, O'nun buyruğu sadece, o şeye \"Ol\" demektir, hemen olur",
+     "audio": "content/audio/husary/036082.mp3"
+    },
+    {
+     "surah": 36,
+     "ayah": 83,
+     "arabic": "فَسُبۡحَٰنَ ٱلَّذِي بِيَدِهِۦ مَلَكُوتُ كُلِّ شَيۡءࣲ وَإِلَيۡهِ تُرۡجَعُونَ",
+     "transliteration": "Fe subhânellezî bi yedihî melekûtu kulli şey’in ve ileyhi turceûn",
+     "meaning": "Her şeyin hükümranlığı elinde olan ve sizin de kendisine döneceğiniz Allah münezzehtir",
+     "audio": "content/audio/husary/036083.mp3"
+    }
+   ],
+   "source": "Kur'ân-ı Kerîm. Arapça metin: Tanzil (Osmanî hat, Hafs). Meal: Diyanet İşleri Başkanlığı meali. Okunuş: Tanzil Türkçe okunuş. Kıraat: Hafız Mahmud Halil el-Husarî (EveryAyah.com).",
+   "verified": true
+  },
+  {
+   "id": "ayetel_kursi",
+   "title": "Âyetü'l-Kürsî",
+   "category": "Kur'an'dan Dualar",
+   "reference": "Bakara Sûresi 255",
+   "verses": [
+    {
+     "surah": 2,
+     "ayah": 255,
+     "arabic": "ٱللَّهُ لَآ إِلَٰهَ إِلَّا هُوَ ٱلۡحَيُّ ٱلۡقَيُّومُۚ لَا تَأۡخُذُهُۥ سِنَةࣱ وَلَا نَوۡمࣱۚ لَّهُۥ مَا فِي ٱلسَّمَٰوَٰتِ وَمَا فِي ٱلۡأَرۡضِۗ مَن ذَا ٱلَّذِي يَشۡفَعُ عِندَهُۥٓ إِلَّا بِإِذۡنِهِۦۚ يَعۡلَمُ مَا بَيۡنَ أَيۡدِيهِمۡ وَمَا خَلۡفَهُمۡۖ وَلَا يُحِيطُونَ بِشَيۡءࣲ مِّنۡ عِلۡمِهِۦٓ إِلَّا بِمَا شَآءَۚ وَسِعَ كُرۡسِيُّهُ ٱلسَّمَٰوَٰتِ وَٱلۡأَرۡضَۖ وَلَا يَـُٔودُهُۥ حِفۡظُهُمَاۚ وَهُوَ ٱلۡعَلِيُّ ٱلۡعَظِيمُ",
+     "transliteration": "Allâhu lâ ilâhe illâ huvel hayyul kayyûm, lâ te’huzuhu sinetun ve lâ nevm, lehu mâ fîs semâvâti ve mâ fil ard, menzellezî yeşfeu indehû illâ bi iznih ya’lemu mâ beyne eydîhim ve mâ halfehum, ve lâ yuhîtûne bi şey’in min ilmihî illâ bi mâ şâe, vesia kursiyyuhus semâvâti vel ard, ve lâ yeûduhu hıfzuhumâ ve huvel aliyyul azîm",
+     "meaning": "Allah, O'ndan başka tanrı olmayan, kendisini uyuklama ve uyku tutmayan, diri, her an yaratıklarını gözetip durandır. Göklerde olan ve yerde olan ancak O'nundur. O'nun izni olmadan katında şefaat edecek kimdir? Onların işlediklerini ve işleyeceklerini bilir, dilediğinden başka ilminden hiçbir şeyi kavrayamazlar. Hükümranlığı gökleri ve yeri kaplamıştır, onların gözetilmesi O'na ağır gelmez. O yücedir, büyüktür",
+     "audio": "content/audio/husary/002255.mp3"
+    }
+   ],
+   "source": "Kur'ân-ı Kerîm. Arapça metin: Tanzil (Osmanî hat, Hafs). Meal: Diyanet İşleri Başkanlığı meali. Okunuş: Tanzil Türkçe okunuş. Kıraat: Hafız Mahmud Halil el-Husarî (EveryAyah.com).",
+   "verified": true
+  },
+  {
+   "id": "nazar",
+   "title": "Nazar Ayetleri",
+   "category": "Kur'an'dan Dualar",
+   "reference": "Kalem Sûresi 51-52",
+   "verses": [
+    {
+     "surah": 68,
+     "ayah": 51,
+     "arabic": "وَإِن يَكَادُ ٱلَّذِينَ كَفَرُواْ لَيُزۡلِقُونَكَ بِأَبۡصَٰرِهِمۡ لَمَّا سَمِعُواْ ٱلذِّكۡرَ وَيَقُولُونَ إِنَّهُۥ لَمَجۡنُونࣱ‏",
+     "transliteration": "Ve in yekâdullezîne keferû le yuzlikûneke bi ebsârihim lemmâ semîûz zikra ve yekûlûne innehu le mecnûn",
+     "meaning": "Rabbi onu seçip iyilerden kıldı. Doğrusu inkar edenler, Kuran'ı dinlediklerinde nerdeyse seni gözleriyle yıkıp devireceklerdi. \"O delidir\" diyorlardı",
+     "audio": "content/audio/husary/068051.mp3"
+    },
+    {
+     "surah": 68,
+     "ayah": 52,
+     "arabic": "وَمَا هُوَ إِلَّا ذِكۡرࣱ لِّلۡعَٰلَمِينَ",
+     "transliteration": "Ve mâ huve illâ zikrun lil âlemîn",
+     "meaning": "Oysa Kuran, alemler için bir öğütten başka bir şey değildir",
+     "audio": "content/audio/husary/068052.mp3"
+    }
+   ],
+   "source": "Kur'ân-ı Kerîm. Arapça metin: Tanzil (Osmanî hat, Hafs). Meal: Diyanet İşleri Başkanlığı meali. Okunuş: Tanzil Türkçe okunuş. Kıraat: Hafız Mahmud Halil el-Husarî (EveryAyah.com).",
+   "verified": true
+  },
+  {
+   "id": "sinav",
+   "title": "Sınava Girerken",
+   "category": "Kur'an'dan Dualar",
+   "reference": "Tâhâ Sûresi 25-28",
+   "verses": [
+    {
+     "surah": 20,
+     "ayah": 25,
+     "arabic": "قَالَ رَبِّ ٱشۡرَحۡ لِي صَدۡرِي",
+     "transliteration": "Kâle rabbişrah lî sadrî",
+     "meaning": "Musa: \"Rabbim! Göğsümü genişlet, işimi kolaylaştır, dilimin düğümünü çöz ki sözümü iyi anlasınlar. Ailemden kardeşim Harun'u bana vezir yap, beni onunla destekle, onu görevimde ortak kıl ki Seni daha çok tesbih edelim ve çokça analım. Şüphesiz Sen bizi görmektesin\" dedi",
+     "audio": "content/audio/husary/020025.mp3"
+    },
+    {
+     "surah": 20,
+     "ayah": 26,
+     "arabic": "وَيَسِّرۡ لِيٓ أَمۡرِي",
+     "transliteration": "Ve yessir lî emrî",
+     "meaning": "Musa: \"Rabbim! Göğsümü genişlet, işimi kolaylaştır, dilimin düğümünü çöz ki sözümü iyi anlasınlar. Ailemden kardeşim Harun'u bana vezir yap, beni onunla destekle, onu görevimde ortak kıl ki Seni daha çok tesbih edelim ve çokça analım. Şüphesiz Sen bizi görmektesin\" dedi",
+     "audio": "content/audio/husary/020026.mp3"
+    },
+    {
+     "surah": 20,
+     "ayah": 27,
+     "arabic": "وَٱحۡلُلۡ عُقۡدَةࣰ مِّن لِّسَانِي",
+     "transliteration": "Vahlul ukdeten min lisânî",
+     "meaning": "Musa: \"Rabbim! Göğsümü genişlet, işimi kolaylaştır, dilimin düğümünü çöz ki sözümü iyi anlasınlar. Ailemden kardeşim Harun'u bana vezir yap, beni onunla destekle, onu görevimde ortak kıl ki Seni daha çok tesbih edelim ve çokça analım. Şüphesiz Sen bizi görmektesin\" dedi",
+     "audio": "content/audio/husary/020027.mp3"
+    },
+    {
+     "surah": 20,
+     "ayah": 28,
+     "arabic": "يَفۡقَهُواْ قَوۡلِي",
+     "transliteration": "Yefkahû kavlî",
+     "meaning": "Musa: \"Rabbim! Göğsümü genişlet, işimi kolaylaştır, dilimin düğümünü çöz ki sözümü iyi anlasınlar. Ailemden kardeşim Harun'u bana vezir yap, beni onunla destekle, onu görevimde ortak kıl ki Seni daha çok tesbih edelim ve çokça analım. Şüphesiz Sen bizi görmektesin\" dedi",
+     "audio": "content/audio/husary/020028.mp3"
+    }
+   ],
+   "source": "Kur'ân-ı Kerîm. Arapça metin: Tanzil (Osmanî hat, Hafs). Meal: Diyanet İşleri Başkanlığı meali. Okunuş: Tanzil Türkçe okunuş. Kıraat: Hafız Mahmud Halil el-Husarî (EveryAyah.com).",
+   "verified": true
+  },
+  {
+   "id": "hastalik",
+   "title": "Hastalıkta Okunan",
+   "category": "Kur'an'dan Dualar",
+   "reference": "Enbiyâ Sûresi 83",
+   "verses": [
+    {
+     "surah": 21,
+     "ayah": 83,
+     "arabic": "وَأَيُّوبَ إِذۡ نَادَىٰ رَبَّهُۥٓ أَنِّي مَسَّنِيَ ٱلضُّرُّ وَأَنتَ أَرۡحَمُ ٱلرَّٰحِمِينَ",
+     "transliteration": "Ve eyyûbe iz nâdâ rabbehû ennî messeniyed durru ve ente erhamur râhimîn",
+     "meaning": "Eyyub da: \"Başıma bir bela geldi, (Sana sığındım), Sen merhametlilerin merhametlisisin\" diye Rabbine nida etmişti",
+     "audio": "content/audio/husary/021083.mp3"
+    }
+   ],
+   "source": "Kur'ân-ı Kerîm. Arapça metin: Tanzil (Osmanî hat, Hafs). Meal: Diyanet İşleri Başkanlığı meali. Okunuş: Tanzil Türkçe okunuş. Kıraat: Hafız Mahmud Halil el-Husarî (EveryAyah.com).",
+   "verified": true
+  },
+  {
+   "id": "yolculuk",
+   "title": "Yolculuk Duası",
+   "category": "Kur'an'dan Dualar",
+   "reference": "Zuhruf Sûresi 13-14",
+   "verses": [
+    {
+     "surah": 43,
+     "ayah": 13,
+     "arabic": "لِتَسۡتَوُۥاْ عَلَىٰ ظُهُورِهِۦ ثُمَّ تَذۡكُرُواْ نِعۡمَةَ رَبِّكُمۡ إِذَا ٱسۡتَوَيۡتُمۡ عَلَيۡهِ وَتَقُولُواْ سُبۡحَٰنَ ٱلَّذِي سَخَّرَ لَنَا هَٰذَا وَمَا كُنَّا لَهُۥ مُقۡرِنِينَ",
+     "transliteration": "Li testevû alâ zuhûrihî summe tezkurû ni’mete rabbikum izesteveytum aleyhi, ve tekûlû subhânellezî sehhare lenâ hâzâ ve mâ kunnâ lehu mukrinîn",
+     "meaning": "Her sınıf varlığı yaratan O'dur. Gemiler ve hayvanlardan binesiniz diye size binekler var etmiştir. Bütün bunlar; üzerlerine oturunca Rabbinizin nimetini anarak: \"Bunları buyruğumuza veren ne yücedir; zaten bizim takatimiz bunlara yetmezdi; şüphesiz Rabbimize döneceğiz\" demeniz içindir",
+     "audio": "content/audio/husary/043013.mp3"
+    },
+    {
+     "surah": 43,
+     "ayah": 14,
+     "arabic": "وَإِنَّآ إِلَىٰ رَبِّنَا لَمُنقَلِبُونَ",
+     "transliteration": "Ve innâ ilâ rabbinâ le munkalibûn",
+     "meaning": "Her sınıf varlığı yaratan O'dur. Gemiler ve hayvanlardan binesiniz diye size binekler var etmiştir. Bütün bunlar; üzerlerine oturunca Rabbinizin nimetini anarak: \"Bunları buyruğumuza veren ne yücedir; zaten bizim takatimiz bunlara yetmezdi; şüphesiz Rabbimize döneceğiz\" demeniz içindir",
+     "audio": "content/audio/husary/043014.mp3"
+    }
+   ],
+   "source": "Kur'ân-ı Kerîm. Arapça metin: Tanzil (Osmanî hat, Hafs). Meal: Diyanet İşleri Başkanlığı meali. Okunuş: Tanzil Türkçe okunuş. Kıraat: Hafız Mahmud Halil el-Husarî (EveryAyah.com).",
+   "verified": true
+  },
+  {
+   "id": "rabbi_cal",
+   "title": "Rabbi'c'alnî",
+   "category": "Kur'an'dan Dualar",
+   "reference": "İbrâhîm Sûresi 40",
+   "verses": [
+    {
+     "surah": 14,
+     "ayah": 40,
+     "arabic": "رَبِّ ٱجۡعَلۡنِي مُقِيمَ ٱلصَّلَوٰةِ وَمِن ذُرِّيَّتِيۚ رَبَّنَا وَتَقَبَّلۡ دُعَآءِ",
+     "transliteration": "Rabbic’alnî mukîmas salâti ve min zurriyyetî rabbenâ ve tekabbel duâ",
+     "meaning": "Rabbim! Beni ve çocuklarımı namaz kılanlardan eyle. Rabbimiz! Duamı kabul buyur",
+     "audio": "content/audio/husary/014040.mp3"
+    }
+   ],
+   "source": "Kur'ân-ı Kerîm. Arapça metin: Tanzil (Osmanî hat, Hafs). Meal: Diyanet İşleri Başkanlığı meali. Okunuş: Tanzil Türkçe okunuş. Kıraat: Hafız Mahmud Halil el-Husarî (EveryAyah.com).",
+   "verified": true
+  }
+ ]
 }

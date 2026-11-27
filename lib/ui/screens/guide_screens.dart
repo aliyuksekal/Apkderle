@@ -2,45 +2,134 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
+import '../../core/audio.dart';
+import '../../core/duas.dart';
 import '../../core/guide_audio.dart';
 import '../../core/guide_flow.dart';
 import '../../core/guide_runner.dart';
 import '../../core/native.dart';
 import '../../core/place.dart';
 import '../../core/prayer_log.dart';
+import '../../core/prayer_times.dart';
 import '../../core/settings.dart';
 import '../../core/vibration_patterns.dart';
 import '../app_scope.dart';
 import '../widgets.dart';
 import 'pro_screens.dart' show todayInfo;
 
-/// 1) Namaz seçimi
+/// Şu an hangi vaktin içindeyiz (Güneş–Öğle arası: null).
+Vakit? currentVakit(PrayerTimes? t, DateTime now) {
+  if (t == null) return null;
+  if (now.isBefore(t[PrayerName.imsak])) return Vakit.yatsi;
+  if (now.isBefore(t[PrayerName.gunes])) return Vakit.sabah;
+  if (now.isBefore(t[PrayerName.ogle])) return null;
+  if (now.isBefore(t[PrayerName.ikindi])) return Vakit.ogle;
+  if (now.isBefore(t[PrayerName.aksam])) return Vakit.ikindi;
+  if (now.isBefore(t[PrayerName.yatsi])) return Vakit.aksam;
+  return Vakit.yatsi;
+}
+
+PrayerName _start(Vakit v) => switch (v) {
+  Vakit.sabah => PrayerName.imsak,
+  Vakit.ogle => PrayerName.ogle,
+  Vakit.ikindi => PrayerName.ikindi,
+  Vakit.aksam => PrayerName.aksam,
+  Vakit.yatsi => PrayerName.yatsi,
+};
+
+/// 1) Beş vakit + kaza
 class GuideSelectScreen extends StatelessWidget {
   const GuideSelectScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final t = Theme.of(context).textTheme;
+    final cs = Theme.of(context).colorScheme;
+    final info = todayInfo(placeFromSettings(context.settings));
+    final now = currentVakit(info.times, info.now);
     return Scaffold(
       appBar: AppBar(title: const Text('İmamla Kıl')),
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.all(16),
           children: [
-            Text(
-              'Hangi namazı kılacaksınız?',
-              style: Theme.of(context).textTheme.headlineSmall,
-            ),
+            Text('Hangi vakti kılacaksınız?', style: t.headlineSmall),
             const SizedBox(height: 14),
-            for (final p in kPrayerOptions) ...[
+            for (final v in Vakit.values) ...[
               BigActionButton(
                 icon: Icons.mosque_rounded,
-                label: p.title,
-                subtitle: '${p.rakats} rekât',
+                label: '${v.label} Namazı',
+                subtitle: [
+                  if (info.times != null) hhmm(info.times![_start(v)]),
+                  if (v == now) 'Şu anki vakit',
+                ].join(' • '),
+                gold: v == now,
                 onPressed: () => Navigator.of(context).push(
-                  MaterialPageRoute(builder: (_) => GuidePrepScreen(prayer: p)),
+                  MaterialPageRoute(builder: (_) => VakitScreen(vakit: v)),
                 ),
               ),
               const SizedBox(height: 12),
+            ],
+            const SizedBox(height: 6),
+            Divider(color: cs.outlineVariant),
+            const SizedBox(height: 6),
+            BigActionButton(
+              icon: Icons.history_rounded,
+              label: 'Kaza Namazı',
+              subtitle: 'Yalnız farzlar, kaza niyetiyle',
+              onPressed: () => Navigator.of(
+                context,
+              ).push(MaterialPageRoute(builder: (_) => const KazaPickScreen())),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// 2a) Bir vaktin namazları: sünnetler + farz
+class VakitScreen extends StatelessWidget {
+  const VakitScreen({super.key, required this.vakit});
+  final Vakit vakit;
+
+  void _go(BuildContext context, List<PrayerUnit> units) => Navigator.of(
+    context,
+  ).push(MaterialPageRoute(builder: (_) => GuidePrepScreen(units: units)));
+
+  @override
+  Widget build(BuildContext context) {
+    final t = Theme.of(context).textTheme;
+    final units = unitsFor(vakit, context.settings.madhab);
+    final farz = units.firstWhere((u) => u.isFard);
+    final total = units.fold<int>(0, (a, u) => a + u.rakats);
+    return Scaffold(
+      appBar: AppBar(title: Text('${vakit.label} Namazı')),
+      body: SafeArea(
+        child: ListView(
+          padding: const EdgeInsets.all(16),
+          children: [
+            BigActionButton(
+              icon: Icons.playlist_play_rounded,
+              label: 'Hepsini Kıl',
+              subtitle:
+                  '${units.map((u) => u.title.replaceFirst('${vakit.label} ', '')).join(' + ')} • $total rekât',
+              gold: true,
+              onPressed: () => _go(context, units),
+            ),
+            const SizedBox(height: 12),
+            BigActionButton(
+              icon: Icons.timer_rounded,
+              label: 'Sadece Farzı Kıl',
+              subtitle: 'Vakit darsa • ${farz.rakats} rekât',
+              onPressed: () => _go(context, [farz]),
+            ),
+            const SizedBox(height: 20),
+            Text('Tek tek kılmak için', style: t.titleLarge),
+            const SizedBox(height: 10),
+            for (final u in units) ...[
+              _UnitTile(unit: u, onTap: () => _go(context, [u])),
+              const SizedBox(height: 10),
             ],
           ],
         ),
@@ -49,10 +138,130 @@ class GuideSelectScreen extends StatelessWidget {
   }
 }
 
-/// 2) Tek kısa hazırlık ekranı
+class _UnitTile extends StatelessWidget {
+  const _UnitTile({required this.unit, required this.onTap, this.badge});
+  final PrayerUnit unit;
+  final VoidCallback onTap;
+  final String? badge;
+
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    final t = Theme.of(context).textTheme;
+    final kind = switch (unit.kind) {
+      UnitKind.farz => 'Farz',
+      UnitKind.vitir => 'Vitir',
+      _ => 'Sünnet',
+    };
+    return Material(
+      color: cs.surfaceContainerHigh,
+      borderRadius: BorderRadius.circular(18),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(18),
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+          child: Row(
+            children: [
+              Container(
+                width: 56,
+                height: 56,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: unit.isFard ? cs.primary : cs.secondaryContainer,
+                  shape: BoxShape.circle,
+                ),
+                child: Text(
+                  '${unit.rakats}',
+                  style: t.headlineSmall!.copyWith(
+                    color: unit.isFard ? cs.onPrimary : cs.onSecondaryContainer,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 14),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(unit.title, style: t.titleLarge),
+                    Text(
+                      badge ?? '$kind • ${unit.rakats} rekât',
+                      style: t.bodyMedium,
+                    ),
+                  ],
+                ),
+              ),
+              const Icon(Icons.play_circle_fill_rounded, size: 44),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// 2b) Kaza namazı: yalnızca farzlar (Hanefi'de vitir de)
+class KazaPickScreen extends StatelessWidget {
+  const KazaPickScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final t = Theme.of(context).textTheme;
+    final log = context.log;
+    final units = kazaUnits(context.settings.madhab);
+    return Scaffold(
+      appBar: AppBar(title: const Text('Kaza Namazı')),
+      body: SafeArea(
+        child: ListenableBuilder(
+          listenable: log,
+          builder: (context, _) => ListView(
+            padding: const EdgeInsets.all(16),
+            children: [
+              const NoticeBox(
+                text:
+                    'Kaza namazında yalnızca farz kılınır (Hanefi mezhebinde vitir de kaza edilir). İmam "kazaya kalan ilk … namazının farzını kılmaya" diye niyet eder.',
+              ),
+              const SizedBox(height: 14),
+              for (final u in units) ...[
+                _UnitTile(
+                  unit: u,
+                  badge:
+                      '${u.rakats} rekât • borç: ${log.kaza[u.kazaKey] ?? 0}',
+                  onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => GuidePrepScreen(units: [u]),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10),
+              ],
+              const SizedBox(height: 6),
+              Text(
+                'Rehberle kılınan her kaza, Kaza Sayacı\'ndaki borçtan bir düşer.',
+                style: t.bodyMedium,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Dua okunuşları (rehber ekranında gösterilir).
+Future<Map<String, String>> _duaTexts() async {
+  final lib = await loadDuas();
+  return {
+    for (final d in lib.duas)
+      if (d.category == 'Namaz Duaları')
+        d.id: d.verses.map((v) => v.transliteration ?? '').join(' '),
+  };
+}
+
+/// 3) Tek kısa hazırlık ekranı
 class GuidePrepScreen extends StatefulWidget {
-  const GuidePrepScreen({super.key, required this.prayer});
-  final PrayerOption prayer;
+  const GuidePrepScreen({super.key, required this.units});
+  final List<PrayerUnit> units;
 
   @override
   State<GuidePrepScreen> createState() => _GuidePrepScreenState();
@@ -60,6 +269,7 @@ class GuidePrepScreen extends StatefulWidget {
 
 class _GuidePrepScreenState extends State<GuidePrepScreen> {
   FlowTemplate? template;
+  Map<String, String> duaTexts = const {};
   String? loadError;
 
   @override
@@ -71,7 +281,13 @@ class _GuidePrepScreenState extends State<GuidePrepScreen> {
   Future<void> _load() async {
     try {
       final t = await FlowTemplate.load(context.settingsRead.madhab);
-      if (mounted) setState(() => template = t);
+      final d = await _duaTexts();
+      if (mounted) {
+        setState(() {
+          template = t;
+          duaTexts = d;
+        });
+      }
     } catch (e) {
       if (mounted) {
         setState(
@@ -81,6 +297,10 @@ class _GuidePrepScreenState extends State<GuidePrepScreen> {
     }
   }
 
+  String get _title => widget.units.length == 1
+      ? widget.units.single.title
+      : '${widget.units.first.vakit.label} Namazı (hepsi)';
+
   @override
   Widget build(BuildContext context) {
     final s = context.settings;
@@ -88,11 +308,12 @@ class _GuidePrepScreenState extends State<GuidePrepScreen> {
     final tpl = template;
     final steps = tpl == null
         ? const <GuideStep>[]
-        : buildGuide(
+        : buildSequence(
             template: tpl,
-            prayer: widget.prayer,
+            units: widget.units,
             knownSurahs: s.knownSurahs,
             speed: s.readingSpeed,
+            duaTexts: duaTexts,
           );
     final hasAudio = steps.any((x) => x.hasAudio);
     final zamm = tpl == null
@@ -101,26 +322,28 @@ class _GuidePrepScreenState extends State<GuidePrepScreen> {
     final minutes = (totalDuration(steps).inSeconds / 60).ceil();
 
     return Scaffold(
-      appBar: AppBar(title: Text(widget.prayer.title)),
+      appBar: AppBar(title: Text(_title)),
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.all(16),
           children: [
-            Text(
-              '${widget.prayer.title} — ${widget.prayer.rakats} rekât',
-              style: t.headlineMedium,
-            ),
+            for (final u in widget.units) Text(u.label, style: t.titleLarge),
             const SizedBox(height: 6),
             Text(
               '${s.madhab.label} • ${s.readingSpeed.label}${steps.isEmpty ? '' : ' • yaklaşık $minutes dk'}',
               style: t.titleMedium,
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 12),
+            NoticeBox(
+              icon: Icons.record_voice_over_rounded,
+              text: 'Niyet: ${widget.units.first.niyet}',
+            ),
+            const SizedBox(height: 12),
             Text(
               'Telefonu seccadenizin yanına, güvenli bir yere koyun. Ses ve titreşimi kontrol edin.',
               style: t.bodyLarge,
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 12),
             if (loadError != null) NoticeBox(text: loadError!, warning: true),
             if (tpl != null && !tpl.verified) ...[
               const NoticeBox(
@@ -131,9 +354,9 @@ class _GuidePrepScreenState extends State<GuidePrepScreen> {
               const SizedBox(height: 10),
             ],
             NoticeBox(
-              icon: Icons.record_voice_over_rounded,
+              icon: Icons.volume_up_rounded,
               text: hasAudio
-                  ? 'Fatiha ve sureleri Hafız Mahmud Halil el-Husarî okur. Tekbir ve tesbihlerde ekranda büyük yazı ve titreşim olur.'
+                  ? 'Fatiha ve sureleri Hafız Mahmud Halil el-Husarî okur. Tekbir, tesbih ve dualarda okunuşu ekranda büyük yazıyla görürsünüz, titreşimle yönlendirilirsiniz.'
                   : 'Bu namazda ses kaydı yok; rehber titreşim ve ekrandaki büyük yazılarla ilerler.',
             ),
             const SizedBox(height: 10),
@@ -151,7 +374,12 @@ class _GuidePrepScreenState extends State<GuidePrepScreen> {
               children: [
                 Expanded(
                   child: OutlinedButton.icon(
-                    onPressed: () => NativeBridge.instance.tone('test'),
+                    onPressed: () {
+                      NativeBridge.instance; // olay işleyicisi
+                      AssetAudio.instance.play([
+                        'content/audio/husary/001001.mp3',
+                      ]);
+                    },
                     icon: const Icon(Icons.volume_up_rounded, size: 28),
                     label: const Text('Sesi Dene'),
                   ),
@@ -179,12 +407,15 @@ class _GuidePrepScreenState extends State<GuidePrepScreen> {
               ),
               onPressed: steps.isEmpty
                   ? null
-                  : () => Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(
-                        builder: (_) =>
-                            GuideRunScreen(prayer: widget.prayer, steps: steps),
-                      ),
-                    ),
+                  : () {
+                      AssetAudio.instance.stop();
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(
+                          builder: (_) =>
+                              GuideRunScreen(title: _title, steps: steps),
+                        ),
+                      );
+                    },
               icon: const Icon(Icons.play_arrow_rounded, size: 40),
               label: const Text('Başlat'),
             ),
@@ -225,10 +456,10 @@ class _GuidePrepScreenState extends State<GuidePrepScreen> {
   }
 }
 
-/// 3) Rehber çalışıyor — dokunmadan ilerler, durdurma her zaman açık.
+/// 4) Rehber çalışıyor — dokunmadan ilerler, durdurma her zaman açık.
 class GuideRunScreen extends StatefulWidget {
-  const GuideRunScreen({super.key, required this.prayer, required this.steps});
-  final PrayerOption prayer;
+  const GuideRunScreen({super.key, required this.title, required this.steps});
+  final String title;
   final List<GuideStep> steps;
 
   @override
@@ -252,9 +483,13 @@ class _GuideRunScreenState extends State<GuideRunScreen> {
       onSignal: (sig) {
         if (s.vibrationOn) NativeBridge.instance.vibrate(sig, strong: true);
       },
-      onStep: (st) => NativeBridge.instance.updateGuideService(
-        '${st.rakat}. rekât • ${st.title}',
-      ),
+      onStep: (st) {
+        NativeBridge.instance.updateGuideService(
+          '${st.unit?.title ?? ''} • ${st.rakat}. rekât • ${st.title}',
+        );
+        // Bir namaz bitince işaretle / kazadan düş.
+        if (st.id == 'bitti' || st.id == 'bitti_ara') _completed(st.unit);
+      },
     )..addListener(_onChange);
     _stopSub = NativeBridge.instance.guideStopRequests.listen((_) => _stop());
     _begin();
@@ -264,7 +499,7 @@ class _GuideRunScreenState extends State<GuideRunScreen> {
     if (s.keepAudioScreenOff) {
       await NativeBridge.instance.requestNotificationPermission();
       await NativeBridge.instance.startGuideService(
-        '${widget.prayer.title} — rehber çalışıyor',
+        '${widget.title} — rehber çalışıyor',
       );
     } else {
       await NativeBridge.instance.keepScreenOn(true);
@@ -278,7 +513,6 @@ class _GuideRunScreenState extends State<GuideRunScreen> {
     if (runner.finished && !_closed) {
       _closed = true;
       _cleanup();
-      _markPrayed();
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (_) => const GuideDoneScreen()),
       );
@@ -287,18 +521,16 @@ class _GuideRunScreenState extends State<GuideRunScreen> {
     }
   }
 
-  /// Farz namaz rehberle tamamlanınca "Bugün kıldıklarım"a işlenir.
-  void _markPrayed() {
-    final f = switch (widget.prayer.id) {
-      'sabah_farz' => Farz.sabah,
-      'ogle_farz' => Farz.ogle,
-      'ikindi_farz' => Farz.ikindi,
-      'aksam_farz' => Farz.aksam,
-      'yatsi_farz' => Farz.yatsi,
-      _ => null,
-    };
-    if (f == null) return;
+  /// Farz tamamlanınca "Bugün kıldıklarım"a işlenir; kaza ise borçtan düşer.
+  void _completed(PrayerUnit? u) {
+    if (u == null) return;
     final scope = context.scopeRead;
+    if (u.kaza) {
+      scope.log.payOne(u.kazaKey);
+      return;
+    }
+    if (!u.isFard) return;
+    final f = Farz.values.byName(u.vakit.name);
     final day = todayInfo(placeFromSettings(scope.settings)).day;
     scope.log.setMarked(day, f, true);
   }
@@ -355,14 +587,15 @@ class _GuideRunScreenState extends State<GuideRunScreen> {
             child: Column(
               children: [
                 Text(
-                  widget.prayer.title,
+                  st?.unit?.title ?? widget.title,
+                  textAlign: TextAlign.center,
                   style: t.titleLarge!.copyWith(color: cs.onPrimary),
                 ),
                 const SizedBox(height: 4),
                 Text(
                   st == null
                       ? 'Hazırlanın…'
-                      : '${st.rakat}. rekât / ${widget.prayer.rakats}',
+                      : '${st.rakat}. rekât / ${st.unit?.rakats ?? ''}',
                   style: t.headlineSmall!.copyWith(color: cs.secondary),
                 ),
                 const SizedBox(height: 12),
@@ -377,15 +610,34 @@ class _GuideRunScreenState extends State<GuideRunScreen> {
                 ),
                 Expanded(
                   child: Center(
-                    child: Semantics(
-                      liveRegion: true,
-                      child: Text(
-                        st?.title ?? 'Allahu Ekber ile başlayacak',
-                        textAlign: TextAlign.center,
-                        style: t.displaySmall!.copyWith(
-                          color: cs.onPrimary,
-                          fontSize: 46,
-                        ),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          Semantics(
+                            liveRegion: true,
+                            child: Text(
+                              st?.title ?? 'Niyet ile başlayacak',
+                              textAlign: TextAlign.center,
+                              style: t.displaySmall!.copyWith(
+                                color: cs.onPrimary,
+                                fontSize: (st?.title.length ?? 0) > 40
+                                    ? 30
+                                    : 46,
+                              ),
+                            ),
+                          ),
+                          if (st?.detail != null) ...[
+                            const SizedBox(height: 14),
+                            Text(
+                              st!.detail!,
+                              textAlign: TextAlign.center,
+                              style: t.titleLarge!.copyWith(
+                                color: cs.onPrimary,
+                                height: 1.4,
+                              ),
+                            ),
+                          ],
+                        ],
                       ),
                     ),
                   ),

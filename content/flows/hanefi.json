@@ -282,7 +282,8 @@
         "id": "subhaneke",
         "title": "Sübhaneke...",
         "seconds": 15,
-        "audio": null
+        "audio": null,
+        "dua": "subhaneke"
       }
     ],
     "first_sitting": [
@@ -297,7 +298,8 @@
         "id": "tahiyyat",
         "title": "Ettehiyyatü...",
         "seconds": 25,
-        "audio": null
+        "audio": null,
+        "dua": "tahiyyat"
       }
     ],
     "final_sitting": [
@@ -312,24 +314,106 @@
         "id": "tahiyyat",
         "title": "Ettehiyyatü...",
         "seconds": 25,
-        "audio": null
+        "audio": null,
+        "dua": "tahiyyat"
       },
       {
         "id": "salli",
         "title": "Allahümme salli...",
         "seconds": 18,
-        "audio": null
+        "audio": null,
+        "dua": "salli"
       },
       {
         "id": "barik",
         "title": "Allahümme bârik...",
         "seconds": 18,
-        "audio": null
+        "audio": null,
+        "dua": "barik"
       },
       {
         "id": "rabbena",
         "title": "Rabbenâ âtinâ...",
         "seconds": 15,
+        "audio": null,
+        "dua": "rabbena_atina,rabbenagfirli"
+      }
+    ],
+    "niyet": [
+      {
+        "id": "niyet",
+        "title": "{niyet}",
+        "seconds": 8,
+        "audio": null
+      }
+    ],
+    "between": [
+      {
+        "id": "ara",
+        "title": "Sıradaki: {next}",
+        "seconds": 6,
+        "audio": null
+      }
+    ],
+    "first_sitting_full": [
+      {
+        "id": "tekbir_oturus",
+        "title": "Allahu Ekber",
+        "seconds": 4,
+        "audio": null,
+        "signal": "transition"
+      },
+      {
+        "id": "tahiyyat",
+        "title": "Ettehiyyatü...",
+        "seconds": 25,
+        "audio": null,
+        "dua": "tahiyyat"
+      },
+      {
+        "id": "salli",
+        "title": "Allahümme salli...",
+        "seconds": 18,
+        "audio": null,
+        "dua": "salli"
+      },
+      {
+        "id": "barik",
+        "title": "Allahümme bârik...",
+        "seconds": 18,
+        "audio": null,
+        "dua": "barik"
+      }
+    ],
+    "subhaneke_only": [
+      {
+        "id": "subhaneke",
+        "title": "Sübhaneke...",
+        "seconds": 15,
+        "audio": null,
+        "dua": "subhaneke"
+      }
+    ],
+    "vitir_kunut": [
+      {
+        "id": "tekbir_kunut",
+        "title": "Allahu Ekber (eller kulak hizasına kaldırılıp bağlanır)",
+        "seconds": 6,
+        "signal": "transition",
+        "audio": null
+      },
+      {
+        "id": "kunut1",
+        "title": "Kunut Duası 1...",
+        "seconds": 22,
+        "dua": "kunut1",
+        "audio": null
+      },
+      {
+        "id": "kunut2",
+        "title": "Kunut Duası 2...",
+        "seconds": 20,
+        "dua": "kunut2",
         "audio": null
       }
     ]

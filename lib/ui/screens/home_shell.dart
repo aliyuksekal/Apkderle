@@ -72,12 +72,20 @@ class _HomeShellState extends State<HomeShell> with WidgetsBindingObserver {
   void _background() {
     if (!mounted || !platformServices) return;
     final scope = context.scopeRead;
-    ReminderScheduler.instance.reschedule(
+    _schedule(scope);
+  }
+
+  Future<void> _schedule(AppScope scope) async {
+    final r = scope.reminders;
+    if (scope.premium.isPremium && r.prayerOn && !r.permissionAsked) {
+      await r.markPermissionAsked();
+      await ReminderScheduler.instance.requestPermissions();
+    }
+    await ReminderScheduler.instance.reschedule(
       r: scope.reminders,
       place: placeFromSettings(scope.settings),
       enabled: scope.premium.isPremium,
     );
-    scope.family.pushNow();
   }
 
   @override

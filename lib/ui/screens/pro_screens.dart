@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../core/family.dart';
-import '../../core/native.dart';
 import '../../core/place.dart';
 import '../../core/prayer_log.dart';
 import '../../core/prayer_times.dart';
@@ -9,6 +7,9 @@ import '../../core/reminders.dart';
 import '../../core/settings.dart';
 import '../app_scope.dart';
 import '../widgets.dart';
+import '../../core/audio.dart';
+import '../../core/native.dart';
+import 'dua_screens.dart' show SpeakerButton;
 import 'guide_screens.dart';
 import 'profile_screen.dart' show PremiumScreen;
 import 'zikr_screen.dart';
@@ -450,6 +451,12 @@ class RemindersScreen extends StatelessWidget {
                   ],
                 ),
               ),
+              if (r.prayerOn) ...[
+                const SizedBox(height: 12),
+                _EzanPicker(r: r, onChanged: () => _apply(context)),
+              ],
+              const SizedBox(height: 12),
+              _NotificationCheck(r: r),
               const SizedBox(height: 16),
               Row(
                 children: [
@@ -608,340 +615,6 @@ class RemindersScreen extends StatelessWidget {
 }
 
 // ---------------------------------------------------------------------------
-// Annem Kıldı Mı? — Aile Takibi
-
-class FamilyScreen extends StatefulWidget {
-  const FamilyScreen({super.key});
-
-  @override
-  State<FamilyScreen> createState() => _FamilyScreenState();
-}
-
-class _FamilyScreenState extends State<FamilyScreen> {
-  @override
-  void initState() {
-    super.initState();
-    final f = context.scopeRead.family;
-    if (context.scopeRead.premium.isPremium) f.refreshAll();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final f = context.family;
-    final pro = context.premium.isPremium;
-    final t = Theme.of(context).textTheme;
-    final cs = Theme.of(context).colorScheme;
-    return Scaffold(
-      appBar: AppBar(title: const Text('Annem Kıldı Mı?')),
-      body: SafeArea(
-        child: ListenableBuilder(
-          listenable: f,
-          builder: (context, _) => RefreshIndicator(
-            onRefresh: f.refreshAll,
-            child: ListView(
-              padding: const EdgeInsets.all(16),
-              children: [
-                Text('Takip ettiklerim', style: t.headlineSmall),
-                const SizedBox(height: 6),
-                if (!pro)
-                  NoticeBox(
-                    icon: Icons.lock_rounded,
-                    text:
-                        'Ailenizin namazlarını takip etmek Pro pakete dahildir. Paylaşan kişinin Pro alması gerekmez.',
-                  ),
-                if (pro && f.following.isEmpty)
-                  Text(
-                    'Annenizin/babanızın telefonunda "Ailemle paylaş" açıp size gönderdiği kodu ekleyin.',
-                    style: t.bodyLarge,
-                  ),
-                if (pro)
-                  for (final p in f.following) _FollowCard(person: p),
-                const SizedBox(height: 10),
-                FilledButton.icon(
-                  style: FilledButton.styleFrom(
-                    minimumSize: const Size.fromHeight(68),
-                  ),
-                  onPressed: pro
-                      ? () => _addFollow(context)
-                      : () => Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (_) => const PremiumScreen(),
-                          ),
-                        ),
-                  icon: Icon(
-                    pro ? Icons.person_add_alt_1_rounded : Icons.lock_rounded,
-                    size: 30,
-                  ),
-                  label: Text(pro ? 'Kod ile ekle' : "Pro'ya geç"),
-                ),
-                const SizedBox(height: 28),
-                const Divider(),
-                const SizedBox(height: 12),
-                Text('Ailemle paylaş', style: t.headlineSmall),
-                const SizedBox(height: 6),
-                Text(
-                  'Ana Sayfa\'da işaretlediğiniz "Bugün kıldıklarım" bilgisi ve adınız, kodu verdiğiniz aile üyelerinizle paylaşılır. Başka bilgi gönderilmez. Bu bölüm ücretsizdir.',
-                  style: t.bodyMedium,
-                ),
-                const SizedBox(height: 12),
-                if (!f.sharing)
-                  FilledButton.icon(
-                    style: FilledButton.styleFrom(
-                      minimumSize: const Size.fromHeight(68),
-                      backgroundColor: cs.secondary,
-                      foregroundColor: cs.onSecondary,
-                    ),
-                    onPressed: () => _startShare(context),
-                    icon: const Icon(Icons.family_restroom_rounded, size: 30),
-                    label: const Text('Paylaşımı başlat'),
-                  )
-                else ...[
-                  Container(
-                    padding: const EdgeInsets.all(18),
-                    decoration: BoxDecoration(
-                      color: cs.primary,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Column(
-                      children: [
-                        Text(
-                          'Paylaşım kodunuz',
-                          style: t.titleMedium!.copyWith(color: cs.onPrimary),
-                        ),
-                        SelectableText(
-                          prettyCode(f.shareCode!),
-                          style: t.displaySmall!.copyWith(
-                            color: cs.secondary,
-                            letterSpacing: 3,
-                          ),
-                        ),
-                        Text(
-                          f.pushing
-                              ? 'Gönderiliyor…'
-                              : f.pushError ??
-                                    (f.lastPushOk == null
-                                        ? 'Henüz gönderilmedi'
-                                        : 'Son gönderim: ${hhmm(f.lastPushOk!)}'),
-                          style: t.bodyMedium!.copyWith(color: cs.onPrimary),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  FilledButton.icon(
-                    style: FilledButton.styleFrom(
-                      minimumSize: const Size.fromHeight(64),
-                    ),
-                    onPressed: () => NativeBridge.instance.shareText(
-                      'Namaz Asistanı\'nda beni takip etmek için bu kodu ekle: ${prettyCode(f.shareCode!)}',
-                    ),
-                    icon: const Icon(Icons.send_rounded),
-                    label: const Text('Kodu gönder (WhatsApp, SMS)'),
-                  ),
-                  const SizedBox(height: 8),
-                  OutlinedButton.icon(
-                    onPressed: () async {
-                      if (await confirmDialog(
-                        context,
-                        title: 'Paylaşım durdurulsun mu?',
-                        message:
-                            'Bilgileriniz sunucudan silinir ve kodu bilenler artık göremez.',
-                        yes: 'Durdur',
-                      )) {
-                        await f.stopSharing();
-                      }
-                    },
-                    icon: const Icon(Icons.stop_circle_outlined),
-                    label: const Text('Paylaşımı durdur'),
-                  ),
-                ],
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Future<void> _startShare(BuildContext context) async {
-    final name = TextEditingController();
-    final ok = await showDialog<bool>(
-      context: context,
-      builder: (c) => AlertDialog(
-        title: const Text('Adınız'),
-        content: TextField(
-          controller: name,
-          autofocus: true,
-          textCapitalization: TextCapitalization.words,
-          style: Theme.of(c).textTheme.titleLarge,
-          decoration: const InputDecoration(hintText: 'ör. Fatma'),
-        ),
-        actions: [
-          OutlinedButton(
-            onPressed: () => Navigator.pop(c, false),
-            child: const Text('Vazgeç'),
-          ),
-          FilledButton(
-            onPressed: () => Navigator.pop(c, true),
-            child: const Text('Başlat'),
-          ),
-        ],
-      ),
-    );
-    if (ok == true && context.mounted) {
-      await context.scopeRead.family.startSharing(name.text);
-    }
-  }
-
-  Future<void> _addFollow(BuildContext context) async {
-    final code = TextEditingController();
-    final label = TextEditingController();
-    String? error;
-    var busy = false;
-    await showDialog<void>(
-      context: context,
-      builder: (c) => StatefulBuilder(
-        builder: (c, set) => AlertDialog(
-          title: const Text('Takip et'),
-          content: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextField(
-                  controller: code,
-                  autofocus: true,
-                  textCapitalization: TextCapitalization.characters,
-                  style: Theme.of(c).textTheme.headlineSmall,
-                  decoration: const InputDecoration(
-                    labelText: 'Paylaşım kodu',
-                    hintText: 'K7M2-QX9P',
-                  ),
-                ),
-                TextField(
-                  controller: label,
-                  style: Theme.of(c).textTheme.titleLarge,
-                  decoration: const InputDecoration(
-                    labelText: 'Kim? (ör. Annem)',
-                  ),
-                ),
-                if (error != null) ...[
-                  const SizedBox(height: 10),
-                  NoticeBox(text: error!, warning: true),
-                ],
-              ],
-            ),
-          ),
-          actions: [
-            OutlinedButton(
-              onPressed: () => Navigator.pop(c),
-              child: const Text('Vazgeç'),
-            ),
-            FilledButton(
-              onPressed: busy
-                  ? null
-                  : () async {
-                      set(() => busy = true);
-                      final e = await context.scopeRead.family.follow(
-                        code.text,
-                        label.text,
-                      );
-                      if (e == null) {
-                        if (c.mounted) Navigator.pop(c);
-                      } else {
-                        set(() {
-                          busy = false;
-                          error = e;
-                        });
-                      }
-                    },
-              child: const Text('Ekle'),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _FollowCard extends StatelessWidget {
-  const _FollowCard({required this.person});
-  final FollowedPerson person;
-
-  @override
-  Widget build(BuildContext context) {
-    final t = Theme.of(context).textTheme;
-    final cs = Theme.of(context).colorScheme;
-    final st = person.last;
-    final today =
-        st?.days[PrayerLog.dayKey(DateTime.now())] ?? const <String>{};
-    return Card(
-      color: cs.surfaceContainerHigh,
-      margin: const EdgeInsets.only(bottom: 12),
-      child: Padding(
-        padding: const EdgeInsets.all(14),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Icon(Icons.person_rounded, size: 34, color: cs.tertiary),
-                const SizedBox(width: 8),
-                Expanded(child: Text(person.label, style: t.titleLarge)),
-                IconButton(
-                  tooltip: 'Takibi bırak',
-                  icon: const Icon(Icons.close_rounded),
-                  onPressed: () async {
-                    if (await confirmDialog(
-                      context,
-                      title: 'Takip bırakılsın mı?',
-                      message: '${person.label} listeden çıkarılacak.',
-                      yes: 'Bırak',
-                    )) {
-                      if (context.mounted) {
-                        await context.scopeRead.family.unfollow(person);
-                      }
-                    }
-                  },
-                ),
-              ],
-            ),
-            if (person.error != null)
-              Text(person.error!, style: t.bodyMedium)
-            else if (st != null) ...[
-              Text(familySummary(st, DateTime.now()), style: t.bodyLarge),
-              const SizedBox(height: 8),
-              Wrap(
-                spacing: 6,
-                runSpacing: 6,
-                children: [
-                  for (final f in Farz.values)
-                    Chip(
-                      avatar: Icon(
-                        today.contains(f.name)
-                            ? Icons.check_circle_rounded
-                            : Icons.radio_button_unchecked_rounded,
-                        color: today.contains(f.name)
-                            ? cs.primary
-                            : cs.onSurface.withValues(alpha: .4),
-                      ),
-                      label: Text(f.label, style: t.titleSmall),
-                    ),
-                ],
-              ),
-              const SizedBox(height: 6),
-              Text(
-                'Son güncelleme: ${st.updatedAt.day}.${st.updatedAt.month} ${hhmm(st.updatedAt)}',
-                style: t.bodySmall,
-              ),
-            ],
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-// ---------------------------------------------------------------------------
 // Nine Modu (Pro): sade ve çok büyük ana ekran
 
 class NineHome extends StatelessWidget {
@@ -1058,6 +731,158 @@ class NineHome extends StatelessWidget {
               );
             },
           ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Vakit bildiriminde çalacak ses (uygulama içinde, internetsiz).
+class _EzanPicker extends StatefulWidget {
+  const _EzanPicker({required this.r, required this.onChanged});
+  final ReminderSettings r;
+  final VoidCallback onChanged;
+
+  @override
+  State<_EzanPicker> createState() => _EzanPickerState();
+}
+
+class _EzanPickerState extends State<_EzanPicker> {
+  String? playing;
+
+  Future<void> _preview(String key, String raw) async {
+    if (playing == key) {
+      await AssetAudio.instance.stop();
+      setState(() => playing = null);
+      return;
+    }
+    NativeBridge.instance;
+    setState(() => playing = key);
+    await AssetAudio.instance.play(['raw:$raw']);
+    if (mounted && playing == key) setState(() => playing = null);
+  }
+
+  @override
+  void dispose() {
+    if (playing != null) AssetAudio.instance.stop();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final t = Theme.of(context).textTheme;
+    final cs = Theme.of(context).colorScheme;
+    return Card(
+      color: cs.surfaceContainerHigh,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 14, 12, 10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Vakit girince çalacak ses', style: t.titleLarge),
+            const SizedBox(height: 6),
+            for (final e in ReminderScheduler.ezanOptions.entries)
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: ChoiceButton(
+                        label: e.value.$1,
+                        selected: widget.r.ezanSound == e.key,
+                        onTap: () {
+                          widget.r.ezanSound = e.key;
+                          widget.onChanged();
+                        },
+                      ),
+                    ),
+                    if (e.value.$2 != null) ...[
+                      const SizedBox(width: 10),
+                      SpeakerButton(
+                        playing: playing == e.key,
+                        enabled: true,
+                        label: e.value.$1,
+                        onPressed: () => _preview(e.key, e.value.$2!),
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+            const SizedBox(height: 6),
+            Text(
+              'Ezan kayıtları açık lisanslıdır (Wikimedia Commons). Ezan tam çalar; susturmak için bildirimi kaydırın.',
+              style: t.bodyMedium,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Bildirimlerin gerçekten çalıştığını denetleme.
+class _NotificationCheck extends StatefulWidget {
+  const _NotificationCheck({required this.r});
+  final ReminderSettings r;
+
+  @override
+  State<_NotificationCheck> createState() => _NotificationCheckState();
+}
+
+class _NotificationCheckState extends State<_NotificationCheck> {
+  String? msg;
+
+  Future<void> _run(Future<String?> Function() f, String ok) async {
+    await ReminderScheduler.instance.requestPermissions();
+    final m = await f();
+    if (mounted) setState(() => msg = m ?? ok);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final t = Theme.of(context).textTheme;
+    return Card(
+      color: Theme.of(context).colorScheme.surfaceContainerHigh,
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text('Bildirimler çalışıyor mu?', style: t.titleLarge),
+            const SizedBox(height: 10),
+            OutlinedButton.icon(
+              onPressed: () => _run(
+                () => ReminderScheduler.instance.showTest(widget.r),
+                'Deneme bildirimi gönderildi.',
+              ),
+              icon: const Icon(Icons.notifications_rounded),
+              label: const Text('Şimdi deneme bildirimi'),
+            ),
+            const SizedBox(height: 8),
+            OutlinedButton.icon(
+              onPressed: () => _run(
+                () => ReminderScheduler.instance.scheduleTest(widget.r),
+                '1 dakika sonra bildirim gelecek. Ekranı kapatıp bekleyin.',
+              ),
+              icon: const Icon(Icons.timer_rounded),
+              label: const Text('1 dakika sonra dene'),
+            ),
+            const SizedBox(height: 8),
+            OutlinedButton.icon(
+              onPressed: NativeBridge.instance.openBatterySettings,
+              icon: const Icon(Icons.battery_saver_rounded),
+              label: const Text('Pil tasarrufunu kapat'),
+            ),
+            if (msg != null) ...[
+              const SizedBox(height: 10),
+              NoticeBox(text: msg!),
+            ],
+            const SizedBox(height: 8),
+            Text(
+              'Xiaomi, Oppo, Huawei gibi telefonlarda "Pil tasarrufunu kapat" ile bu uygulamaya "Kısıtlama yok" seçin; yoksa bildirimler gecikebilir.',
+              style: t.bodyMedium,
+            ),
+          ],
         ),
       ),
     );

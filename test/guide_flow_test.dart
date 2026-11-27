@@ -7,7 +7,8 @@ import 'package:namaz_asistani/core/guide_runner.dart';
 import 'package:namaz_asistani/core/settings.dart';
 import 'package:namaz_asistani/core/vibration_patterns.dart';
 
-PrayerOption opt(String id) => kPrayerOptions.firstWhere((p) => p.id == id);
+PrayerUnit opt(String id, [Madhab m = Madhab.hanefi]) =>
+    Vakit.values.expand((v) => unitsFor(v, m)).firstWhere((u) => u.id == id);
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -47,7 +48,12 @@ void main() {
       Signal.transition, // son oturuşa geçiş
       Signal.done,
     ]);
-    expect(steps.first.title, 'Allahu Ekber');
+    expect(steps.first.id, 'niyet');
+    expect(
+      steps.first.title,
+      'Niyet ettim Allah rızası için bugünkü sabah namazının farzını kılmaya. Allahu Ekber',
+    );
+    expect(steps[1].title, 'Allahu Ekber');
     expect(steps.last.signal, Signal.done);
     expect(steps.map((s) => s.title), contains('Fatiha...'));
     // Zamm-ı sure mushaf sırasıyla: önce Kevser (108), sonra İhlas (112)
@@ -98,7 +104,7 @@ void main() {
     final t = await FlowTemplate.load(Madhab.safii);
     final steps = buildGuide(
       template: t,
-      prayer: opt('sabah_farz'),
+      prayer: opt('sabah_farz', Madhab.safii),
       knownSurahs: const ['Fatiha', 'İhlas'],
       speed: ReadingSpeed.slow,
     );
@@ -241,5 +247,99 @@ void main() {
     r.stop();
     expect(stoppedAudio, 1);
     r.dispose();
+  });
+
+  test('Beş vakit: sünnetleriyle Hanefi rekât sayıları', () {
+    String r(Vakit v) =>
+        unitsFor(v, Madhab.hanefi).map((u) => u.rakats).join('+');
+    expect(r(Vakit.sabah), '2+2');
+    expect(r(Vakit.ogle), '4+4+2');
+    expect(r(Vakit.ikindi), '4+4');
+    expect(r(Vakit.aksam), '3+2');
+    expect(r(Vakit.yatsi), '4+4+2+3');
+  });
+
+  test('Kaza: yalnız farzlar (+Hanefi vitir), kaza niyeti', () {
+    final k = kazaUnits(Madhab.hanefi);
+    expect(k.map((u) => u.kazaKey), [
+      'sabah',
+      'ogle',
+      'ikindi',
+      'aksam',
+      'yatsi',
+      'vitir',
+    ]);
+    expect(k.where((u) => u.isSunnet), isEmpty);
+    expect(
+      k.first.niyet,
+      'Niyet ettim Allah rızası için kazaya kalan ilk sabah namazının farzını kılmaya. Allahu Ekber',
+    );
+    expect(kazaUnits(Madhab.safii).length, 5);
+  });
+
+  test(
+    'Hanefi vitir: her rekâtta zamm, 3. rekâtta kunut rükûdan önce',
+    () async {
+      final t = await FlowTemplate.load(Madhab.hanefi);
+      final steps = buildGuide(
+        template: t,
+        prayer: opt('yatsi_vitir'),
+        knownSurahs: const ['Fatiha', 'İhlas', 'Kevser', 'Nas'],
+        speed: ReadingSpeed.slow,
+        duaTexts: const {'kunut1': 'Allâhümme innâ…'},
+      );
+      expect(steps.where((s) => s.id == 'zamm').length, 3);
+      final k = steps.indexWhere((s) => s.id == 'kunut1');
+      expect(steps[k].rakat, 3);
+      expect(steps[k].detail, 'Allâhümme innâ…');
+      final ruku3 = steps.indexWhere(
+        (s) => s.id == 'tekbir_ruku' && s.rakat == 3,
+      );
+      expect(k, lessThan(ruku3));
+    },
+  );
+
+  test(
+    'İkindi sünneti (gayr-i müekked): ilk oturuşta Salli-Bârik, 3. rekâtta Sübhâneke',
+    () async {
+      final t = await FlowTemplate.load(Madhab.hanefi);
+      final steps = buildGuide(
+        template: t,
+        prayer: opt('ikindi_sunnet'),
+        knownSurahs: const ['Fatiha', 'İhlas'],
+        speed: ReadingSpeed.slow,
+      );
+      expect(steps.where((s) => s.id == 'salli').map((s) => s.rakat), [2, 4]);
+      expect(steps.where((s) => s.id == 'subhaneke').map((s) => s.rakat), [
+        1,
+        3,
+      ]);
+      final ogle = buildGuide(
+        template: t,
+        prayer: opt('ogle_ilk_sunnet'),
+        knownSurahs: const ['Fatiha', 'İhlas'],
+        speed: ReadingSpeed.slow,
+      );
+      expect(ogle.where((s) => s.id == 'salli').map((s) => s.rakat), [4]);
+    },
+  );
+
+  test('Hepsini kıl: namazlar arka arkaya, arada geçiş, tek bitiş', () async {
+    final t = await FlowTemplate.load(Madhab.hanefi);
+    final units = unitsFor(Vakit.ogle, Madhab.hanefi);
+    final steps = buildSequence(
+      template: t,
+      units: units,
+      knownSurahs: const ['Fatiha', 'İhlas'],
+      speed: ReadingSpeed.slow,
+    );
+    expect(steps.where((s) => s.id == 'niyet').length, 3);
+    expect(steps.where((s) => s.id == 'bitti').length, 1);
+    expect(steps.where((s) => s.id == 'bitti_ara').length, 2);
+    expect(steps.last.unit!.id, 'ogle_son_sunnet');
+    expect(
+      steps.firstWhere((s) => s.id == 'ara').title,
+      'Sıradaki: Öğle Farzı',
+    );
   });
 }

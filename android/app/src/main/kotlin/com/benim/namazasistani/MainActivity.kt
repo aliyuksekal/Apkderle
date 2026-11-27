@@ -33,6 +33,7 @@ class MainActivity : FlutterActivity() {
     private var channel: MethodChannel? = null
     private var tone: ToneGenerator? = null
     private var declination = 0f
+    private var audio: AssetAudio? = null
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
@@ -48,6 +49,17 @@ class MainActivity : FlutterActivity() {
                         vibrate(pattern, call.argument<Boolean>("strong") ?: false)
                         result.success(null)
                     }
+                    "audioPlay" -> {
+                        val files = call.argument<List<String>>("files") ?: emptyList()
+                        val token = call.argument<Int>("token") ?: 0
+                        audioPlayer().play(files, token)
+                        result.success(audioPlayer().mediaVolume())
+                    }
+                    "audioStop" -> {
+                        audio?.stop()
+                        result.success(null)
+                    }
+                    "mediaVolume" -> result.success(audioPlayer().mediaVolume())
                     "tone" -> {
                         playTone(call.argument<String>("kind") ?: "tap")
                         result.success(null)
@@ -97,6 +109,22 @@ class MainActivity : FlutterActivity() {
                         startActivity(Intent.createChooser(send, "Paylaş"))
                         result.success(null)
                     }
+                    "openBatterySettings" -> {
+                        try {
+                            startActivity(
+                                Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS)
+                                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            )
+                        } catch (_: Exception) {
+                            startActivity(
+                                Intent(
+                                    Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                                    Uri.fromParts("package", packageName, null)
+                                ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            )
+                        }
+                        result.success(null)
+                    }
                     "openAppSettings" -> {
                         startActivity(
                             Intent(
@@ -121,7 +149,15 @@ class MainActivity : FlutterActivity() {
         EventChannel(messenger, "namaz/compass").setStreamHandler(CompassHandler())
     }
 
+    private fun audioPlayer(): AssetAudio = audio ?: AssetAudio(applicationContext) { ev, tok, detail ->
+        Handler(Looper.getMainLooper()).post {
+            channel?.invokeMethod("audioEvent", mapOf("event" to ev, "token" to tok, "detail" to detail))
+        }
+    }.also { audio = it }
+
     override fun onDestroy() {
+        audio?.release()
+        audio = null
         tone?.release()
         tone = null
         GuideService.onStopRequested = null
@@ -184,6 +220,9 @@ class MainActivity : FlutterActivity() {
         private var smoothed: Double? = null
         private val rot = FloatArray(9)
         private val orient = FloatArray(3)
+        private var legacy = false
+        private var gravity: FloatArray? = null
+        private var geomag: FloatArray? = null
 
         override fun onListen(arguments: Any?, events: EventChannel.EventSink) {
             sink = events
@@ -191,14 +230,17 @@ class MainActivity : FlutterActivity() {
             sm = m
             val s = m.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR)
                 ?: m.getDefaultSensor(Sensor.TYPE_GEOMAGNETIC_ROTATION_VECTOR)
-            if (s == null) {
+            val mag = m.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD)
+            val acc = m.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+            if (s == null && (mag == null || acc == null)) {
                 events.error("no_sensor", "Pusula algılayıcısı yok", null)
                 return
             }
-            m.registerListener(this, s, SensorManager.SENSOR_DELAY_UI)
-            m.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD)?.let {
-                m.registerListener(this, it, SensorManager.SENSOR_DELAY_UI)
-            }
+            // Döndürme vektörü yoksa ivmeölçer + manyetometre ile hesapla.
+            legacy = s == null
+            if (s != null) m.registerListener(this, s, SensorManager.SENSOR_DELAY_UI)
+            mag?.let { m.registerListener(this, it, SensorManager.SENSOR_DELAY_UI) }
+            if (legacy) acc?.let { m.registerListener(this, it, SensorManager.SENSOR_DELAY_UI) }
         }
 
         override fun onCancel(arguments: Any?) {
@@ -214,9 +256,18 @@ class MainActivity : FlutterActivity() {
         override fun onSensorChanged(e: SensorEvent) {
             if (e.sensor.type == Sensor.TYPE_MAGNETIC_FIELD) {
                 accuracy = e.accuracy
-                return
+                if (!legacy) return
+                geomag = e.values.clone()
+            } else if (e.sensor.type == Sensor.TYPE_ACCELEROMETER) {
+                gravity = e.values.clone()
             }
-            SensorManager.getRotationMatrixFromVector(rot, e.values)
+            if (legacy) {
+                val g = gravity ?: return
+                val mg = geomag ?: return
+                if (!SensorManager.getRotationMatrix(rot, null, g, mg)) return
+            } else {
+                SensorManager.getRotationMatrixFromVector(rot, e.values)
+            }
             SensorManager.getOrientation(rot, orient)
             var deg = Math.toDegrees(orient[0].toDouble())
             val rotation = if (Build.VERSION.SDK_INT >= 30) display?.rotation ?: 0

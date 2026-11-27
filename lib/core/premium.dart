@@ -25,7 +25,11 @@ class PremiumStore extends ChangeNotifier {
   bool busy = false;
   String? message;
 
-  bool get isPremium => _p.getBool(_kPremium) ?? false;
+  /// GitHub'daki deneme APK'sı `--dart-define=PRO_TEST=true` ile derlenir:
+  /// Pro özellikleri satın almadan denenebilir. Play'e giden AAB'de kapalı.
+  static const proTest = bool.fromEnvironment('PRO_TEST');
+
+  bool get isPremium => proTest || (_p.getBool(_kPremium) ?? false);
 
   /// Uygulama açılışında çağrılır (testlerde çağrılmaz).
   Future<void> connect() async {

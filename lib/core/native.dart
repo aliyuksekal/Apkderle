@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 
+import 'audio.dart';
 import 'vibration_patterns.dart';
 
 /// Android tarafındaki küçük yerel köprü (titreşim, pusula, ön plan servisi).
@@ -11,6 +12,10 @@ class NativeBridge {
     _method.setMethodCallHandler((call) async {
       if (call.method == 'guideStopRequested') {
         _stopRequests.add(null);
+      } else if (call.method == 'audioEvent') {
+        AssetAudio.instance.onNativeEvent(
+          Map<Object?, Object?>.from(call.arguments as Map),
+        );
       }
       return null;
     });
@@ -63,6 +68,9 @@ class NativeBridge {
       _call('setCompassLocation', {'lat': lat, 'lng': lng});
 
   Future<void> openAppSettings() => _call('openAppSettings');
+
+  /// Pil tasarrufu ayarları (bildirimler gecikmesin diye).
+  Future<void> openBatterySettings() => _call('openBatterySettings');
 
   /// WhatsApp, SMS vb. ile metin paylaş.
   Future<void> shareText(String text) => _call('shareText', {'text': text});
