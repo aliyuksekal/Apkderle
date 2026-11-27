@@ -13,6 +13,10 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   shared_preferences: ^2.5.0
+  # shared_preferences_android JNI kullanır; JNI'yi Android'e bağlayan parça.
+  # Eksik olursa uygulama açılışta (ayarlar okunurken) kapanır.
+  jni_flutter: ^1.0.4
+  path_provider: ^2.1.6
   geolocator: ^14.0.0
   google_mobile_ads: ^9.2.0
   in_app_purchase: ^3.3.1
