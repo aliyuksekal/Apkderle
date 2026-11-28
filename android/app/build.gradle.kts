@@ -77,3 +77,10 @@ flutter {
 dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
 }
+
+dependencies {
+    // Reklam SDK'sı eski WorkManager 2.7.0 getiriyor; bu sürüm Android 14+ ve
+    // hedef SDK 34+ ile uygulama açılırken (ekran gelmeden) çöküyor.
+    implementation("androidx.work:work-runtime:2.10.5")
+    implementation("androidx.work:work-runtime-ktx:2.10.5")
+}
