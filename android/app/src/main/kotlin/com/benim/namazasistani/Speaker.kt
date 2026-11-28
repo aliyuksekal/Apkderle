@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
+import android.speech.tts.Voice
 import java.util.Locale
 
 /**
@@ -18,7 +19,10 @@ class Speaker(
     private var ready = false
     private var initialized = false
     private var turkish = false
-    private var pending: Triple<String, Float, Int>? = null
+    private var pending: Req? = null
+    private var appliedVoice: String? = null
+
+    private data class Req(val text: String, val rate: Float, val pitch: Float, val voice: String, val token: Int)
     private var current = -1
 
     private lateinit var tts: TextToSpeech
@@ -42,15 +46,50 @@ class Speaker(
                 override fun onStop(id: String?, interrupted: Boolean) { id?.toIntOrNull()?.let(onDone) }
             })
         }
-        pending?.let { (t, r, k) -> pending = null; speak(t, r, k) }
+        pending?.let { pending = null; speak(it.text, it.rate, it.pitch, it.voice, it.token) }
+    }
+
+    private fun turkishVoices(): List<Voice> = try {
+        (tts.voices ?: emptySet())
+            .filter { it.locale.language == "tr" }
+            .sortedWith(compareBy({ it.isNetworkConnectionRequired }, { it.name }))
+    } catch (_: Exception) { emptyList() }
+
+    /** Sesin erkek olup olmadığına dair tahmin (motorlar bunu her zaman söylemez). */
+    private fun maleGuess(v: Voice): Boolean? {
+        val n = v.name.lowercase()
+        val f = v.features?.joinToString(" ")?.lowercase() ?: ""
+        return when {
+            "female" in n || "female" in f || Regex("smtf\\d").containsMatchIn(n) -> false
+            "male" in n || "male" in f || Regex("smtm\\d").containsMatchIn(n) -> true
+            else -> null
+        }
+    }
+
+    fun voices(): List<Map<String, Any?>> {
+        if (!ready) return emptyList()
+        return turkishVoices().map {
+            mapOf("name" to it.name, "male" to maleGuess(it), "network" to it.isNetworkConnectionRequired)
+        }
+    }
+
+    private fun applyVoice(name: String) {
+        val list = turkishVoices()
+        val v = if (name.isNotEmpty()) list.firstOrNull { it.name == name }
+                else list.firstOrNull { maleGuess(it) == true && !it.isNetworkConnectionRequired }
+        val key = v?.name ?: ""
+        if (key == appliedVoice) return
+        appliedVoice = key
+        if (v != null) try { tts.voice = v } catch (_: Exception) {}
+        else tts.setLanguage(Locale("tr", "TR"))
     }
 
     fun status(): Map<String, Boolean> = mapOf("ready" to ready, "turkish" to turkish)
 
     /** false: konuşma motoru yok (çağıran süreye göre devam eder). */
-    fun speak(text: String, rate: Float, token: Int): Boolean {
+    fun speak(text: String, rate: Float, pitch: Float, voice: String, token: Int): Boolean {
         if (!initialized) {
-            pending = Triple(text, rate, token)
+            pending = Req(text, rate, pitch, voice, token)
             return true
         }
         if (!ready) {
@@ -62,7 +101,9 @@ class Speaker(
             return false
         }
         current = token
+        applyVoice(voice)
         tts.setSpeechRate(rate)
+        tts.setPitch(pitch)
         tts.speak(text, TextToSpeech.QUEUE_FLUSH, Bundle(), token.toString())
         return true
     }

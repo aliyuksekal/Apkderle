@@ -409,6 +409,7 @@ void main() {
   test('Hızlar yaklaşık %25 arttı', () {
     expect(ReadingSpeed.slow.factor, 0.8);
     expect(ReadingSpeed.slow.audioRate, greaterThan(1.2));
+    expect(ReadingSpeed.normal.speechRate, lessThan(1.0));
     expect(
       ReadingSpeed.fast.audioRate,
       greaterThan(ReadingSpeed.normal.audioRate),

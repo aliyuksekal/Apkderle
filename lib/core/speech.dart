@@ -9,6 +9,12 @@ class Speech {
   static final Speech instance = Speech._();
 
   static const _ch = MethodChannel('namaz/native');
+
+  /// Seçili ses adı ('' = otomatik: bulunursa erkek ses).
+  String voice = '';
+
+  /// Ses kalınlığı (1.0 normal; daha küçük = daha kalın, erkek sesine yakın).
+  double pitch = 0.85;
   int _token = 0;
   Completer<bool>? _done;
 
@@ -30,6 +36,8 @@ class Speech {
       final ok = await _ch.invokeMethod<bool>('ttsSpeak', {
         'text': t,
         'rate': rate,
+        'pitch': pitch,
+        'voice': voice,
         'token': tok,
       });
       if (ok == false) _finish(false);
@@ -69,6 +77,25 @@ class Speech {
     }
   }
 
+  /// Telefondaki Türkçe sesler.
+  Future<List<TtsVoice>> voices() async {
+    try {
+      final l = await _ch.invokeMethod<List<Object?>>('ttsVoices') ?? const [];
+      return [
+        for (final e in l.cast<Map<Object?, Object?>>())
+          TtsVoice(
+            e['name'] as String,
+            male: e['male'] as bool?,
+            network: e['network'] == true,
+          ),
+      ];
+    } on MissingPluginException {
+      return const [];
+    } on PlatformException {
+      return const [];
+    }
+  }
+
   Future<void> openSettings() async {
     try {
       await _ch.invokeMethod('openTtsSettings');
@@ -76,4 +103,11 @@ class Speech {
       // test ortamı
     }
   }
+}
+
+class TtsVoice {
+  const TtsVoice(this.name, {this.male, this.network = false});
+  final String name;
+  final bool? male;
+  final bool network;
 }

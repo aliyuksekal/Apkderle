@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'speech.dart';
+
 enum Madhab { hanefi, safii }
 
 enum ReadingSpeed { slow, normal, fast }
@@ -27,9 +29,9 @@ extension ReadingSpeedX on ReadingSpeed {
 
   /// Konuşma motorunun okuma hızı.
   double get speechRate => switch (this) {
-    ReadingSpeed.slow => 1.1,
-    ReadingSpeed.normal => 1.35,
-    ReadingSpeed.fast => 1.6,
+    ReadingSpeed.slow => 0.7,
+    ReadingSpeed.normal => 0.8,
+    ReadingSpeed.fast => 0.92,
   };
 
   /// Süre çarpanı: yalnızca duraklama/tempo değişir, tilavet telaffuzu değişmez.
@@ -59,7 +61,34 @@ const List<String> kSelectableSurahs = [
 
 /// Uygulama ayarları. Hepsi cihazda (SharedPreferences) saklanır.
 class AppSettings extends ChangeNotifier {
-  AppSettings(this._p);
+  AppSettings(this._p) {
+    _applyVoice();
+  }
+
+  void _applyVoice() {
+    Speech.instance
+      ..voice = ttsVoice
+      ..pitch = deepVoice ? 0.82 : 1.0;
+  }
+
+  static const _kVoice = 'tts_voice';
+  static const _kDeep = 'tts_deep';
+
+  /// Konuşma motoru sesi ('' = otomatik, erkek ses tercih edilir).
+  String get ttsVoice => _p.getString(_kVoice) ?? '';
+  Future<void> setTtsVoice(String v) async {
+    await _p.setString(_kVoice, v);
+    _applyVoice();
+    notifyListeners();
+  }
+
+  /// Kalın (erkek sesine yakın) ses.
+  bool get deepVoice => _p.getBool(_kDeep) ?? true;
+  Future<void> setDeepVoice(bool v) async {
+    await _p.setBool(_kDeep, v);
+    _applyVoice();
+    notifyListeners();
+  }
 
   final SharedPreferences _p;
 

@@ -54,6 +54,8 @@ class MainActivity : FlutterActivity() {
                         val ok = speaker().speak(
                             call.argument<String>("text") ?: "",
                             (call.argument<Double>("rate") ?: 1.0).toFloat(),
+                            (call.argument<Double>("pitch") ?: 1.0).toFloat(),
+                            call.argument<String>("voice") ?: "",
                             call.argument<Int>("token") ?: 0,
                         )
                         result.success(ok)
@@ -63,6 +65,7 @@ class MainActivity : FlutterActivity() {
                         result.success(null)
                     }
                     "ttsStatus" -> result.success(speaker().status())
+                    "ttsVoices" -> result.success(speaker().voices())
                     "openTtsSettings" -> {
                         try {
                             startActivity(Intent("com.android.settings.TTS_SETTINGS").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))

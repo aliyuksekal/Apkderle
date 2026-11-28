@@ -9,6 +9,7 @@ import '../app_scope.dart';
 import '../widgets.dart';
 import 'city_picker_screen.dart';
 import 'pro_screens.dart';
+import 'voice_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -144,6 +145,21 @@ class ProfileScreen extends StatelessWidget {
                         label: (v) => v.label,
                         onPick: s.setReadingSpeed,
                       ),
+                    ),
+                    ListTile(
+                      leading: const Icon(
+                        Icons.record_voice_over_rounded,
+                        size: 32,
+                      ),
+                      title: const Text('Hoca Sesi'),
+                      subtitle: Text(
+                        s.ttsVoice.isEmpty ? 'Otomatik' : 'Seçili ses',
+                      ),
+                      trailing: const Icon(
+                        Icons.chevron_right_rounded,
+                        size: 32,
+                      ),
+                      onTap: () => _push(context, const VoiceScreen()),
                     ),
                     SwitchListTile(
                       secondary: const Icon(Icons.vibration_rounded, size: 32),
