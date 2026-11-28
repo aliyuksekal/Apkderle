@@ -18,11 +18,25 @@ extension ReadingSpeedX on ReadingSpeed {
     ReadingSpeed.fast => 'Hızlı',
   };
 
+  /// Hafız kaydının çalma hızı (perde korunur).
+  double get audioRate => switch (this) {
+    ReadingSpeed.slow => 1.25,
+    ReadingSpeed.normal => 1.5,
+    ReadingSpeed.fast => 1.75,
+  };
+
+  /// Konuşma motorunun okuma hızı.
+  double get speechRate => switch (this) {
+    ReadingSpeed.slow => 1.1,
+    ReadingSpeed.normal => 1.35,
+    ReadingSpeed.fast => 1.6,
+  };
+
   /// Süre çarpanı: yalnızca duraklama/tempo değişir, tilavet telaffuzu değişmez.
   double get factor => switch (this) {
-    ReadingSpeed.slow => 1.0,
-    ReadingSpeed.normal => 0.8,
-    ReadingSpeed.fast => 0.65,
+    ReadingSpeed.slow => 0.8,
+    ReadingSpeed.normal => 0.64,
+    ReadingSpeed.fast => 0.52,
   };
 }
 
@@ -82,7 +96,7 @@ class AppSettings extends ChangeNotifier {
   double? get gpsLat => _p.getDouble(_kGpsLat);
   double? get gpsLng => _p.getDouble(_kGpsLng);
 
-  /// Nine Modu (Pro): sadeleştirilmiş, çok büyük yazılı ana ekran.
+  /// Büyüklerimiz Modu (Pro): sadeleştirilmiş, çok büyük yazılı ana ekran.
   bool get nineMode => _p.getBool(_kNine) ?? false;
   Future<void> setNineMode(bool v) => _set(_p.setBool(_kNine, v));
 

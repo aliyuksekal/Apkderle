@@ -342,4 +342,76 @@ void main() {
       'Sıradaki: Öğle Farzı',
     );
   });
+
+  test(
+    'Kayıt olmayan adımlar sesli okunur: niyet, Sübhâneke, tesbih ×3',
+    () async {
+      final t = await FlowTemplate.load(Madhab.hanefi);
+      final steps = buildGuide(
+        template: t,
+        prayer: opt('sabah_farz'),
+        knownSurahs: const ['Fatiha', 'İhlas'],
+        speed: ReadingSpeed.slow,
+        duaTexts: const {'subhaneke': 'Sübhânekellâhümme ve bi hamdik'},
+      );
+      final niyet = steps.firstWhere((s) => s.id == 'niyet');
+      expect(niyet.speech, startsWith('Niyet ettim Allah rızası için'));
+      expect(
+        steps.firstWhere((s) => s.id == 'subhaneke').speech,
+        'Sübhânekellâhümme ve bi hamdik',
+      );
+      final tesbih = steps.firstWhere((s) => s.id == 'ruku_tesbih').speech!;
+      expect('Azim'.allMatches(tesbih).length, 3);
+      expect(
+        steps.firstWhere((s) => s.id == 'fatiha').speech,
+        isNull,
+        reason: 'hafız kaydı olan adım konuşma motoruyla okunmaz',
+      );
+    },
+  );
+
+  testWidgets('Okunan adım okuma bitince ilerler', (tester) async {
+    late Completer<bool> c;
+    final spoken = <String>[];
+    final r = GuideRunner(
+      steps: const [
+        GuideStep(
+          id: 'niyet',
+          title: 'Niyet',
+          speech: 'Niyet ettim',
+          duration: Duration(seconds: 2),
+          rakat: 1,
+        ),
+        GuideStep(
+          id: 'x',
+          title: 'X',
+          duration: Duration(seconds: 1),
+          rakat: 1,
+        ),
+      ],
+      onSignal: (_) {},
+      speak: (t) {
+        spoken.add(t);
+        c = Completer<bool>();
+        return c.future;
+      },
+    )..start();
+    expect(spoken, ['Niyet ettim']);
+    await tester.pump(const Duration(seconds: 5));
+    expect(r.current!.id, 'niyet', reason: 'okuma bitmeden geçmez');
+    c.complete(true);
+    await tester.pump();
+    await tester.pump(const Duration(seconds: 2));
+    expect(r.current!.id, 'x');
+    r.dispose();
+  });
+
+  test('Hızlar yaklaşık %25 arttı', () {
+    expect(ReadingSpeed.slow.factor, 0.8);
+    expect(ReadingSpeed.slow.audioRate, greaterThan(1.2));
+    expect(
+      ReadingSpeed.fast.audioRate,
+      greaterThan(ReadingSpeed.normal.audioRate),
+    );
+  });
 }

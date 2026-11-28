@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 
 import 'audio.dart';
+import 'speech.dart';
 import 'vibration_patterns.dart';
 
 /// Android tarafındaki küçük yerel köprü (titreşim, pusula, ön plan servisi).
@@ -12,6 +13,10 @@ class NativeBridge {
     _method.setMethodCallHandler((call) async {
       if (call.method == 'guideStopRequested') {
         _stopRequests.add(null);
+      } else if (call.method == 'ttsEvent') {
+        Speech.instance.onNativeEvent(
+          Map<Object?, Object?>.from(call.arguments as Map),
+        );
       } else if (call.method == 'audioEvent') {
         AssetAudio.instance.onNativeEvent(
           Map<Object?, Object?>.from(call.arguments as Map),

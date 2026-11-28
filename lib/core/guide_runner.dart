@@ -14,6 +14,8 @@ class GuideRunner extends ChangeNotifier {
     this.onStep,
     this.playAudio,
     this.stopAudio,
+    this.speak,
+    this.stopSpeech,
   });
 
   final List<GuideStep> steps;
@@ -23,6 +25,10 @@ class GuideRunner extends ChangeNotifier {
   /// Adımın kaydını çalar; kayıt bitince tamamlanır. Verilmezse süreye göre.
   final Future<void> Function(List<String> files)? playAudio;
   final Future<void> Function()? stopAudio;
+
+  /// Kayıt yoksa adımın metnini sesli okur; bitince true döner.
+  final Future<bool> Function(String text)? speak;
+  final Future<void> Function()? stopSpeech;
 
   /// Kayıt bittikten sonra sonraki adıma geçmeden önce kısa nefes payı.
   static const audioGap = Duration(milliseconds: 700);
@@ -68,6 +74,18 @@ class GuideRunner extends ChangeNotifier {
           _timer = Timer(s.duration, () => _go(i + 1));
         },
       );
+    } else if (s.speech != null && speak != null) {
+      final started = DateTime.now();
+      speak!(s.speech!).then((ok) {
+        if (stopped || index != i) return;
+        final spent = DateTime.now().difference(started);
+        // Okuma bittikten sonra hareket için en az kısa bir pay bırak;
+        // konuşma motoru yoksa adımın kendi süresi kadar bekle.
+        final minTotal = ok ? s.duration * 0.5 : s.duration;
+        var wait = minTotal - spent;
+        if (wait < audioGap) wait = audioGap;
+        _timer = Timer(wait, () => _go(i + 1));
+      });
     } else {
       _timer = Timer(s.duration, () => _go(i + 1));
     }
@@ -78,6 +96,7 @@ class GuideRunner extends ChangeNotifier {
     stopped = true;
     _timer?.cancel();
     stopAudio?.call();
+    stopSpeech?.call();
     notifyListeners();
   }
 

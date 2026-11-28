@@ -34,6 +34,7 @@ class MainActivity : FlutterActivity() {
     private var tone: ToneGenerator? = null
     private var declination = 0f
     private var audio: AssetAudio? = null
+    private var speaker: Speaker? = null
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
@@ -49,9 +50,31 @@ class MainActivity : FlutterActivity() {
                         vibrate(pattern, call.argument<Boolean>("strong") ?: false)
                         result.success(null)
                     }
+                    "ttsSpeak" -> {
+                        val ok = speaker().speak(
+                            call.argument<String>("text") ?: "",
+                            (call.argument<Double>("rate") ?: 1.0).toFloat(),
+                            call.argument<Int>("token") ?: 0,
+                        )
+                        result.success(ok)
+                    }
+                    "ttsStop" -> {
+                        speaker?.stop()
+                        result.success(null)
+                    }
+                    "ttsStatus" -> result.success(speaker().status())
+                    "openTtsSettings" -> {
+                        try {
+                            startActivity(Intent("com.android.settings.TTS_SETTINGS").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+                        } catch (_: Exception) {
+                            startActivity(Intent(Settings.ACTION_SETTINGS).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+                        }
+                        result.success(null)
+                    }
                     "audioPlay" -> {
                         val files = call.argument<List<String>>("files") ?: emptyList()
                         val token = call.argument<Int>("token") ?: 0
+                        audioPlayer().speed = (call.argument<Double>("speed") ?: 1.0).toFloat()
                         audioPlayer().play(files, token)
                         result.success(audioPlayer().mediaVolume())
                     }
@@ -155,7 +178,15 @@ class MainActivity : FlutterActivity() {
         }
     }.also { audio = it }
 
+    private fun speaker(): Speaker = speaker ?: Speaker(applicationContext) { tok ->
+        Handler(Looper.getMainLooper()).post {
+            channel?.invokeMethod("ttsEvent", mapOf("token" to tok))
+        }
+    }.also { speaker = it }
+
     override fun onDestroy() {
+        speaker?.release()
+        speaker = null
         audio?.release()
         audio = null
         tone?.release()

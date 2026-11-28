@@ -179,6 +179,7 @@ class GuideStep {
     this.audioFiles = const [],
     this.unit,
     this.detail,
+    this.speech,
   });
 
   final String id;
@@ -192,6 +193,9 @@ class GuideStep {
 
   /// Ekranda başlığın altında gösterilen okunuş (Ettehiyyâtü vb.).
   final String? detail;
+
+  /// Hafız kaydı yoksa konuşma motoruyla okunacak metin.
+  final String? speech;
 
   /// Hafız kaydı (ayet ayet, sırayla çalınır). Boşsa adım [duration] kadar
   /// sürer; doluysa kayıt bitince ilerler.
@@ -275,9 +279,12 @@ List<GuideStep> buildGuide({
           .map((id) => duaTexts[id])
           .whereType<String>()
           .join('\n');
+      final id = s['id'] as String;
+      final speech = audio.isNotEmpty ? null : _speechFor(id, title, detail);
       steps.add(
         GuideStep(
-          id: s['id'] as String,
+          id: id,
+          speech: speech,
           title: title,
           duration: Duration(
             milliseconds: (seconds * 1000 * speed.factor).round(),
@@ -332,6 +339,18 @@ List<GuideStep> buildGuide({
   return steps;
 }
 
+/// Sesli okunacak metin: ekrandaki yazı (üç nokta olmadan), duanın tam
+/// okunuşu; tesbihler üç kez.
+String? _speechFor(String id, String title, String detail) {
+  final base = title.replaceAll('...', '').replaceAll('…', '').trim();
+  if (detail.isNotEmpty) return detail;
+  if (id.endsWith('_tesbih')) return List.filled(3, base).join('. ');
+  if (id == 'kavme') return "$base. Rabbenâ leke'l-hamd";
+  if (id == 'zamm') return 'Bildiğiniz bir sûre okunur';
+  if (base.isEmpty) return null;
+  return base;
+}
+
 /// Birden çok namazı arka arkaya (ör. öğlenin sünnetleri ve farzı).
 List<GuideStep> buildSequence({
   required FlowTemplate template,
@@ -357,6 +376,7 @@ List<GuideStep> buildSequence({
         GuideStep(
           id: 'bitti_ara',
           title: '${units[i].title} bitti',
+          speech: '${units[i].title} bitti',
           duration: end.duration,
           rakat: end.rakat,
           signal: Signal.transition,
@@ -371,6 +391,7 @@ List<GuideStep> buildSequence({
               '{next}',
               units[i + 1].title,
             ),
+            speech: 'Sıradaki: ${units[i + 1].title}',
             duration: Duration(
               milliseconds: ((s['seconds'] as num) * 1000).round(),
             ),

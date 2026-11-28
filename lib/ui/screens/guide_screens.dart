@@ -12,6 +12,7 @@ import '../../core/place.dart';
 import '../../core/prayer_log.dart';
 import '../../core/prayer_times.dart';
 import '../../core/settings.dart';
+import '../../core/speech.dart';
 import '../../core/vibration_patterns.dart';
 import '../app_scope.dart';
 import '../widgets.dart';
@@ -356,10 +357,34 @@ class _GuidePrepScreenState extends State<GuidePrepScreen> {
             NoticeBox(
               icon: Icons.volume_up_rounded,
               text: hasAudio
-                  ? 'Fatiha ve sureleri Hafız Mahmud Halil el-Husarî okur. Tekbir, tesbih ve dualarda okunuşu ekranda büyük yazıyla görürsünüz, titreşimle yönlendirilirsiniz.'
+                  ? 'Fatiha ve sureleri Hafız Mahmud Halil el-Husarî okur. Niyet, tekbir, tesbih ve dualar telefonun konuşma sesiyle okunur ve ekranda büyük yazıyla görünür.'
                   : 'Bu namazda ses kaydı yok; rehber titreşim ve ekrandaki büyük yazılarla ilerler.',
             ),
             const SizedBox(height: 10),
+            FutureBuilder<bool?>(
+              future: Speech.instance.turkishReady(),
+              builder: (context, snap) => snap.data == false
+                  ? Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          const NoticeBox(
+                            warning: true,
+                            text:
+                                'Telefonda Türkçe konuşma sesi yok. Niyet, tekbir ve dualar sesli okunamaz. Aşağıdaki düğmeden "Türkçe" sesini indirin.',
+                          ),
+                          const SizedBox(height: 6),
+                          OutlinedButton.icon(
+                            onPressed: Speech.instance.openSettings,
+                            icon: const Icon(Icons.record_voice_over_rounded),
+                            label: const Text('Konuşma ayarlarını aç'),
+                          ),
+                        ],
+                      ),
+                    )
+                  : const SizedBox.shrink(),
+            ),
             if (tpl != null && zamm.isEmpty) ...[
               const NoticeBox(
                 warning: true,
@@ -378,7 +403,7 @@ class _GuidePrepScreenState extends State<GuidePrepScreen> {
                       NativeBridge.instance; // olay işleyicisi
                       AssetAudio.instance.play([
                         'content/audio/husary/001001.mp3',
-                      ]);
+                      ], speed: s.readingSpeed.audioRate);
                     },
                     icon: const Icon(Icons.volume_up_rounded, size: 28),
                     label: const Text('Sesi Dene'),
@@ -468,7 +493,7 @@ class GuideRunScreen extends StatefulWidget {
 
 class _GuideRunScreenState extends State<GuideRunScreen> {
   late final GuideRunner runner;
-  final audio = GuideAudio();
+  late final audio = GuideAudio(speed: s.readingSpeed.audioRate);
   StreamSubscription<void>? _stopSub;
   late final AppSettings s = context.settingsRead;
   bool _closed = false;
@@ -480,6 +505,8 @@ class _GuideRunScreenState extends State<GuideRunScreen> {
       steps: widget.steps,
       playAudio: audio.play,
       stopAudio: audio.stop,
+      speak: (t) => Speech.instance.speak(t, rate: s.readingSpeed.speechRate),
+      stopSpeech: Speech.instance.stop,
       onSignal: (sig) {
         if (s.vibrationOn) NativeBridge.instance.vibrate(sig, strong: true);
       },

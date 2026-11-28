@@ -32,7 +32,7 @@ class AssetAudio {
 
   /// [files] sırayla çalınır. Liste bitince true, durdurulur ya da hata
   /// olursa false döner.
-  Future<bool> play(List<String> files) async {
+  Future<bool> play(List<String> files, {double speed = 1.0}) async {
     _finish(false);
     if (files.isEmpty) return true;
     final tok = ++_token;
@@ -41,6 +41,7 @@ class AssetAudio {
       final vol = await _ch.invokeMethod<int>('audioPlay', {
         'files': files,
         'token': tok,
+        'speed': speed,
       });
       if (vol == 0) {
         _problems.add('Telefonun medya sesi kapalı. Ses tuşuyla sesi açın.');

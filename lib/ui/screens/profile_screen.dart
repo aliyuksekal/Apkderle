@@ -69,8 +69,10 @@ class ProfileScreen extends StatelessWidget {
                             : Icons.lock_rounded,
                         size: 32,
                       ),
-                      title: const Text('Nine Modu'),
-                      subtitle: const Text('Çok büyük yazı, sade ana ekran'),
+                      title: const Text('Büyüklerimiz Modu'),
+                      subtitle: const Text(
+                        'Çok büyük yazı, sade ana ekran; dokunulan her şey sesli okunur',
+                      ),
                       value: s.nineMode && context.premium.isPremium,
                       onChanged: (v) {
                         if (!context.premium.isPremium) {
@@ -529,8 +531,8 @@ class PremiumScreen extends StatelessWidget {
       ),
       (
         Icons.elderly_rounded,
-        'Nine Modu',
-        'Çok büyük yazı ve yalnızca en gerekli düğmeler.',
+        'Büyüklerimiz Modu',
+        'Çok büyük yazı, yalnızca en gerekli düğmeler; dokunulan her şey sesli okunur.',
       ),
       (
         Icons.block_rounded,

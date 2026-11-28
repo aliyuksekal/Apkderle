@@ -2,7 +2,7 @@ name: namaz_asistani
 description: "Yaşlı dostu Namaz Asistanı — vakitler, zikirmatik, kıble, dualar ve eller serbest namaz rehberi."
 publish_to: 'none'
 
-version: 0.1.0+1
+version: 0.2.0+1
 
 environment:
   sdk: ^3.8.0

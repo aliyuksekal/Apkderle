@@ -12,6 +12,7 @@ import 'core/zikr.dart';
 import 'ui/app_scope.dart';
 import 'ui/screens/home_shell.dart';
 import 'ui/screens/onboarding_screen.dart';
+import 'ui/tap_reader.dart';
 import 'ui/theme.dart';
 
 Future<void> main() async {
@@ -111,7 +112,14 @@ class NamazApp extends StatelessWidget {
               data: mq.copyWith(
                 textScaler: TextScaler.linear((sys * scale).clamp(1.0, 2.2)),
               ),
-              child: child!,
+              // Büyüklerimiz Modu: dokunulan her şey sesli okunur.
+              child: ListenableBuilder(
+                listenable: premium,
+                builder: (context, _) => TapReader(
+                  enabled: settings.nineMode && premium.isPremium,
+                  child: child!,
+                ),
+              ),
             );
           },
           home: settings.onboardingDone

@@ -18,7 +18,7 @@ Hesap yok, konum ve veriler yalnızca telefonda.
 - Sanal İmam (Eller Serbest) — İmamla Kıl, hafız sesiyle
 - Namaz + İlaç Hatırlatma (14 gün ileriye yerel bildirim)
 - Kaza Namazı Otomatik Sayacı (işaretlenmeyen vakit süresi çıkınca kazaya yazılır; Hanefi'de vitir dahil; geçmiş borç ekleme)
-- Nine Modu (çok büyük yazı, sade ana ekran)
+- Büyüklerimiz Modu (çok büyük yazı, sade ana ekran, dokunulanı sesli okur)
 - Reklamsız kullanım
 
 Ücretsiz: vakitler, "Bugün kıldıklarım" işaretleme, zikirmatik, kıble, sesli dualar. Vakitler, zikirmatik, kıble ve sesli dualar ücretsiz. Play Console → Para kazanma → Uygulama içi ürünler'de `namaz_premium` kimliğiyle ürün oluşturulup etkinleştirilmeli; fiyat oradan belirlenir. Satın alma yalnızca Play'den kurulan sürümde (kapalı test dahil) çalışır.

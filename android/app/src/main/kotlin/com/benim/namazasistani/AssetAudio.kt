@@ -22,6 +22,9 @@ class AssetAudio(
     private var player: MediaPlayer? = null
     private var files: List<String> = emptyList()
     private var index = -1
+
+    /** Çalma hızı (perde korunur). 1.0 = normal. */
+    var speed = 1f
     private var token = 0
     private var focus: AudioFocusRequest? = null
     private val am = ctx.getSystemService(Context.AUDIO_SERVICE) as AudioManager
@@ -65,6 +68,11 @@ class AssetAudio(
                 true
             }
             mp.prepare()
+            if (speed != 1f) {
+                try {
+                    mp.playbackParams = mp.playbackParams.setSpeed(speed).setPitch(1f)
+                } catch (_: Exception) {}
+            }
             player = mp
             mp.start()
         } catch (e: Exception) {

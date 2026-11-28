@@ -46,7 +46,7 @@ void openPro(BuildContext context, Widget page) {
 class TodayMarksCard extends StatelessWidget {
   const TodayMarksCard({super.key, this.big = false});
 
-  /// Nine Modu'nda daha büyük.
+  /// Büyüklerimiz Modu'nda daha büyük.
   final bool big;
 
   @override
@@ -615,7 +615,7 @@ class RemindersScreen extends StatelessWidget {
 }
 
 // ---------------------------------------------------------------------------
-// Nine Modu (Pro): sade ve çok büyük ana ekran
+// Büyüklerimiz Modu (Pro): sade ve çok büyük ana ekran
 
 class NineHome extends StatelessWidget {
   const NineHome({super.key, required this.onExit});

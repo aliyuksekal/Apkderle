@@ -235,7 +235,7 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('Nine Modu açılınca sade ekran hemen gelir (Pro)', (
+  testWidgets('Büyüklerimiz Modu açılınca sade ekran hemen gelir (Pro)', (
     tester,
   ) async {
     SharedPreferences.setMockInitialValues({
