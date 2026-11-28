@@ -7,3 +7,13 @@
 -keep class * extends com.google.gson.reflect.TypeToken
 -keep class com.google.gson.** { *; }
 -dontwarn com.google.gson.**
+
+# WorkManager / Room: veritabanı sınıfı yansıtmayla (reflection) oluşturulur.
+# R8 tam modunda kurucusu silinirse uygulama açılışta çöker:
+# "NoSuchMethodException: androidx.work.impl.WorkDatabase_Impl.<init>"
+-keep class * extends androidx.room.RoomDatabase { <init>(...); *; }
+-keep class androidx.work.impl.WorkDatabase_Impl { *; }
+-keep class androidx.work.** { *; }
+-keep class androidx.room.** { *; }
+-keep class androidx.startup.** { *; }
+-keep class * implements androidx.startup.Initializer { <init>(); }
