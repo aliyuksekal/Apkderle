@@ -65,9 +65,12 @@ jobs:
           [ -z "$ADMOB_APP_ID" ] && unset ADMOB_APP_ID
           # Play'e yüklenecek paket (Pro satın almayla açılır)
           flutter build appbundle --release --build-number=$BN $DEF
+          mkdir -p dist
+          # Pro kapalı deneme (Play sürümüyle aynı davranış)
+          flutter build apk --release --build-number=$BN $DEF
+          cp build/app/outputs/flutter-apk/app-release.apk dist/NamazAsistani-ProKapali.apk
           # Telefona kurup denemek için: Pro özellikleri açık
           flutter build apk --release --build-number=$BN $DEF --dart-define=PRO_TEST=true
-          mkdir -p dist
           cp build/app/outputs/bundle/release/app-release.aab dist/NamazAsistani-Play.aab
           cp build/app/outputs/flutter-apk/app-release.apk dist/NamazAsistani-Deneme.apk
           if [ -n "${KEYSTORE_PATH:-}" ]; then
@@ -88,7 +91,7 @@ jobs:
         run: |
           TAG=son-surum
           gh release delete "$TAG" --cleanup-tag -y || true
-          gh release create "$TAG" dist/NamazAsistani-Deneme.apk dist/NamazAsistani-Play.aab \
+          gh release create "$TAG" dist/NamazAsistani-Deneme.apk dist/NamazAsistani-ProKapali.apk dist/NamazAsistani-Play.aab \
             --title "Namaz Asistanı — son derleme (#${{ github.run_number }})" \
             --notes "NamazAsistani-Deneme.apk: telefona kurup denemek için (Pro özellikleri açık). NamazAsistani-Play.aab: Play Console'a yüklenecek paket. $IMZA. Commit: ${{ github.sha }}" \
             --prerelease
