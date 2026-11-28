@@ -98,11 +98,12 @@ class _DuaSectionState extends State<DuaSection> {
                           header: true,
                           child: Text(cat, style: t.titleLarge),
                         ),
-                        if (cat != 'Namaz Duaları')
-                          Text(
-                            'Okuyan: Hafız ${lib.reciter}',
-                            style: t.bodyMedium,
-                          ),
+                        Text(
+                          cat == 'Namaz Duaları'
+                              ? 'Okuyan: Hocamız'
+                              : 'Okuyan: Hafız ${lib.reciter}',
+                          style: t.bodyMedium,
+                        ),
                         const SizedBox(height: 4),
                         for (final d in lib.duas.where(
                           (d) => d.category == cat,
@@ -272,7 +273,9 @@ class _DuaDetailScreenState extends State<DuaDetailScreen> {
                   Padding(
                     padding: const EdgeInsets.only(top: 6),
                     child: Text(
-                      'Okuyan: Hafız ${widget.reciter}',
+                      d.category == 'Namaz Duaları'
+                          ? 'Okuyan: Hocamız'
+                          : 'Okuyan: Hafız ${widget.reciter}',
                       textAlign: TextAlign.center,
                       style: t.bodyMedium,
                     ),

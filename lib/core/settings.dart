@@ -28,6 +28,13 @@ extension ReadingSpeedX on ReadingSpeed {
   };
 
   /// Konuşma motorunun okuma hızı.
+  /// Hocanın dua kayıtları: Yavaş = hocanın kendi hızı.
+  double get hocaRate => switch (this) {
+    ReadingSpeed.slow => 1.0,
+    ReadingSpeed.normal => 1.12,
+    ReadingSpeed.fast => 1.25,
+  };
+
   double get speechRate => switch (this) {
     ReadingSpeed.slow => 0.7,
     ReadingSpeed.normal => 0.8,

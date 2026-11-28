@@ -357,7 +357,7 @@ class _GuidePrepScreenState extends State<GuidePrepScreen> {
             NoticeBox(
               icon: Icons.volume_up_rounded,
               text: hasAudio
-                  ? 'Fatiha ve sureleri Hafız Mahmud Halil el-Husarî okur. Niyet, tekbir, tesbih ve dualar telefonun konuşma sesiyle okunur ve ekranda büyük yazıyla görünür.'
+                  ? 'Fatiha ve sureleri Hafız Mahmud Halil el-Husarî okur. Sübhâneke, Ettehiyyâtü, Salli, Bârik, Rabbenâ ve Kunut dualarını hocamız kendi sesiyle okur. Niyet, tekbir ve tesbihler telefonun konuşma sesiyle okunur.'
                   : 'Bu namazda ses kaydı yok; rehber titreşim ve ekrandaki büyük yazılarla ilerler.',
             ),
             const SizedBox(height: 10),
@@ -493,7 +493,10 @@ class GuideRunScreen extends StatefulWidget {
 
 class _GuideRunScreenState extends State<GuideRunScreen> {
   late final GuideRunner runner;
-  late final audio = GuideAudio(speed: s.readingSpeed.audioRate);
+  late final audio = GuideAudio(
+    speed: s.readingSpeed.audioRate,
+    hocaSpeed: s.readingSpeed.hocaRate,
+  );
   StreamSubscription<void>? _stopSub;
   late final AppSettings s = context.settingsRead;
   bool _closed = false;

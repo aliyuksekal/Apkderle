@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:async';
 
 import 'package:flutter/services.dart';
@@ -343,32 +344,29 @@ void main() {
     );
   });
 
-  test(
-    'Kayıt olmayan adımlar sesli okunur: niyet, Sübhâneke, tesbih ×3',
-    () async {
-      final t = await FlowTemplate.load(Madhab.hanefi);
-      final steps = buildGuide(
-        template: t,
-        prayer: opt('sabah_farz'),
-        knownSurahs: const ['Fatiha', 'İhlas'],
-        speed: ReadingSpeed.slow,
-        duaTexts: const {'subhaneke': 'Sübhânekellâhümme ve bi hamdik'},
-      );
-      final niyet = steps.firstWhere((s) => s.id == 'niyet');
-      expect(niyet.speech, startsWith('Niyet ettim Allah rızası için'));
-      expect(
-        steps.firstWhere((s) => s.id == 'subhaneke').speech,
-        'Sübhânekellâhümme ve bi hamdik',
-      );
-      final tesbih = steps.firstWhere((s) => s.id == 'ruku_tesbih').speech!;
-      expect('Azim'.allMatches(tesbih).length, 3);
-      expect(
-        steps.firstWhere((s) => s.id == 'fatiha').speech,
-        isNull,
-        reason: 'hafız kaydı olan adım konuşma motoruyla okunmaz',
-      );
-    },
-  );
+  test('Niyet ve tesbih konuşma sesiyle, dualar hocanın kaydıyla', () async {
+    final t = await FlowTemplate.load(Madhab.hanefi);
+    final steps = buildGuide(
+      template: t,
+      prayer: opt('sabah_farz'),
+      knownSurahs: const ['Fatiha', 'İhlas'],
+      speed: ReadingSpeed.slow,
+      duaTexts: const {'subhaneke': 'Sübhânekellâhümme ve bi hamdik'},
+    );
+    final niyet = steps.firstWhere((s) => s.id == 'niyet');
+    expect(niyet.speech, startsWith('Niyet ettim Allah rızası için'));
+    final sub = steps.firstWhere((s) => s.id == 'subhaneke');
+    expect(sub.speech, isNull, reason: 'Sübhâneke hocanın sesiyle');
+    expect(sub.audioFiles, ['content/audio/hoca/subhaneke.mp3']);
+    expect(steps.firstWhere((s) => s.id == 'rabbena').audioFiles.length, 2);
+    final tesbih = steps.firstWhere((s) => s.id == 'ruku_tesbih').speech!;
+    expect('Azim'.allMatches(tesbih).length, 3);
+    expect(
+      steps.firstWhere((s) => s.id == 'fatiha').speech,
+      isNull,
+      reason: 'hafız kaydı olan adım konuşma motoruyla okunmaz',
+    );
+  });
 
   testWidgets('Okunan adım okuma bitince ilerler', (tester) async {
     late Completer<bool> c;
@@ -414,5 +412,11 @@ void main() {
       ReadingSpeed.fast.audioRate,
       greaterThan(ReadingSpeed.normal.audioRate),
     );
+  });
+
+  test('Hocanın dua kayıtları pakette var', () {
+    for (final id in hocaDuas) {
+      expect(File(hocaAudio(id)).existsSync(), isTrue, reason: id);
+    }
   });
 }

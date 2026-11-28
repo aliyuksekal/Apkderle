@@ -270,11 +270,14 @@ List<GuideStep> buildGuide({
       if (info != null && s['secondsFrom'] == 'surah') {
         seconds = (info['seconds'] as num).toDouble();
       }
-      final audio = info != null && info['verified'] == true
-          ? ((info['audio'] as List?) ?? const []).cast<String>()
-          : const <String>[];
       final sig = s['signal'] as String?;
       final duaIds = (s['dua'] as String?)?.split(',') ?? const <String>[];
+      final hoca = duaIds.isNotEmpty && duaIds.every(hocaDuas.contains);
+      final audio = hoca
+          ? [for (final d in duaIds) hocaAudio(d)]
+          : info != null && info['verified'] == true
+          ? ((info['audio'] as List?) ?? const []).cast<String>()
+          : const <String>[];
       final detail = duaIds
           .map((id) => duaTexts[id])
           .whereType<String>()
@@ -338,6 +341,22 @@ List<GuideStep> buildGuide({
   addBlock('end', n);
   return steps;
 }
+
+/// Hocanın kendi sesiyle kaydedilmiş namaz duaları (tekbirsiz).
+const hocaDuas = {
+  'subhaneke',
+  'tahiyyat',
+  'salli',
+  'barik',
+  'rabbena_atina',
+  'rabbenagfirli',
+  'kunut1',
+  'kunut2',
+};
+
+String hocaAudio(String id) => 'content/audio/hoca/$id.mp3';
+
+bool isHocaAudio(String file) => file.startsWith('content/audio/hoca/');
 
 /// Sesli okunacak metin: ekrandaki yazı (üç nokta olmadan), duanın tam
 /// okunuşu; tesbihler üç kez.

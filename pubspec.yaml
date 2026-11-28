@@ -2,7 +2,7 @@ name: namaz_asistani
 description: "Yaşlı dostu Namaz Asistanı — vakitler, zikirmatik, kıble, dualar ve eller serbest namaz rehberi."
 publish_to: 'none'
 
-version: 0.2.1+1
+version: 0.3.0+1
 
 environment:
   sdk: ^3.8.0
@@ -34,6 +34,7 @@ flutter:
     - content/
     - content/flows/
     - content/audio/husary/
+    - content/audio/hoca/
   fonts:
     - family: AmiriQuran
       fonts:

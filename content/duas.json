@@ -1,7 +1,7 @@
 {
  "schemaVersion": 3,
  "reciter": "Mahmud Halil el-Husarî",
- "note": "Kur'an ayetleri: Tanzil metni, Diyanet İşleri meali, Tanzil Türkçe okunuşu, Husarî kıraati (uygulama içinde). Namaz duaları (Sübhâneke, Ettehiyyâtü, Salli, Bârik, Kunut): Diyanet İlmihali; hafız kaydı yok.",
+ "note": "Kur'an ayetleri: Tanzil metni, Diyanet İşleri meali, Tanzil Türkçe okunuşu, Husarî kıraati. Namaz duaları: Diyanet İlmihali metni, uygulamanın hocasının sesiyle.",
  "duas": [
   {
    "id": "subhaneke",
@@ -13,10 +13,10 @@
      "arabic": "سُبْحَانَكَ اللّٰهُمَّ وَبِحَمْدِكَ وَتَبَارَكَ اسْمُكَ وَتَعَالٰى جَدُّكَ وَلَا اِلٰهَ غَيْرُكَ",
      "transliteration": "Sübhânekellâhümme ve bi hamdik ve tebârakesmük ve teâlâ ceddük ve lâ ilâhe ğayrük.",
      "meaning": "Allah'ım! Sen eksik sıfatlardan pak ve uzaksın. Seni daima böyle tenzih eder ve överim. Senin adın mübarektir. Varlığın her şeyden üstündür. Senden başka ilâh yoktur.",
-     "audio": null
+     "audio": "content/audio/hoca/subhaneke.mp3"
     }
    ],
-   "source": "Diyanet İşleri Başkanlığı, İlmihal (Namazda okunan dualar). Hadislerle sabit dualardır, Kur'an ayeti değildir. Hafız kaydı henüz eklenmedi.",
+   "source": "Diyanet İşleri Başkanlığı, İlmihal (Namazda okunan dualar). Hadislerle sabit dualardır, Kur'an ayeti değildir. Ses: uygulamanın hocasının kaydı (izinle).",
    "verified": true
   },
   {
@@ -29,10 +29,10 @@
      "arabic": "اَلتَّحِيَّاتُ لِلّٰهِ وَالصَّلَوَاتُ وَالطَّيِّبَاتُ اَلسَّلَامُ عَلَيْكَ اَيُّهَا النَّبِيُّ وَرَحْمَةُ اللّٰهِ وَبَرَكَاتُهُ اَلسَّلَامُ عَلَيْنَا وَعَلٰى عِبَادِ اللّٰهِ الصَّالِحِينَ اَشْهَدُ اَنْ لَا اِلٰهَ اِلَّا اللّٰهُ وَاَشْهَدُ اَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ",
      "transliteration": "Ettehiyyâtü lillâhi ves-salevâtü vet-tayyibât. Esselâmü aleyke eyyühen-nebiyyü ve rahmetullâhi ve berekâtüh. Esselâmü aleynâ ve alâ ıbâdillâhis-sâlihîn. Eşhedü en lâ ilâhe illallâh ve eşhedü enne Muhammeden abdühû ve rasûlüh.",
      "meaning": "Dil ile, beden ve mal ile yapılan bütün ibadetler Allah'adır. Ey Peygamber! Allah'ın selamı, rahmeti ve bereketleri senin üzerine olsun. Selam bizim üzerimize ve Allah'ın bütün iyi kulları üzerine olsun. Şahitlik ederim ki Allah'tan başka ilâh yoktur. Yine şahitlik ederim ki Muhammed O'nun kulu ve peygamberidir.",
-     "audio": null
+     "audio": "content/audio/hoca/tahiyyat.mp3"
     }
    ],
-   "source": "Diyanet İşleri Başkanlığı, İlmihal (Namazda okunan dualar). Hadislerle sabit dualardır, Kur'an ayeti değildir. Hafız kaydı henüz eklenmedi.",
+   "source": "Diyanet İşleri Başkanlığı, İlmihal (Namazda okunan dualar). Hadislerle sabit dualardır, Kur'an ayeti değildir. Ses: uygulamanın hocasının kaydı (izinle).",
    "verified": true
   },
   {
@@ -45,10 +45,10 @@
      "arabic": "اَللّٰهُمَّ صَلِّ عَلٰى مُحَمَّدٍ وَعَلٰى اٰلِ مُحَمَّدٍ كَمَا صَلَّيْتَ عَلٰى اِبْرٰهِيمَ وَعَلٰى اٰلِ اِبْرٰهِيمَ اِنَّكَ حَمِيدٌ مَجِيدٌ",
      "transliteration": "Allâhümme salli alâ Muhammedin ve alâ âli Muhammed. Kemâ salleyte alâ İbrâhîme ve alâ âli İbrâhîm. İnneke hamîdün mecîd.",
      "meaning": "Allah'ım! Muhammed'e ve Muhammed'in ümmetine rahmet eyle; şerefini yücelt. İbrahim'e ve İbrahim'in ümmetine rahmet ettiğin gibi. Şüphesiz övülmeye lâyık yalnız sensin, şan ve şeref sahibi de sensin.",
-     "audio": null
+     "audio": "content/audio/hoca/salli.mp3"
     }
    ],
-   "source": "Diyanet İşleri Başkanlığı, İlmihal (Namazda okunan dualar). Hadislerle sabit dualardır, Kur'an ayeti değildir. Hafız kaydı henüz eklenmedi.",
+   "source": "Diyanet İşleri Başkanlığı, İlmihal (Namazda okunan dualar). Hadislerle sabit dualardır, Kur'an ayeti değildir. Ses: uygulamanın hocasının kaydı (izinle).",
    "verified": true
   },
   {
@@ -61,10 +61,10 @@
      "arabic": "اَللّٰهُمَّ بَارِكْ عَلٰى مُحَمَّدٍ وَعَلٰى اٰلِ مُحَمَّدٍ كَمَا بَارَكْتَ عَلٰى اِبْرٰهِيمَ وَعَلٰى اٰلِ اِبْرٰهِيمَ اِنَّكَ حَمِيدٌ مَجِيدٌ",
      "transliteration": "Allâhümme bârik alâ Muhammedin ve alâ âli Muhammed. Kemâ bârekte alâ İbrâhîme ve alâ âli İbrâhîm. İnneke hamîdün mecîd.",
      "meaning": "Allah'ım! Muhammed'e ve Muhammed'in ümmetine hayır ve bereket ver. İbrahim'e ve İbrahim'in ümmetine verdiğin gibi. Şüphesiz övülmeye lâyık yalnız sensin, şan ve şeref sahibi de sensin.",
-     "audio": null
+     "audio": "content/audio/hoca/barik.mp3"
     }
    ],
-   "source": "Diyanet İşleri Başkanlığı, İlmihal (Namazda okunan dualar). Hadislerle sabit dualardır, Kur'an ayeti değildir. Hafız kaydı henüz eklenmedi.",
+   "source": "Diyanet İşleri Başkanlığı, İlmihal (Namazda okunan dualar). Hadislerle sabit dualardır, Kur'an ayeti değildir. Ses: uygulamanın hocasının kaydı (izinle).",
    "verified": true
   },
   {
@@ -79,12 +79,12 @@
      "arabic": "وَمِنۡهُم مَّن يَقُولُ رَبَّنَآ ءَاتِنَا فِي ٱلدُّنۡيَا حَسَنَةࣰ وَفِي ٱلۡأٓخِرَةِ حَسَنَةࣰ وَقِنَا عَذَابَ ٱلنَّارِ",
      "transliteration": "Ve minhum men yekûlu rabbenâ âtinâ fîd dunyâ haseneten ve fîl âhirati haseneten ve kınâ azâben nâr",
      "meaning": "Rabbimiz! Bize dünyada iyiyi, ahirette de iyiyi ver, bizi ateşin azabından koru\" diyenler vardır",
-     "audio": "content/audio/husary/002201.mp3"
+     "audio": "content/audio/hoca/rabbena_atina.mp3"
     }
    ],
-   "source": "Kur'ân-ı Kerîm. Arapça metin: Tanzil (Osmanî hat, Hafs). Meal: Diyanet İşleri Başkanlığı meali. Okunuş: Tanzil Türkçe okunuş. Kıraat: Hafız Mahmud Halil el-Husarî (EveryAyah.com).",
+   "source": "Kur'ân-ı Kerîm. Arapça metin: Tanzil (Osmanî hat, Hafs). Meal: Diyanet İşleri Başkanlığı meali. Okunuş: Tanzil Türkçe okunuş. Ses: uygulamanın hocasının kaydı (izinle).",
    "verified": true,
-   "note": "Namazda ayetin 'Rabbenâ âtinâ…' ile başlayan kısmı okunur; kayıtta ayetin tamamı vardır."
+   "note": "Namazda ayetin 'Rabbenâ âtinâ…' ile başlayan kısmı okunur; kayıtta da bu kısım vardır."
   },
   {
    "id": "rabbenagfirli",
@@ -98,10 +98,10 @@
      "arabic": "رَبَّنَا ٱغۡفِرۡ لِي وَلِوَٰلِدَيَّ وَلِلۡمُؤۡمِنِينَ يَوۡمَ يَقُومُ ٱلۡحِسَابُ",
      "transliteration": "Rabbenagfirlî ve li vâlideyye ve lil mu’minîne yevme yekûmul hisâb",
      "meaning": "Rabbimiz! Hesap görülecek günde, beni, anamı babamı ve inananları bağışla",
-     "audio": "content/audio/husary/014041.mp3"
+     "audio": "content/audio/hoca/rabbenagfirli.mp3"
     }
    ],
-   "source": "Kur'ân-ı Kerîm. Arapça metin: Tanzil (Osmanî hat, Hafs). Meal: Diyanet İşleri Başkanlığı meali. Okunuş: Tanzil Türkçe okunuş. Kıraat: Hafız Mahmud Halil el-Husarî (EveryAyah.com).",
+   "source": "Kur'ân-ı Kerîm. Arapça metin: Tanzil (Osmanî hat, Hafs). Meal: Diyanet İşleri Başkanlığı meali. Okunuş: Tanzil Türkçe okunuş. Ses: uygulamanın hocasının kaydı (izinle).",
    "verified": true
   },
   {
@@ -114,10 +114,10 @@
      "arabic": "اَللّٰهُمَّ اِنَّا نَسْتَعِينُكَ وَنَسْتَغْفِرُكَ وَنَسْتَهْدِيكَ وَنُؤْمِنُ بِكَ وَنَتُوبُ اِلَيْكَ وَنَتَوَكَّلُ عَلَيْكَ وَنُثْنِي عَلَيْكَ الْخَيْرَ كُلَّهُ نَشْكُرُكَ وَلَا نَكْفُرُكَ وَنَخْلَعُ وَنَتْرُكُ مَنْ يَفْجُرُكَ",
      "transliteration": "Allâhümme innâ nesteînüke ve nestağfirüke ve nestehdîk. Ve nü'minü bike ve netûbü ileyk. Ve netevekkelü aleyke ve nüsnî aleykel-hayra küllehû neşkürük. Ve lâ nekfürüke ve nahleu ve netrükü men yefcürük.",
      "meaning": "Allah'ım! Ancak senden yardım isteriz, günahlarımızı bağışlamanı isteriz, razı olduğun şeylere hidayet etmeni isteriz. Sana inanırız, sana tövbe ederiz. Sana güveniriz. Bize verdiğin bütün nimetleri bilerek seni hayır ile överiz. Sana şükrederiz. Hiçbir nimetini inkâr etmeyiz. Nimetlerini inkâr edeni ve sana karşı geleni bırakırız.",
-     "audio": null
+     "audio": "content/audio/hoca/kunut1.mp3"
     }
    ],
-   "source": "Diyanet İşleri Başkanlığı, İlmihal (Namazda okunan dualar). Hadislerle sabit dualardır, Kur'an ayeti değildir. Hafız kaydı henüz eklenmedi.",
+   "source": "Diyanet İşleri Başkanlığı, İlmihal (Namazda okunan dualar). Hadislerle sabit dualardır, Kur'an ayeti değildir. Ses: uygulamanın hocasının kaydı (izinle).",
    "verified": true
   },
   {
@@ -130,10 +130,10 @@
      "arabic": "اَللّٰهُمَّ اِيَّاكَ نَعْبُدُ وَلَكَ نُصَلِّي وَنَسْجُدُ وَاِلَيْكَ نَسْعٰى وَنَحْفِدُ نَرْجُو رَحْمَتَكَ وَنَخْشٰى عَذَابَكَ اِنَّ عَذَابَكَ بِالْكُفَّارِ مُلْحِقٌ",
      "transliteration": "Allâhümme iyyâke na'büdü ve leke nüsallî ve nescüdü ve ileyke nes'â ve nahfidü nercû rahmeteke ve nahşâ azâbeke inne azâbeke bil-küffâri mülhık.",
      "meaning": "Allah'ım! Yalnız sana kulluk ederiz. Namazı yalnız senin için kılarız, yalnız sana secde ederiz. Yalnız sana koşar ve sana yaklaştıracak şeyleri yaparız. Rahmetini umarız. Azabından korkarız. Şüphesiz senin azabın kâfirlere ulaşır.",
-     "audio": null
+     "audio": "content/audio/hoca/kunut2.mp3"
     }
    ],
-   "source": "Diyanet İşleri Başkanlığı, İlmihal (Namazda okunan dualar). Hadislerle sabit dualardır, Kur'an ayeti değildir. Hafız kaydı henüz eklenmedi.",
+   "source": "Diyanet İşleri Başkanlığı, İlmihal (Namazda okunan dualar). Hadislerle sabit dualardır, Kur'an ayeti değildir. Ses: uygulamanın hocasının kaydı (izinle).",
    "verified": true
   },
   {
